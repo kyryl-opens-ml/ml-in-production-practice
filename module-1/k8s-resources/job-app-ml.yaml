@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-app-ml
+spec:
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - image: ghcr.io/kyryl-opens-ml/app-ml:latest
+          name: job-app-ml
+          

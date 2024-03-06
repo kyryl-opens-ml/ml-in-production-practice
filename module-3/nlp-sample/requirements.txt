@@ -1,0 +1,12 @@
+transformers==4.35.2
+datasets==2.15.0
+accelerate==0.24.1
+# peft==0.6.2
+typer==0.6.1
+wandb==0.13.3
+black==22.3.0
+isort==5.10.1
+flake8==5.0.4
+great-expectations==0.15.25
+pytest-cov==3.0.0
+# bitsandbytes==0.41.2

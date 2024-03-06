@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-app-web
+spec:
+  containers:
+    - image: ghcr.io/kyryl-opens-ml/app-web:latest
+      name: pod-app-web

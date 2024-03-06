@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-streamlit
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-streamlit
+  template:
+    metadata:
+      labels:
+        app: app-streamlit
+    spec:
+      containers:
+        - name: app-streamlit
+          image: kyrylprojector/app-streamlit:latest
+          env:
+          - name: WANDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: wandb
+                key: WANDB_API_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-streamlit
+  labels:
+    app: app-streamlit
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: app-streamlit

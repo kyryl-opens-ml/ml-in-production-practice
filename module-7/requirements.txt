@@ -1,0 +1,14 @@
+gunicorn==20.1.0
+streamlit==1.13.0
+uvicorn==0.18.3
+fastapi==0.85.1
+transformers==4.21.1
+datasets==2.4.0
+typer==0.6.1
+wandb==0.13.3
+black==22.3.0
+isort==5.10.1
+flake8==5.0.4
+great-expectations==0.15.25
+pytest-cov==3.0.0
+seldon-core==1.14.1

@@ -1,0 +1,22 @@
+
+name: "nlp-model"
+backend: "python"
+
+input [
+  {
+    name: "text"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+    
+  }
+]
+
+output [
+  {
+    name: "pred_boxes"
+    data_type: TYPE_FP32
+    dims: [ 100, 4 ]
+  }
+]
+
+instance_group [{ kind: KIND_CPU }]

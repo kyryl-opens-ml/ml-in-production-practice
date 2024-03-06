@@ -1,0 +1,1 @@
+mosaicml_streaming==0.4.0

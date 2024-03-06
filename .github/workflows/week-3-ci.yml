@@ -1,0 +1,110 @@
+name: week-3-ci
+
+on:
+  push:
+    branches:
+      - course-27-10-2023-week-3
+
+env:
+  IMAGE_MAIN_NAME: nlp-sample
+  IMAGE_MAIN_TAG: latest
+
+  IMAGE_AIM_NAME: aim
+  IMAGE_AIM_TAG: latest
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build new
+        run: |
+          docker build -f week-3/nlp-sample/Dockerfile -t nlp-sample:latest week-3/nlp-sample
+
+      - name: Test style
+        run: |
+          docker run nlp-sample:latest make lint
+
+      - name: Test code
+        run: |
+          docker run nlp-sample:latest make test_code
+
+      - name: Test data
+        run: |
+          docker run nlp-sample:latest make test_data
+
+      - name: Test model
+        run: |
+          docker run nlp-sample:latest make test_model
+
+      - name: Test all
+        run: |
+          docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} nlp-sample:latest make test_all
+
+      # - name: Push
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: week-3/nlp-sample
+      #     file: week-3/nlp-sample/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:${{ env.IMAGE_MAIN_TAG }}
+      #     cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache
+      #     cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache,mode=max
+
+  cml-test:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: iterative/setup-cml@v1
+
+      - name: Train model
+        run: |
+          docker build -f week-3/nlp-sample/Dockerfile -t nlp-sample:latest week-3/nlp-sample
+          docker run -v $PWD:/tmp/results -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} nlp-sample:latest make train_fast_ci
+
+      - name: Write CML report
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Post reports as comments in GitHub PRs
+          # cat results.txt >> report.md
+          cml send-comment README.md
+
+  build-push-aim:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: week-3/aim/
+          file: week-3/aim//Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_AIM_NAME }}:${{ env.IMAGE_AIM_TAG }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_AIM_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_AIM_NAME }}:buildcache,mode=max          

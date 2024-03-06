@@ -1,0 +1,37 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: nlp-sample
+  namespace: default
+spec:
+  annotations:
+    seldon.io/rest-timeout: "60"
+    seldon.io/grpc-timeout: "60"
+  protocol: seldon
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: kyrylprojector/app-seldon:latest
+          name: classifier
+          env:
+          - name: GUNICORN_THREADS
+            value: '1'
+          - name: GUNICORN_WORKERS
+            value: '1'
+          - name: FLASK_SINGLE_THREADED
+            value: '1'
+          - name: SELDON_DEBUG
+            value: '1'          
+          - name: WANDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: wandb
+                key: WANDB_API_KEY          
+          imagePullPolicy: Always
+
+    graph:
+      name: classifier
+      type: MODEL
+    name: model
+    replicas: 1

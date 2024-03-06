@@ -1,0 +1,75 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: nlp-ab-test
+spec:
+  name: nlp-test
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: kyrylprojector/app-seldon-monitoring:latest
+          imagePullPolicy: Always
+          name: kfp-model
+          env:
+          - name: GUNICORN_THREADS
+            value: '1'
+          - name: GUNICORN_WORKERS
+            value: '1'
+          - name: FLASK_SINGLE_THREADED
+            value: '1'
+          - name: SELDON_DEBUG
+            value: '1'          
+          - name: WANDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: wandb
+                key: WANDB_API_KEY
+    graph:
+      children: []
+      endpoint:
+        type: REST
+      parameters:
+      - name: model_id
+        type: STRING
+        value: truskovskiyk/course-04-2023-week-3/airflow-pipeline:latest
+      name: kfp-model
+      type: MODEL
+    name: default
+    replicas: 1
+    traffic: 50
+
+
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: kyrylprojector/app-seldon-monitoring:latest
+          imagePullPolicy: Always
+          name: latest-model
+          env:
+          - name: GUNICORN_THREADS
+            value: '1'
+          - name: GUNICORN_WORKERS
+            value: '1'
+          - name: FLASK_SINGLE_THREADED
+            value: '1'
+          - name: SELDON_DEBUG
+            value: '1'          
+          - name: WANDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: wandb
+                key: WANDB_API_KEY
+    graph:
+      children: []
+      endpoint:
+        type: REST
+      parameters:
+      - name: model_id
+        type: STRING
+        value: truskovskiyk/course-04-2023-week-3/airflow-pipeline:latest
+      name: latest-model
+      type: MODEL
+    name: shadow
+    replicas: 1
+    traffic: 50
