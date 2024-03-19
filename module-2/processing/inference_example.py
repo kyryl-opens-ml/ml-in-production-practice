@@ -47,24 +47,6 @@ def run_inference(model: DummyClassifier, x_test: np.ndarray, batch_size: int = 
     return np.concatenate(y_pred)
 
 
-    w: 16
-    r: 1GB
-    batch_size: 4000 ~ 500MB
-
-
-    g: 20GB
-    w: 4
-    batch_size: 40000 ~ 500MB
-
-
-
-
-
-
-
-
-
-
 def run_inference_process_pool(model: DummyClassifier, x_test: np.ndarray, max_workers: int = 16) -> np.ndarray:
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:

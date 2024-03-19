@@ -161,3 +161,4 @@ cython_debug/
 taskfile.yml
 TODO.md
 README.p.md
+.DS_Store

@@ -1,10 +1,8 @@
 # Module 1
 
-![alt text](./../docs/module-1.jpg)
+![alt text](./../docs/into.jpg)
 
 # Practice 
-
-*** 
 
 [Practice task](./PRACTICE.md)
 
@@ -17,7 +15,7 @@
 # H2: Infrastructure
 
 
-# PR1:
+# Docker
 
 ## Build and run 
 
@@ -93,7 +91,7 @@ docker push ghcr.io/kyryl-opens-ml/app-web:latest
 - [aws](https://aws.amazon.com/ecr/)
 - [gcp](https://cloud.google.com/container-registry)
 
-# PR2:
+# CI/CD
 
 Check code in this file
 
@@ -108,7 +106,7 @@ Check code in this file
 - [List of Continuous Integration services](https://github.com/ligurio/awesome-ci)
 
 
-# PR3:
+# Kubernetes
 
 ## Setup 
 
