@@ -1,9 +1,11 @@
-name: week-6-ci
+name: Module 6
 
 on:
   push:
     branches:
-      - 'course-04-2023-week-6'
+      - main
+  pull_request:
+      - main
 
 jobs:
   build:
