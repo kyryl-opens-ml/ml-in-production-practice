@@ -1,9 +1,11 @@
-name: week-4-ci
+name: Module 4
 
 on:
   push:
     branches:
-      - course-27-10-2023-week-4
+      - main
+  pull_request:
+      - main
 
 env:
   IMAGE_MAIN_NAME: nlp-sample
