@@ -1,11 +1,11 @@
 name: Module 6
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#       - main
 
 jobs:
   build:
