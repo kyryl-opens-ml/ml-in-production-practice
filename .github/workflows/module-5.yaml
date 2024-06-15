@@ -1,11 +1,7 @@
 name: Module 5
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#       - main
+on:
+  workflow_dispatch:
 
 jobs:
   build:
