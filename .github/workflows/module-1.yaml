@@ -7,6 +7,8 @@ name: Module 1
 #       - main
 #   pull_request:
 #       - main
+on:
+  workflow_dispatch:
 
 env:
   IMAGE_ML_APP: app-ml
