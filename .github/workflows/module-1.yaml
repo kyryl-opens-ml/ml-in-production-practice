@@ -1,9 +1,12 @@
 name: Module 1
 
 
-on:
-  pull_request:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#       - main
 
 env:
   IMAGE_ML_APP: app-ml
