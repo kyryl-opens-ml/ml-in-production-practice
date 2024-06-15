@@ -9,10 +9,10 @@ name: Module 1
 #       - main
 on:
   workflow_dispatch:
-  push:
+  # push:
   pull_request:
-
-
+    branches:
+      - main
 env:
   IMAGE_ML_APP: app-ml
   IMAGE_ML_WEB: app-web
