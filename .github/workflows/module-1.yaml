@@ -9,7 +9,8 @@ name: Module 1
 #       - main
 on:
   workflow_dispatch:
-
+  push:
+  pull_request:
 
 
 env:
