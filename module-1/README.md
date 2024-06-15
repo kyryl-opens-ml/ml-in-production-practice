@@ -47,7 +47,7 @@ docker run -it --rm -p 8080:8080 --name app-web-test-run app-web:latest
 In a separate terminal, run the curl command to check access.
 
 ```
-curl 0.0.0.0:8080
+curl http://0.0.0.0:8080/
 ```
 
 Bulti-build docker file, if you don't want to keep a lot of docker files.
