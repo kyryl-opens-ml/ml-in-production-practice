@@ -116,39 +116,43 @@ Check code in this file
 - [Travis CI](https://www.travis-ci.com/)
 - [List of Continuous Integration services](https://github.com/ligurio/awesome-ci)
 
-
 # Kubernetes
 
-## Setup 
+## Setup
 
-Install kind 
-https://kind.sigs.k8s.io/docs/user/quick-start/
+Install [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
-```
+```bash
 brew install kind
 ```
 
 Create cluster
 
-```
+```bash
 kind create cluster --name ml-in-production
 ```
 
 Install kubectl
 
-```
+```bash
 brew install kubectl
 ```
 
 Check current context
 
-```
+```bash
 kubectl config get-contexts
+```
+
+Install "htop" for k8s
+
+```bash
+brew install derailed/k9s/k9s
 ```
 
 Run "htop" for k8s
 
-```
+```bash
 k9s -A
 ```
 
@@ -156,31 +160,31 @@ k9s -A
 
 Create pod for app-web
 
-```
+```bash
 kubectl create -f k8s-resources/pod-app-web.yaml
 ```
 
 Create pod for app-ml
 
-```
+```bash
 kubectl create -f k8s-resources/pod-app-ml.yaml
 ```
 
 Create job for app-ml
 
-```
+```bash
 kubectl create -f k8s-resources/job-app-ml.yaml
 ```
 
 Create deployment for app-web
 
-```
+```bash
 kubectl create -f k8s-resources/deployment-app-web.yaml
 ```
 
-To access use port-forwarding 
+To access use port-forwarding
 
-```
+```bash
 kubectl port-forward svc/deployments-app-web 8080:8080
 ```
 
@@ -194,27 +198,22 @@ kubectl port-forward svc/deployments-app-web 8080:8080
 
 # Bonus
 
-
 Sometimes Kubernetes might be overkill for your problem, for example, if you are a small team, it's a pet project, or you just don't want to deal with complex infrastructure setup. In this case, I would recommend checking out serverless offerings, some good examples of which I use all the time.
-
-
 
 ## Railway
 
 - [Railway infrastructure platform](https://railway.app/) - nice too to deploy simple app.
 
-```
+```bash
 open https://railway.app/
 ```
 
-
-## Modal 
-
+## Modal
 
 - [The serverless platform for AI/ML/data teams](https://modal.com/) - nice too to deploy ML heavy app.
 
-```
+```bash
 pip install modal --upgrade
+modal token new
 modal run modal_hello_world.py
 ```
-
