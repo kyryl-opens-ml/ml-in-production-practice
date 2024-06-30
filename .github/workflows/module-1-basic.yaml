@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Test echo
         run: |
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -51,7 +51,7 @@ jobs:
       - name: Run ok
         run: |
           docker run --rm --name app-ml-test-run ghcr.io/kyryl-opens-ml/app-ml:latest
-          
+
   app-ml-docker:
     runs-on: ubuntu-latest
 
