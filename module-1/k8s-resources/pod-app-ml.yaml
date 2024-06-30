@@ -6,3 +6,4 @@ spec:
   containers:
     - image: ghcr.io/kyryl-opens-ml/app-ml:latest
       name: pod-app-ml
+  restartPolicy: Never

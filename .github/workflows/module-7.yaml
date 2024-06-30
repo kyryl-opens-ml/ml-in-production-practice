@@ -1,11 +1,7 @@
 name: Module 7
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:

@@ -1,11 +1,7 @@
 name: Module 4
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-      - main
+  workflow_dispatch:
 
 env:
   IMAGE_MAIN_NAME: nlp-sample
