@@ -2,7 +2,7 @@ import sys
 
 import modal
 
-app = modal.App("example-hello-world")
+app = modal.App("ml-in-production-module-1")
 
 @app.function()
 def f(i):

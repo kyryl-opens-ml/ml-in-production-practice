@@ -34,7 +34,7 @@ Reference: https://hub.docker.com/_/hello-world
 
 ## Build and run
 
-Build ml sample docker image 
+Build ml sample docker image
 
 ```bash
 docker build --tag app-ml:latest ./app-ml
