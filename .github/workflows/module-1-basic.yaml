@@ -2,8 +2,10 @@ name: Module 1 Basic
 
 
 on:
-  workflow_dispatch:
-  # push:
+  push:
+    branches:
+      - main
+
   pull_request:
     branches:
       - main

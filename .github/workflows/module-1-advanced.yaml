@@ -2,10 +2,10 @@ name: Module 1 Advanced
 
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main  
+      - main
+
   pull_request:
     branches:
       - main
