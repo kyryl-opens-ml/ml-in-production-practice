@@ -1,0 +1,14 @@
+awscli==1.33.18
+pytest==8.2.2
+s3fs==2024.6.1
+minio==7.2.7
+ray==2.31.0
+dask==2024.6.2
+scikit-learn==1.5.0
+typer==0.12.3
+distributed==2024.6.2
+mosaicml_streaming==0.7.6
+datasets==2.20.0
+sentence_transformers==3.0.1
+lancedb==0.9.0
+argilla==2.0.0rc1

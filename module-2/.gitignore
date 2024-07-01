@@ -1,0 +1,4 @@
+random-data
+.lancedb/
+.ruff_cache
+cache

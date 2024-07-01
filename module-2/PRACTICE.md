@@ -1,11 +1,10 @@
-# Practice 
+# Practice
 
-*** 
+***
 
 # H3: Data storage & processing
 
-## Reading list: 
-
+## Reading list:
 
 - [Data engineer roadmap](https://github.com/datastacktv/data-engineer-roadmap)
 - [Minio using Kubernetes](https://github.com/kubernetes/examples/tree/master/staging/storage/minio)
@@ -24,7 +23,6 @@
 - [Course: CMU Database Systems](https://15445.courses.cs.cmu.edu/fall2023/)
 - [Course: Advanced Database Systems](https://15721.courses.cs.cmu.edu/spring2024/)
 
-
 ## Task:
 
 - PR1: Write README instructions detailing how to deploy MinIO with the following options: Local, Docker, Kubernetes (K8S)-based.
@@ -35,10 +33,9 @@
 - PR7: Write code for transforming your dataset into a vector format, and utilize VectorDB for ingestion and querying.
 - Google Doc: Update your proposal by adding a section on data storage and processing.
 
+## Criteria:
 
-## Criteria: 
-
-- 7 PRs are merged 
+- 7 PRs are merged
 - Description of data section, storage and processing, in the google doc.
 
 
