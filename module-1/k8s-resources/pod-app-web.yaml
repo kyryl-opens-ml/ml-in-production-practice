@@ -5,4 +5,4 @@ metadata:
 spec:
   containers:
     - image: ghcr.io/kyryl-opens-ml/app-web:latest
-      name: pod-app-web
+      name: pod-app-web      

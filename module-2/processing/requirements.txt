@@ -1,7 +1,7 @@
 numpy==1.22.3
-scikit-learn==1.1.2
+scikit-learn==1.5.0
 typer==0.7.0
-ray==2.3.1
+ray==2.31.0
 dask==2023.4.0
 distributed==2023.4.0
 pydantic==1.10.13
