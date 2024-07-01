@@ -167,14 +167,14 @@ git commit -m "Initialize DVC"
 
 Add data
 
-```
+```bash
 mkdir data
 touch ./data/big-data.csv
 ```
 
 Add to dvc
 
-```
+```bash
 dvc add ./data/big-data.csv
 git add data/.gitignore data/big-data.csv.dvc
 git commit -m "Add raw data"
@@ -182,7 +182,16 @@ git commit -m "Add raw data"
 
 Add remote
 
+You can use Minio via AWS CLI
+
+```bash
+export AWS_ACCESS_KEY_ID=minioadmin
+export AWS_SECRET_ACCESS_KEY=minioadmin
+export AWS_ENDPOINT_URL=http://127.0.0.1:9000
 ```
+
+
+```bash
 aws s3api create-bucket --bucket ml-data
 
 dvc remote add -d minio s3://ml-data
@@ -191,7 +200,7 @@ dvc remote modify minio endpointurl $AWS_ENDPOINT_URL
 
 Save code to git
 
-```
+```bash
 git add .dvc/config
 git commit -m "Configure remote storage"
 git push 
@@ -199,15 +208,12 @@ git push
 
 Save data to storage
 
-```
-export AWS_ACCESS_KEY_ID=minioadmin
-export AWS_SECRET_ACCESS_KEY=minioadmin
+```bash
 dvc push
 ```
 
 - <https://dvc.org/doc/start/data-management>
 - <https://github.com/iterative/dataset-registry>
-
 
 ## Labeling with Argilla
 
@@ -228,5 +234,5 @@ python ./labeling/create_dataset.py
 Create synthetic dataset:
 
 ```bash
-docker run -it --rm --name argilla -p 6900:6900 argilla/argilla-quickstart:v2.0.0rc1
+python ./labeling/create_dataset_synthetic.py
 ```
