@@ -34,7 +34,7 @@ jobs:
           export AWS_ACCESS_KEY_ID=minioadmin
           export AWS_SECRET_ACCESS_KEY=minioadmin
           export AWS_ENDPOINT_URL=http://127.0.0.1:9000
-          pip install -r module-2/requirements.txt
+          pip install -r module-2/requirements.test.txt
 
       - name: Run test
         run: |

@@ -159,7 +159,7 @@ Storage [diagram](https://lancedb.github.io/lancedb/concepts/storage/)
 
 Init DVC
 
-```
+```bash
 dvc init --subdir
 git status
 git commit -m "Initialize DVC"
@@ -183,10 +183,10 @@ git commit -m "Add raw data"
 Add remote
 
 ```
-aws s3api create-bucket --bucket ml-data --endpoint-url $AWS_ENDPOINT
+aws s3api create-bucket --bucket ml-data
 
 dvc remote add -d minio s3://ml-data
-dvc remote modify minio endpointurl $AWS_ENDPOINT
+dvc remote modify minio endpointurl $AWS_ENDPOINT_URL
 ```
 
 Save code to git
@@ -208,28 +208,25 @@ dvc push
 - <https://dvc.org/doc/start/data-management>
 - <https://github.com/iterative/dataset-registry>
 
-# Labeling: Label-studio and RLHF
 
-```
-docker run -it -p 8080:8080 -v `pwd`/mydata:/label-studio/data heartexlabs/label-studio:latest
-```
-
-```
-python generate_mock_rlhf_dataset.py
-```
-
-Reference:
-
-- <https://labelstud.io/blog/create-a-high-quality-rlhf-dataset/>
-- <https://github.com/HumanSignal/RLHF>
-- <https://github.com/huggingface/trl>
-- <https://huggingface.co/google/flan-t5-base>
-- <https://docs.argilla.io/en/latest/tutorials_and_integrations/tutorials/feedback/train-reward-model-rlhf.html>
-
-## Labeling: Argilla
+## Labeling with Argilla
 
 ```bash
 docker run -it --rm --name argilla -p 6900:6900 argilla/argilla-quickstart:v2.0.0rc1
 ```
 
 User/Password you can find [here])https://github.com/argilla-io/argilla/blob/v2.0.0rc1/argilla-server/docker/quickstart/Dockerfile#L60-L62).
+
+Alternatives on: [K8S](https://github.com/argilla-io/argilla/tree/develop/examples/deployments/k8s) or [Railway](https://railway.app/template/KNxfha?referralCode=_Q3XIe)
+
+Create simple dataset:
+
+```bash
+python ./labeling/create_dataset.py
+```
+
+Create synthetic dataset:
+
+```bash
+docker run -it --rm --name argilla -p 6900:6900 argilla/argilla-quickstart:v2.0.0rc1
+```
