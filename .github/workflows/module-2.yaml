@@ -31,11 +31,11 @@ jobs:
         
       - name: Setup env
         run: |
-          export AWS_ACCESS_KEY_ID=minioadmin
-          export AWS_SECRET_ACCESS_KEY=minioadmin
-          export AWS_ENDPOINT_URL=http://127.0.0.1:9000
           pip install -r module-2/requirements.test.txt
 
       - name: Run test
         run: |
+          export AWS_ACCESS_KEY_ID=minioadmin
+          export AWS_SECRET_ACCESS_KEY=minioadmin
+          export AWS_ENDPOINT_URL=http://127.0.0.1:9000        
           pytest -ss ./module-2/minio_storage/test_minio_client.py
