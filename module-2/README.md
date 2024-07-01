@@ -2,37 +2,37 @@
 
 ![alt text](./../docs/data.jpg)
 
-# Practice 
+# Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+***
 
 # Reference implementation
 
-*** 
+***
 
 
 # Minio
 
 
-## Setup 
+## Setup
 
-Create kind cluster 
+Create kind cluster
 
-```
+```bash
 kind create cluster --name ml-in-production
 ```
 
-Run k9s 
+Run k9s
 
-```
+```bash
 k9s -A
 ```
 
 Install libraries.
 
-```
+```bash
 pip install -r minio_storage/requirements.txt
 ```
 
