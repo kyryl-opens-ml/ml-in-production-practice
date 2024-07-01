@@ -1,5 +1,5 @@
 gunicorn==22.0.0
-streamlit==1.29.0
+streamlit==1.36.0
 uvicorn==0.24.0.post1
 fastapi==0.111.0
 transformers==4.42.3
