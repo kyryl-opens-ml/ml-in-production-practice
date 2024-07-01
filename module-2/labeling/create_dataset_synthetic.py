@@ -5,28 +5,32 @@ import json
 from typing import Dict
 from retry import retry
 from tqdm import tqdm
+
 client = rg.Argilla(api_url="http://0.0.0.0:6900", api_key="admin.apikey")
 
 
 from openai import OpenAI
 
+
 def get_sqllite_schema(db_name: str) -> str:
     with sqlite3.connect(db_name) as conn:
         cursor = conn.cursor()
-        
-        cursor.execute("SELECT 'CREATE TABLE ' || name || ' (' || sql || ');' FROM sqlite_master WHERE type='table';")
+
+        cursor.execute(
+            "SELECT 'CREATE TABLE ' || name || ' (' || sql || ');' FROM sqlite_master WHERE type='table';"
+        )
         db_schema_records = cursor.fetchall()
-        
+
         db_schema = [x[0] for x in db_schema_records]
         db_schema = "\n".join(db_schema)
-    
+
     return db_schema
 
 
 @retry(tries=3, delay=1)
 def generate_synthetic_example(db_schema: str) -> Dict[str, str]:
     client = OpenAI()
-    
+
     prompt = f"""
     Corresponding database schema: {db_schema}
     
@@ -36,26 +40,27 @@ def generate_synthetic_example(db_schema: str) -> Dict[str, str]:
 
     chat_completion = client.chat.completions.create(
         messages=[
-        {
-            "role": "system",
-            "content": "You are SQLite and SQL expert.",
-        },            
+            {
+                "role": "system",
+                "content": "You are SQLite and SQL expert.",
+            },
             {
                 "role": "user",
                 "content": prompt,
-            }
+            },
         ],
         model="gpt-4o",
-        response_format={ "type": "json_object" },
-        temperature=1
+        response_format={"type": "json_object"},
+        temperature=1,
     )
     sample = json.loads(chat_completion.choices[0].message.content)
     assert "user_text" in sample
     assert "sql" in sample
     return sample
 
+
 def create_text2sql_dataset_synthetic(num_samples: int = 10):
-    db_schema = get_sqllite_schema('examples/chinook.db')
+    db_schema = get_sqllite_schema("examples/chinook.db")
     samples = []
     for _ in tqdm(range(num_samples)):
         sample = generate_synthetic_example(db_schema=db_schema)
@@ -86,13 +91,12 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
                 name="sync_query",
                 title="Query",
                 use_markdown=False,
-            ),            
+            ),
             rg.TextField(
                 name="sync_sql",
                 title="SQL",
                 use_markdown=True,
             ),
-
         ],
         questions=[
             rg.TextQuestion(
@@ -116,8 +120,8 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
     for sample in samples:
         x = rg.Record(
             fields={
-                "sync_sql": sample['sql'],
-                "sync_query": sample['user_text'],
+                "sync_sql": sample["sql"],
+                "sync_query": sample["user_text"],
                 "schema": db_schema,
             },
         )
