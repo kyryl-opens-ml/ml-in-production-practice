@@ -1,4 +1,3 @@
-from re import I
 import pytest
 import uuid
 from pathlib import Path
@@ -29,22 +28,30 @@ def file_to_save(tmp_path: Path) -> Path:
 
 
 class TestMinioClientNative:
-    def test_upload_file(self, minio_client_native: MinioClientNative, file_to_save: Path, tmp_path: Path):
+    def test_upload_file(
+        self, minio_client_native: MinioClientNative, file_to_save: Path, tmp_path: Path
+    ):
         minio_client_native.upload_file(file_to_save)
         # assert ... check file exists on minio
 
         path_to_save = tmp_path / "saved_file.mock"
-        minio_client_native.download_file(object_name=file_to_save.name, file_path=path_to_save)
+        minio_client_native.download_file(
+            object_name=file_to_save.name, file_path=path_to_save
+        )
         # check file exists locally
         assert path_to_save.exists()
 
 
 class TestMinioClientS3:
-    def test_upload_file(self, minio_client_s3: MinioClientS3, file_to_save: Path, tmp_path: Path):
+    def test_upload_file(
+        self, minio_client_s3: MinioClientS3, file_to_save: Path, tmp_path: Path
+    ):
         minio_client_s3.upload_file(file_to_save)
         # assert ... check file exists on minio
 
         path_to_save = tmp_path / "saved_file.mock"
-        minio_client_s3.download_file(object_name=file_to_save.name, file_path=path_to_save)
+        minio_client_s3.download_file(
+            object_name=file_to_save.name, file_path=path_to_save
+        )
         # check file exists locally
         assert path_to_save.exists()

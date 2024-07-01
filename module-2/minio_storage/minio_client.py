@@ -10,7 +10,9 @@ ENDPOINT = "0.0.0.0:9000"
 
 class MinioClientNative:
     def __init__(self, bucket_name: str) -> None:
-        client = Minio(ENDPOINT, access_key=ACCESS_KEY, secret_key=SECRET_KEY, secure=False)
+        client = Minio(
+            ENDPOINT, access_key=ACCESS_KEY, secret_key=SECRET_KEY, secure=False
+        )
 
         self.client = client
         self.bucket_name = bucket_name
@@ -19,16 +21,20 @@ class MinioClientNative:
         self.client.fput_object(self.bucket_name, file_path.name, file_path)
 
     def download_file(self, object_name: str, file_path: Path):
-        self.client.fget_object(bucket_name=self.bucket_name, object_name=object_name, file_path=str(file_path))
+        self.client.fget_object(
+            bucket_name=self.bucket_name,
+            object_name=object_name,
+            file_path=str(file_path),
+        )
 
 
 class MinioClientS3:
     def __init__(self, bucket_name: str) -> None:
         fs = s3fs.S3FileSystem(
-            key=ACCESS_KEY, 
-            secret=SECRET_KEY, 
-            use_ssl=False, 
-            client_kwargs={"endpoint_url": f"http://{ENDPOINT}"}
+            key=ACCESS_KEY,
+            secret=SECRET_KEY,
+            use_ssl=False,
+            client_kwargs={"endpoint_url": f"http://{ENDPOINT}"},
         )
 
         self.client = fs
