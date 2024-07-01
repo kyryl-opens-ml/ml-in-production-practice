@@ -1,11 +1,10 @@
-# Practice 
+# Practice
 
-*** 
-
+***
 
 # H1: Initial Design Draft
 
-## Reading list: 
+## Reading list:
 
 - [Ml-design-docs](https://github.com/eugeneyan/ml-design-docs)
 - [How to Write Design Docs for Machine Learning Systems](https://eugeneyan.com/writing/ml-design-docs/)

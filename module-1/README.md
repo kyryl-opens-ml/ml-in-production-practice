@@ -14,9 +14,7 @@
 
 # H1: Initial Design Draft
 
-
 [Google doc](https://docs.google.com/document/d/1mUAUVMdA6O3rxvjS87mm-tAisQXDQggRKEBv0nWPuP4/edit)
-
 
 # H2: Infrastructure
 
