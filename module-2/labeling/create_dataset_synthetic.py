@@ -61,6 +61,7 @@ def generate_synthetic_example(db_schema: str) -> Dict[str, str]:
 
 def create_text2sql_dataset_synthetic(num_samples: int = 10):
     db_schema = get_sqllite_schema("examples/chinook.db")
+    
     samples = []
     for _ in tqdm(range(num_samples)):
         sample = generate_synthetic_example(db_schema=db_schema)

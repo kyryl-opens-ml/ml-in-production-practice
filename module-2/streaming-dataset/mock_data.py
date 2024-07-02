@@ -8,7 +8,7 @@ from streaming import StreamingDataset
 from pathlib import Path
 
 
-def create_data(path_to_save: Path = Path("mds-dataset"), size: int = 10000):
+def create_data(path_to_save: Path = Path("mds-dataset"), size: int = 100_000):
     columns = {"image": "jpeg", "class": "int"}
     compression = "zstd"
 
