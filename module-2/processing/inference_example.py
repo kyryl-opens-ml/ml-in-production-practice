@@ -36,7 +36,6 @@ def run_inference(
     model: DummyClassifier, x_test: np.ndarray, batch_size: int = 2048
 ) -> np.ndarray:
     y_pred = []
-    y_batch = predict(model, x_test)
 
     for i in tqdm(range(0, x_test.shape[0], batch_size)):
         x_batch = x_test[i : i + batch_size]
@@ -156,7 +155,7 @@ def run_pool(inference_size: int = 100_000_000, max_workers: int = 16):
 
 
 def run_ray(inference_size: int = 100_000_000, max_workers: int = 16):
-    ray.init()
+    ray.init(include_dashboard=True, dashboard_host='127.0.0.1', dashboard_port=5000)
 
     x_train, y_train, x_test = get_data(inference_size=inference_size)
     model = train_model(x_train, y_train)
@@ -164,7 +163,6 @@ def run_ray(inference_size: int = 100_000_000, max_workers: int = 16):
     s = time.monotonic()
     res = run_inference_ray_main(model=model, x_test=x_test, max_workers=max_workers)
     print(f"Inference with Ray {time.monotonic() - s} result: {res.shape}")
-
 
 def run_dask(inference_size: int = 100_000_000, max_workers: int = 16):
     client = Client()

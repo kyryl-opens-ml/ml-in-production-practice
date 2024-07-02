@@ -1,5 +1,0 @@
-[core]
-    remote = minio
-['remote "minio"']
-    url = s3://ml-data
-    endpointurl = http://127.0.0.1:9000
