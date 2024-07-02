@@ -102,10 +102,10 @@ Results.
 
 | Name of Inference    | Time (seconds)      |
 |----------------------|---------------------|
-| Inference 1 worker   | 12.90  |
-| Inference 16 workers (ThreadPoolExecutor) | 0.86  |
-| Inference 16 workers (ProcessPoolExecutor) | 3.88  |
-| Inference with Ray   | 2.15  |
+| Inference 1 worker   | 12.64  |
+| Inference 16 workers (ThreadPoolExecutor) | 0.85  |
+| Inference 16 workers (ProcessPoolExecutor) | 4.03  |
+| Inference with Ray   | 2.19  |
 
 
 # Streaming dataset
