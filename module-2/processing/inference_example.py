@@ -48,6 +48,7 @@ def run_inference(
 def run_inference_process_pool(
     model: DummyClassifier, x_test: np.ndarray, max_workers: int = 16
 ) -> np.ndarray:
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
         chunk_size = len(x_test) // max_workers
 

@@ -103,8 +103,9 @@ Results.
 | Name of Inference    | Time (seconds)      |
 |----------------------|---------------------|
 | Inference 1 worker   | 12.90  |
-| Inference 16 workers | 3.88  |
-| Inference with Ray   | 3.16  |
+| Inference 16 workers (ThreadPoolExecutor) | 0.86  |
+| Inference 16 workers (ProcessPoolExecutor) | 3.88  |
+| Inference with Ray   | 2.15  |
 
 
 # Streaming dataset
@@ -221,7 +222,7 @@ dvc push
 docker run -it --rm --name argilla -p 6900:6900 argilla/argilla-quickstart:v2.0.0rc1
 ```
 
-User/Password you can find [here])https://github.com/argilla-io/argilla/blob/v2.0.0rc1/argilla-server/docker/quickstart/Dockerfile#L60-L62).
+User/Password you can find [here](https://github.com/argilla-io/argilla/blob/v2.0.0rc1/argilla-server/docker/quickstart/Dockerfile#L60-L62).
 
 Alternatives on: [K8S](https://github.com/argilla-io/argilla/tree/develop/examples/deployments/k8s) or [Railway](https://railway.app/template/KNxfha?referralCode=_Q3XIe)
 
@@ -236,3 +237,7 @@ Create synthetic dataset:
 ```bash
 python ./labeling/create_dataset_synthetic.py
 ```
+
+## Updated design doc
+
+[Google doc](https://docs.google.com/document/d/1dEzWd3pPozmU3AhMXjW3xcONUeNJee53djilN1A-wR8/edit)
