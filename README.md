@@ -2,4 +2,4 @@
 
 ## TLDR: 
 
-![alt text](./../docs/into.jpg)
+![alt text](./docs/into.jpg)
