@@ -18,6 +18,11 @@
 - [ML project](https://github.com/ashleve/lightning-hydra-template.git)
 - [Advanced features](https://github.com/Lightning-AI/lightning)
 
+## Styling
+
+[ruff](https://github.com/astral-sh/ruff)
+
+
 ## Configuration
 
 [hydra](https://hydra.cc/docs/intro/)
@@ -33,26 +38,29 @@ https://neptune.ai/blog/best-ml-experiment-tracking-tools
 - [GPT-4o](https://openai.com/index/hello-gpt-4o/)
 - [GPT-4 System Card](https://cdn.openai.com/papers/gpt-4-system-card.pdf)
 
-## Classic example Example ML model with testing: BERT-based training
+## Classic example: BERT-based training
 
 [nlp-sample](./nlp-sample)
 
+## Modern example: GenAI-based training
 
-## Eval:
+TODO
 
-- https://github.com/explodinggradients/ragas
-- https://github.com/NVIDIA/NeMo-Guardrails
-- https://github.com/guardrail-ml/guardrail
-- https://github.com/promptfoo/promptfoo
-- https://github.com/confident-ai/deepeval
-
+https://huggingface.co/microsoft/Phi-3-mini-128k-instruct/tree/main
+https://github.com/microsoft/Phi-3CookBook
+https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
 
 
-```
-pip install nemoguardrails
-pip install openai
-export OPENAI_API_KEY=**********
-```
+## GenAI testing:
+
+
+- [deepeval](https://github.com/confident-ai/deepeval)
+- [LLM Testing in 2024: Top Methods and Strategies](https://www.confident-ai.com/blog/llm-testing-in-2024-top-methods-and-strategies)
+- [promptfoo](https://github.com/promptfoo/promptfoo)
+- [uptrain](https://github.com/uptrain-ai/uptrain)
+- [ragas](https://github.com/explodinggradients/ragas)
+- [NeMo Guardrails](https://github.com/NVIDIA/NeMo-Guardrails)
+- [Automated Unit Test Improvement using Large Language Models at Meta](https://arxiv.org/abs/2402.09171)
 
 
 
