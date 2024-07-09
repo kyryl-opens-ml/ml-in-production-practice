@@ -29,6 +29,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      # See explanation: https://github.com/orgs/community/discussions/25678 
+      - name: Clean disk
+        run: |
+          rm -rf /opt/hostedtoolcache
+
       - name: Build new
         run: |
           docker build -f module-3/nlp-sample/Dockerfile -t nlp-sample:latest module-3/nlp-sample
