@@ -1,10 +1,10 @@
-# Practice 
+# Practice
 
-*** 
+***
 
 # H5: Training & Experiments
 
-## Reading list: 
+## Reading list:
 
 - [The Data Science Lifecycle Process](https://github.com/dslp/dslp#the-data-science-lifecycle-process)
 - [Structuring Your Project](https://docs.python-guide.org/writing/structure/)
@@ -39,14 +39,11 @@ You need to have a training pipeline for your model for this homework. You can t
 - PR6: Write code for distributed training with PyTorch, Accelerate, and Ray.
 - Public link to your W&B project with experiments. 
 
+## Criteria:
 
-## Criteria: 
-
-- 6 PRs are merged. 
+- 6 PRs are merged.
 - W&B project created.
 - Description of experiment section in the google doc.
-
-
 
 # H6: Testing & CI
 
@@ -67,7 +64,6 @@ You need to have a training pipeline for your model for this homework. You can t
 - [Privacy Testing for Deep Learning](https://github.com/trailofbits/PrivacyRaven)
 - [Learning Interpretability Tool (LIT)](https://github.com/PAIR-code/lit)
 
-
 ## Task:
 
 You need to have a training pipeline for your model for this homework. You can take it from your test task for this course, bring your own or use this [code](https://github.com/huggingface/transformers/tree/main/examples/pytorch/text-classification) as an example.
@@ -82,5 +78,5 @@ You need to have a training pipeline for your model for this homework. You can t
 
 ## Criteria:
 
-- 6 PRs merged 
+- 6 PRs merged.
 - Testing plan in the google doc.

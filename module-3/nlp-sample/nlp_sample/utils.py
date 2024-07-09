@@ -20,13 +20,19 @@ def compute_metrics(p: EvalPrediction) -> Dict[str, float]:
     }
 
 
-def preprocess_function_examples(examples, tokenizer, padding, max_seq_length, label_to_id):
+def preprocess_function_examples(
+    examples, tokenizer, padding, max_seq_length, label_to_id
+):
     sentence1_key = "sentence"
     args = (examples[sentence1_key],)
-    result = tokenizer(*args, padding=padding, max_length=max_seq_length, truncation=True)
+    result = tokenizer(
+        *args, padding=padding, max_length=max_seq_length, truncation=True
+    )
     # Map labels to IDs (not necessary for GLUE tasks)
     if label_to_id is not None and "label" in examples:
-        result["label"] = [(label_to_id[label] if label != -1 else -1) for label in examples["label"]]
+        result["label"] = [
+            (label_to_id[label] if label != -1 else -1) for label in examples["label"]
+        ]
     return result
 
 

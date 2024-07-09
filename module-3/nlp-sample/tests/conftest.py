@@ -25,4 +25,8 @@ def data(data_path: Path) -> Tuple[PandasDataset, PandasDataset]:
     df_val = pd.read_csv(data_path / "val.csv")
     df_test = pd.read_csv(data_path / "test.csv")
 
-    return ge.dataset.PandasDataset(df_train), ge.dataset.PandasDataset(df_val), ge.dataset.PandasDataset(df_test)
+    return (
+        ge.dataset.PandasDataset(df_train),
+        ge.dataset.PandasDataset(df_val),
+        ge.dataset.PandasDataset(df_test),
+    )

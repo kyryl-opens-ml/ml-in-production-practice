@@ -4,7 +4,13 @@ import pytest
 from transformers import Trainer, TrainingArguments
 
 from nlp_sample.config import DataTrainingArguments, ModelArguments
-from nlp_sample.train import get_models, get_trainer, process_dataset, read_dataset, train
+from nlp_sample.train import (
+    get_models,
+    get_trainer,
+    process_dataset,
+    read_dataset,
+    train,
+)
 
 
 @pytest.fixture()
@@ -24,14 +30,20 @@ def data_args(data_path: Path) -> DataTrainingArguments:
 
 @pytest.fixture()
 def training_args() -> TrainingArguments:
-    return TrainingArguments(output_dir="/tmp/test", num_train_epochs=1000, report_to=[], learning_rate=5e-04)
+    return TrainingArguments(
+        output_dir="/tmp/test", num_train_epochs=1000, report_to=[], learning_rate=5e-04
+    )
 
 
 @pytest.fixture()
 def trainer_with_one_batch(
-    model_args: ModelArguments, data_args: DataTrainingArguments, training_args: TrainingArguments
+    model_args: ModelArguments,
+    data_args: DataTrainingArguments,
+    training_args: TrainingArguments,
 ) -> Trainer:
-    raw_datasets, num_labels, label_list = read_dataset(data_args=data_args, cache_dir=model_args.cache_dir)
+    raw_datasets, num_labels, label_list = read_dataset(
+        data_args=data_args, cache_dir=model_args.cache_dir
+    )
     config, tokenizer, model = get_models(model_args=model_args, num_labels=num_labels)
     train_dataset, eval_dataset = process_dataset(
         data_args=data_args,
