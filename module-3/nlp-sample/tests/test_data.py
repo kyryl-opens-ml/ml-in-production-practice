@@ -5,9 +5,9 @@ from great_expectations.dataset.pandas_dataset import PandasDataset
 
 def test_data_shape(data: Tuple[PandasDataset, PandasDataset, PandasDataset]):
     df_train, df_val, df_test = data
-    assert df_train.shape[0] + df_val.shape[0] == 8551
+    assert df_train.shape[0] + df_val.shape[0] == 67349
     assert df_train.shape[1] == df_val.shape[1] == 3
-    assert df_test.shape == (1063, 3)
+    assert df_test.shape == (67349, 3)
 
 
 def test_data_order(data: Tuple[PandasDataset, PandasDataset, PandasDataset]):
