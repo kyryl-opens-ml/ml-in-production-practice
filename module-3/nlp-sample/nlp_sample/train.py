@@ -24,16 +24,23 @@ logger = logging.getLogger(__name__)
 
 
 def get_args():
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+    parser = HfArgumentParser(
+        (ModelArguments, DataTrainingArguments, TrainingArguments)
+    )
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
-        model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
+        model_args, data_args, training_args = parser.parse_json_file(
+            json_file=os.path.abspath(sys.argv[1])
+        )
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     return model_args, data_args, training_args
 
 
 def read_dataset(data_args: DataTrainingArguments, cache_dir: str):
-    data_files = {"train": data_args.train_file, "validation": data_args.validation_file}
+    data_files = {
+        "train": data_args.train_file,
+        "validation": data_args.validation_file,
+    }
     raw_datasets = load_dataset("csv", data_files=data_files, cache_dir=cache_dir)
 
     label_list = raw_datasets["train"].unique("label")
@@ -44,12 +51,16 @@ def read_dataset(data_args: DataTrainingArguments, cache_dir: str):
 
 def get_models(model_args, num_labels):
     config = AutoConfig.from_pretrained(
-        model_args.config_name if model_args.config_name else model_args.model_name_or_path,
+        model_args.config_name
+        if model_args.config_name
+        else model_args.model_name_or_path,
         num_labels=num_labels,
         cache_dir=model_args.cache_dir,
     )
     tokenizer = AutoTokenizer.from_pretrained(
-        model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
+        model_args.tokenizer_name
+        if model_args.tokenizer_name
+        else model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
         use_fast=model_args.use_fast_tokenizer,
     )
@@ -62,7 +73,9 @@ def get_models(model_args, num_labels):
     return config, tokenizer, model
 
 
-def process_dataset(data_args, label_list, model, config, tokenizer, training_args, raw_datasets):
+def process_dataset(
+    data_args, label_list, model, config, tokenizer, training_args, raw_datasets
+):
     padding = "max_length" if data_args.pad_to_max_length else False
     label_to_id = {v: i for i, v in enumerate(label_list)}
 
@@ -104,7 +117,9 @@ def process_dataset(data_args, label_list, model, config, tokenizer, training_ar
     return train_dataset, eval_dataset
 
 
-def get_trainer(model, train_dataset, data_args, training_args, eval_dataset, tokenizer) -> Trainer:
+def get_trainer(
+    model, train_dataset, data_args, training_args, eval_dataset, tokenizer
+) -> Trainer:
     # Log a few random samples from the training set:
     for index in random.sample(range(len(train_dataset)), 3):
         logger.info(f"Sample {index} of the training set: {train_dataset[index]}.")
@@ -127,7 +142,9 @@ def get_trainer(model, train_dataset, data_args, training_args, eval_dataset, to
 
 
 def get_config(config_path: Path):
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+    parser = HfArgumentParser(
+        (ModelArguments, DataTrainingArguments, TrainingArguments)
+    )
     model_args, data_args, training_args = parser.parse_json_file(config_path)
     return model_args, data_args, training_args
 
@@ -143,9 +160,11 @@ def train(config_path: Path):
 
     set_seed(training_args.seed)
 
-    raw_datasets, num_labels, label_list = read_dataset(data_args=data_args, cache_dir=model_args.cache_dir)
+    raw_datasets, num_labels, label_list = read_dataset(
+        data_args=data_args, cache_dir=model_args.cache_dir
+    )
     config, tokenizer, model = get_models(model_args=model_args, num_labels=num_labels)
-    
+
     train_dataset, eval_dataset = process_dataset(
         data_args=data_args,
         label_list=label_list,

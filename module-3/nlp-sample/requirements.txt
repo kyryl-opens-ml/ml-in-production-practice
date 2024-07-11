@@ -1,10 +1,8 @@
 transformers==4.42.3
 datasets==2.15.0
-accelerate==0.24.1
-# peft==0.6.2
+accelerate==0.32.1
 typer==0.6.1
-wandb==0.13.3
+wandb==0.17.4
 ruff==0.5.0
 great-expectations==0.15.25
 pytest-cov==3.0.0
-# bitsandbytes==0.41.2

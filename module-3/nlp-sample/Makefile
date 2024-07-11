@@ -8,11 +8,10 @@ run_dev_gpu: build
 	docker run --net=host --gpus all -it -v ${PWD}:/main nlp-sample:latest /bin/bash
 
 format:
-	black --line-length 120 nlp_sample tests
-	isort -rc nlp_sample tests
+	ruff format nlp_sample/ tests/
 
 lint:
-	flake8 --max-line-length 120 nlp_sample tests
+	ruff check nlp_sample/ tests/
 
 test:
 	pytest --disable-warnings ./tests/

@@ -9,6 +9,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'module-1/**'
 
 jobs:
         
