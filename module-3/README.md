@@ -42,6 +42,8 @@ https://neptune.ai/blog/best-ml-experiment-tracking-tools
 
 [nlp-sample](./nlp-sample)
 
+https://huggingface.co/models?sort=downloads
+
 ## Modern example: GenAI-based training
 
 TODO
