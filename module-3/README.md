@@ -48,25 +48,24 @@ https://huggingface.co/models?sort=downloads
 
 TODO
 
-https://huggingface.co/microsoft/Phi-3-mini-128k-instruct/tree/main
-https://github.com/microsoft/Phi-3CookBook
-https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
+- https://huggingface.co/microsoft/Phi-3-mini-128k-instruct/tree/main
+- https://github.com/microsoft/Phi-3CookBook
+- https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
 
 
-## GenAI testing:
+## LLM API testing
 
 
 - [deepeval](https://github.com/confident-ai/deepeval)
-- [LLM Testing in 2024: Top Methods and Strategies](https://www.confident-ai.com/blog/llm-testing-in-2024-top-methods-and-strategies)
 - [promptfoo](https://github.com/promptfoo/promptfoo)
+- [LLM Testing in 2024: Top Methods and Strategies](https://www.confident-ai.com/blog/llm-testing-in-2024-top-methods-and-strategies)
 - [uptrain](https://github.com/uptrain-ai/uptrain)
 - [ragas](https://github.com/explodinggradients/ragas)
 - [NeMo Guardrails](https://github.com/NVIDIA/NeMo-Guardrails)
 - [Automated Unit Test Improvement using Large Language Models at Meta](https://arxiv.org/abs/2402.09171)
 
 
-
-# Distributed training 
+# Distributed training
 
 - https://www.anyscale.com/blog/what-is-distributed-training
 - https://www.anyscale.com/blog/training-175b-parameter-language-models-at-1000-gpu-scale-with-alpa-and-ray
