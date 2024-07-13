@@ -85,29 +85,6 @@ def train():
     print(dataset_chatml['train'][0])
 
     tokenizer, model = get_model(model_id=model_id, device_map=device_map)
-    # if torch.cuda.is_bf16_supported():
-    #     compute_dtype = torch.bfloat16
-    #     attn_implementation = 'flash_attention_2'
-    #     # If bfloat16 is not supported, 'compute_dtype' is set to 'torch.float16' and 'attn_implementation' is set to 'sdpa'.
-    # else:
-    #     compute_dtype = torch.float16
-    #     attn_implementation = 'sdpa'
-
-    #     # This line of code is used to print the value of 'attn_implementation', which indicates the chosen attention implementation.
-    #     print(attn_implementation)
-    
-
-    # model_name = "microsoft/Phi-3-mini-4k-instruct"
-    # tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True, add_eos_token=True, use_fast=True)
-    # tokenizer.pad_token = tokenizer.unk_token
-    # tokenizer.pad_token_id = tokenizer.convert_tokens_to_ids(tokenizer.pad_token)
-    # tokenizer.padding_side = 'left'
-
-    # model = AutoModelForCausalLM.from_pretrained(
-    #           model_id, torch_dtype=compute_dtype, trust_remote_code=True, device_map=device_map,
-    #           attn_implementation=attn_implementation
-    # )
-
     args = TrainingArguments(
             output_dir="./phi-3-mini-LoRA",
             evaluation_strategy="steps",

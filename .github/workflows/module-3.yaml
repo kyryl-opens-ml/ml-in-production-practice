@@ -49,16 +49,6 @@ jobs:
         run: |
           docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} classic-example:latest make test_all
 
-      # - name: Push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: week-3/nlp-sample
-      #     file: week-3/nlp-sample/Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:${{ env.IMAGE_MAIN_TAG }}
-      #     cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache
-      #     cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache,mode=max
-
   classic-example-docker:
     runs-on: ubuntu-latest
 
