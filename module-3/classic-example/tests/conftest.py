@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 from great_expectations.dataset.pandas_dataset import PandasDataset
 
-from nlp_sample.data import load_cola_data
+from classic_example.data import load_cola_data
 
 
 @pytest.fixture(scope="session")
