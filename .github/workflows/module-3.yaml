@@ -27,27 +27,27 @@ jobs:
 
       - name: Build new
         run: |
-          docker build -f module-3/nlp-sample/Dockerfile -t nlp-sample:latest module-3/nlp-sample
+          docker build -f module-3/classic-example/Dockerfile -t classic-example:latest module-3/classic-example
 
       - name: Test style
         run: |
-          docker run nlp-sample:latest make lint
+          docker run classic-example:latest make lint
 
       - name: Test code
         run: |
-          docker run nlp-sample:latest make test_code
+          docker run classic-example:latest make test_code
 
       - name: Test data
         run: |
-          docker run nlp-sample:latest make test_data
+          docker run classic-example:latest make test_data
 
       - name: Test model
         run: |
-          docker run nlp-sample:latest make test_model
+          docker run classic-example:latest make test_model
 
       - name: Test all
         run: |
-          docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} nlp-sample:latest make test_all
+          docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} classic-example:latest make test_all
 
       # - name: Push
       #   uses: docker/build-push-action@v2
