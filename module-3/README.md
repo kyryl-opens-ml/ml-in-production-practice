@@ -40,13 +40,13 @@ https://neptune.ai/blog/best-ml-experiment-tracking-tools
 
 ## Classic example: BERT-based training
 
-[nlp-sample](./nlp-sample)
+[classic-example](./classic-example)
 
 https://huggingface.co/models?sort=downloads
 
 ## Modern example: GenAI-based training
 
-TODO
+[generative_example](./generative_example)
 
 - https://huggingface.co/microsoft/Phi-3-mini-128k-instruct/tree/main
 - https://github.com/microsoft/Phi-3CookBook

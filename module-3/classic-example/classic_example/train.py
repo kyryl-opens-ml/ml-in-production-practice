@@ -17,8 +17,8 @@ from transformers import (
     set_seed,
 )
 
-from nlp_sample.config import DataTrainingArguments, ModelArguments
-from nlp_sample.utils import compute_metrics, preprocess_function_examples, setup_logger
+from classic_example.config import DataTrainingArguments, ModelArguments
+from classic_example.utils import compute_metrics, preprocess_function_examples, setup_logger
 
 logger = logging.getLogger(__name__)
 

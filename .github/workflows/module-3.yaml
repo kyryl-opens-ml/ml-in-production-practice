@@ -9,15 +9,6 @@ on:
     branches:
       - main
 
-
-env:
-  IMAGE_MAIN_NAME: nlp-sample
-  IMAGE_MAIN_TAG: latest
-
-  IMAGE_AIM_NAME: aim
-  IMAGE_AIM_TAG: latest
-
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -36,34 +27,98 @@ jobs:
 
       - name: Build new
         run: |
-          docker build -f module-3/nlp-sample/Dockerfile -t nlp-sample:latest module-3/nlp-sample
+          docker build -f module-3/classic-example/Dockerfile -t classic-example:latest module-3/classic-example
 
       - name: Test style
         run: |
-          docker run nlp-sample:latest make lint
+          docker run classic-example:latest make lint
 
       - name: Test code
         run: |
-          docker run nlp-sample:latest make test_code
+          docker run classic-example:latest make test_code
 
       - name: Test data
         run: |
-          docker run nlp-sample:latest make test_data
+          docker run classic-example:latest make test_data
 
       - name: Test model
         run: |
-          docker run nlp-sample:latest make test_model
+          docker run classic-example:latest make test_model
 
       - name: Test all
         run: |
-          docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} nlp-sample:latest make test_all
+          docker run -e WANDB_PROJECT=${{ secrets.WANDB_PROJECT }} -e WANDB_API_KEY=${{ secrets.WANDB_API_KEY }} classic-example:latest make test_all
 
-      # - name: Push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: week-3/nlp-sample
-      #     file: week-3/nlp-sample/Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:${{ env.IMAGE_MAIN_TAG }}
-      #     cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache
-      #     cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_MAIN_NAME }}:buildcache,mode=max
+  classic-example-docker:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ghcr.io/kyryl-opens-ml/classic-example
+
+      # See explanation: https://github.com/orgs/community/discussions/25678 
+      - name: Clean disk
+        run: |
+          rm -rf /opt/hostedtoolcache
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: module-3/classic-example/
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  generative-example-docker:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ghcr.io/kyryl-opens-ml/generative-example
+
+      # See explanation: https://github.com/orgs/community/discussions/25678 
+      - name: Clean disk
+        run: |
+          rm -rf /opt/hostedtoolcache
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: module-3/generative-example/
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}          

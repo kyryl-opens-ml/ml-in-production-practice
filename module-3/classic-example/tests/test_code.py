@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from transformers import EvalPrediction
 
-from nlp_sample.utils import compute_metrics
+from classic_example.utils import compute_metrics
 
 
 @pytest.fixture()

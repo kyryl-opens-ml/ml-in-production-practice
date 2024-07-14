@@ -3,8 +3,8 @@ from pathlib import Path
 import pytest
 from transformers import Trainer, TrainingArguments
 
-from nlp_sample.config import DataTrainingArguments, ModelArguments
-from nlp_sample.train import (
+from classic_example.config import DataTrainingArguments, ModelArguments
+from classic_example.train import (
     get_models,
     get_trainer,
     process_dataset,

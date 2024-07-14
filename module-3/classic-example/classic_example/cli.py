@@ -1,9 +1,9 @@
 import typer
 
-from nlp_sample.data import load_cola_data, load_cola_data_file_input
-from nlp_sample.train import train
-from nlp_sample.utils import load_from_registry, upload_to_registry
-from nlp_sample.predictor import run_inference_on_dataframe
+from classic_example.data import load_cola_data, load_cola_data_file_input
+from classic_example.train import train
+from classic_example.utils import load_from_registry, upload_to_registry
+from classic_example.predictor import run_inference_on_dataframe
 
 app = typer.Typer()
 app.command()(train)
