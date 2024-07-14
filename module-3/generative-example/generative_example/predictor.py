@@ -46,7 +46,7 @@ class Predictor:
 
 
 def run_inference_on_json(json_path: Path, model_load_path: Path, result_path: Path):
-    df = Dataset.from_json(json_path).to_pandas()
+    df = Dataset.from_json(str(json_path)).to_pandas()
     model = Predictor(model_load_path=model_load_path)
 
     generated_sql = []

@@ -63,7 +63,6 @@ def pipeline():
 
 
     print("Rouge 1 Mean: ",np.mean([x['rouge1'] for x in metricas]))
-
     print("Rouge 2 Mean: ",np.mean([x['rouge2'] for x in metricas]))
     print("Rouge L Mean: ",np.mean([x['rougeL'] for x in metricas]))
     print("Rouge Lsum Mean: ",np.mean([x['rougeLsum'] for x in metricas]))
