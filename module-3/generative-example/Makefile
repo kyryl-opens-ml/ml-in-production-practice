@@ -31,10 +31,6 @@ test_all:
 train_example:
 	python generative_example/cli.py load-sql-data --subsample 0.1 ./data 
 	python generative_example/cli.py train ./conf/example.json
-	python generative_example/cli.py upload-to-registry example_model /tmp/results
+	python generative_example/cli.py upload-to-registry generative_example_model /tmp/results
 
-train_fast_ci:
-	python generative_example/cli.py load-sql-data --subsample 0.1 ./data 
-	python generative_example/cli.py train ./conf/fast.json
-	python generative_example/cli.py upload-to-registry fast-model /tmp/results
 	
