@@ -9,6 +9,9 @@ import pandas as pd
 from tqdm import tqdm
 from peft import AutoPeftModelForCausalLM
 from transformers import pipeline
+import evaluate
+import json
+
 logger = logging.getLogger()
 
 
@@ -58,3 +61,23 @@ def run_inference_on_json(json_path: Path, model_load_path: Path, result_path: P
         generated_sql.append(sql)
     df["generated_sql"] = generated_sql
     df.to_csv(result_path, index=False)
+
+def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Path):
+    df = Dataset.from_json(str(json_path)).to_pandas()
+    model = Predictor(model_load_path=model_load_path)
+
+    generated_sql = []
+    for idx in tqdm(range(len(df))):
+        context = df.iloc[idx]["context"]
+        question = df.iloc[idx]["question"]
+
+        sql = model.predict(question=question, context=context)
+        generated_sql.append(sql)
+    
+    gt_sql = df['answer'].values
+    rouge = evaluate.load('rouge')
+    results = rouge.compute(predictions=generated_sql, references=gt_sql)
+    with open(result_path, 'w') as f:
+        json.dump(results, f)
+
+

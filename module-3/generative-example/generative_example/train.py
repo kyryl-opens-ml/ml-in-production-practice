@@ -16,6 +16,7 @@ import logging
 from trl import SFTTrainer
 from functools import partial
 from datasets import load_metric
+from transformers import EvalPrediction
 
 from generative_example.config import DataTrainingArguments, ModelArguments
 from generative_example.utils import setup_logger
@@ -48,7 +49,6 @@ def process_dataset(model_id: str, train_file: str, test_file: str) -> DatasetDi
         'train': Dataset.from_json(train_file),
         'test': Dataset.from_json(test_file),
     })
-    
 
     tokenizer_id = model_id
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
@@ -128,29 +128,4 @@ def train(config_path: Path):
 
     trainer.train()
     trainer.save_model()
-     
-
-
-
-
-
-    # def test_inference(prompt):
-    #     prompt = pipe.tokenizer.apply_chat_template([{"role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True)
-    #     outputs = pipe(prompt, max_new_tokens=256, do_sample=True, num_beams=1, temperature=0.3, top_k=50, top_p=0.95,
-    #                max_time= 180) #, eos_token_id=eos_token)
-    #     return outputs[0]['generated_text'][len(prompt):].strip()
-
-    # def calculate_rogue(row):
-    #     response = test_inference(row['messages'][0]['content'])
-    #     result = rouge_metric.compute(predictions=[response], references=[row['output']], use_stemmer=True)
-    #     result = {key: value.mid.fmeasure * 100 for key, value in result.items()}
-    #     result['response']=response
-    #     return result
-
-    # rouge_metric = load_metric("rouge", trust_remote_code=True)
-    # metricas = dataset_chatml['test'].select(range(0,500)).map(calculate_rogue, batched=False)
-
-    # print("Rouge 1 Mean: ",np.mean(metricas['rouge1']))
-    # print("Rouge 2 Mean: ",np.mean(metricas['rouge2']))
-    # print("Rouge L Mean: ",np.mean(metricas['rougeL']))
-    # print("Rouge Lsum Mean: ",np.mean(metricas['rougeLsum']))
+    trainer.create_model_card()
