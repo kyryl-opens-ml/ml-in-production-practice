@@ -18,4 +18,3 @@ def test_app():
 
     result = runner.invoke(app, ["upload-to-registry", "cli-test", "/tmp/results"])
     assert result.exit_code == 0, result.exception
-

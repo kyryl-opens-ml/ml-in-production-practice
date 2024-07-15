@@ -3,7 +3,7 @@
 
     "train_file": "/tmp/data/train.csv",
     "validation_file": "/tmp/data/val.csv",
-    "output_dir": "results",    
+    "output_dir": "/tmp/results",    
     "max_seq_length": 128,
 
 

@@ -24,6 +24,13 @@ make test
 
 reference: https://docs.confident-ai.com/docs/confident-ai-github-actions
 
+## Run training job
+
+```bash
+modal deploy run_training_job.py
+python run_training_job.py
+```
+
 ## Reports
 
 ```bash

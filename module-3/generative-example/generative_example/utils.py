@@ -11,8 +11,6 @@ from sklearn.metrics import f1_score, fbeta_score
 from transformers import EvalPrediction
 
 
-
-
 def setup_logger(logger):
     # Setup logging
     logging.basicConfig(

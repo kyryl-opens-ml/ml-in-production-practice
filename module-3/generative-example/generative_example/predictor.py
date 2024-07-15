@@ -28,7 +28,9 @@ class Predictor:
         )
         merged_model = new_model.merge_and_unload()
 
-        tokenizer = AutoTokenizer.from_pretrained(model_load_path,trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_load_path, trust_remote_code=True
+        )
         pipe = pipeline("text-generation", model=merged_model, tokenizer=tokenizer)
         self.pipe = pipe
 
@@ -36,15 +38,22 @@ class Predictor:
     def predict(self, question: str, context: str) -> str:
         pipe = self.pipe
 
-        messages = [{
-            "content": f"{context}\n Input: {question}",
-            "role": "user"
-        }]
+        messages = [{"content": f"{context}\n Input: {question}", "role": "user"}]
 
-
-        prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        outputs = pipe(prompt, max_new_tokens=256, do_sample=True, num_beams=1, temperature=0.3, top_k=50, top_p=0.95, max_time= 180)
-        sql = outputs[0]['generated_text'][len(prompt):].strip()
+        prompt = pipe.tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        outputs = pipe(
+            prompt,
+            max_new_tokens=256,
+            do_sample=True,
+            num_beams=1,
+            temperature=0.3,
+            top_k=50,
+            top_p=0.95,
+            max_time=180,
+        )
+        sql = outputs[0]["generated_text"][len(prompt) :].strip()
         return sql
 
 
@@ -62,6 +71,7 @@ def run_inference_on_json(json_path: Path, model_load_path: Path, result_path: P
     df["generated_sql"] = generated_sql
     df.to_csv(result_path, index=False)
 
+
 def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Path):
     df = Dataset.from_json(str(json_path)).to_pandas()
     model = Predictor(model_load_path=model_load_path)
@@ -73,11 +83,9 @@ def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Pa
 
         sql = model.predict(question=question, context=context)
         generated_sql.append(sql)
-    
-    gt_sql = df['answer'].values
-    rouge = evaluate.load('rouge')
+
+    gt_sql = df["answer"].values
+    rouge = evaluate.load("rouge")
     results = rouge.compute(predictions=generated_sql, references=gt_sql)
-    with open(result_path, 'w') as f:
+    with open(result_path, "w") as f:
         json.dump(results, f)
-
-

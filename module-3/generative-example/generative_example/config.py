@@ -10,6 +10,6 @@ class DataTrainingArguments:
 @dataclass
 class ModelArguments:
     model_id: str
-    lora_r: int   
+    lora_r: int
     lora_alpha: int
     lora_dropout: float

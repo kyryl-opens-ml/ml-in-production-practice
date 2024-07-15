@@ -6,15 +6,15 @@ from joblib import Memory
 from tqdm import tqdm
 import json
 from datasets import Dataset
-import torch 
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline 
-
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import evaluate
 import numpy as np
+import re
 
 cache_directory = ".cache"
 memory = Memory(cache_directory)
 persistent_cache = memory.cache
-
 
 
 # @persistent_cache
@@ -28,61 +28,57 @@ def get_sql(query: str, context: str, pipe) -> str:
     Please return in JSON format: {{"sql": ""}}
     """
 
+    messages = [
+        {"role": "system", "content": "You are a SQL expert."},
+        {"role": "user", "content": prompt},
+    ]
 
-    messages = [ 
-        {"role": "system", "content": "You are a SQL expert."}, 
-        {"role": "user", "content": prompt}, 
-    ] 
+    generation_args = {
+        "max_new_tokens": 500,
+        "return_full_text": False,
+        "temperature": 0.0,
+        "do_sample": False,
+    }
 
-
-    generation_args = { 
-        "max_new_tokens": 500, 
-        "return_full_text": False, 
-        "temperature": 0.0, 
-        "do_sample": False, 
-    } 
-
-    output = pipe(messages, **generation_args)     
-    sql = output[0]['generated_text']
-    match = re.search(r'\{(.*?)\}', sql, re.DOTALL)
+    output = pipe(messages, **generation_args)
+    sql = output[0]["generated_text"]
+    match = re.search(r"\{(.*?)\}", sql, re.DOTALL)
     match.group(0)
-    return json.loads(match.group(0))['sql']
+    return json.loads(match.group(0))["sql"]
 
 
 def pipeline(test_json: str):
-
-
     dataset = Dataset.from_json(test_json)
 
+    torch.random.manual_seed(0)
+    model = AutoModelForCausalLM.from_pretrained(
+        "microsoft/Phi-3-mini-128k-instruct",
+        device_map="cuda",
+        torch_dtype="auto",
+        trust_remote_code=True,
+    )
 
+    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct")
 
-    torch.random.manual_seed(0) 
-    model = AutoModelForCausalLM.from_pretrained( 
-        "microsoft/Phi-3-mini-128k-instruct",  
-        device_map="cuda",  
-        torch_dtype="auto",  
-        trust_remote_code=True,  
-    ) 
+    pipe = pipeline(
+        "text-generation",
+        model=model,
+        tokenizer=tokenizer,
+    )
 
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct") 
-
-    pipe = pipeline( 
-        "text-generation", 
-        model=model, 
-        tokenizer=tokenizer, 
-    ) 
-
-    generate_sql = []
+    generated_sql = []
     gt_sql = []
 
     for row in tqdm(dataset):
-        _generate_sql = get_sql(query=row['question'], context=row['context'])
-        _gt_sql = row['answer']
+        _generate_sql = get_sql(
+            query=row["question"], context=row["context"], pipe=pipe
+        )
+        _gt_sql = row["answer"]
 
-        generate_sql.append(_generate_sql)
+        generated_sql.append(_generate_sql)
         gt_sql.append(_gt_sql)
 
-    rouge = evaluate.load('rouge')
+    rouge = evaluate.load("rouge")
     results = rouge.compute(predictions=generated_sql, references=gt_sql)
     print(f"results = {results}")
 
