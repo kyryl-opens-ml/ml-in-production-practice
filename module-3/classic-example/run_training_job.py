@@ -10,19 +10,25 @@ custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/classic-example:pr-11
 
 
 @app.function(image=custom_image, gpu="a10g", timeout=15 * 60)
-def run_training_modal():
+def run_classic_example():
+    from pathlib import Path
     from classic_example.data import load_sst2_data
     from classic_example.train import train
     from classic_example.utils import load_from_registry, upload_to_registry
     from classic_example.predictor import run_inference_on_dataframe
 
-    load_sst2_data(path_to_save='/tmp/data')
-    train(config_path="/app/conf/example.json")
-    upload_to_registry(model_name='modal-classic-example', model_path='results')
-    load_from_registry(model_name='modal-classic-example', model_path='loaded-model')
-    run_inference_on_dataframe(df_path='/tmp/data/test.csv', model_load_path='loaded-model', result_path='/tmp/inference.csv')
+    load_sst2_data(path_to_save=Path('/tmp/data/'))
+    train(config_path=Path("/app/conf/example.json"))
+    upload_to_registry(model_name='modal-classic-example', model_path=Path('results'))
+    load_from_registry(model_name='modal-classic-example', model_path=Path('loaded-model'))
+    run_inference_on_dataframe(df_path=Path('/tmp/data/test.csv'), model_load_path=Path('loaded-model'), result_path=Path('/tmp/data/inference.csv'))
 
 
-@app.local_entrypoint()
 def main():
-    print(run_training_modal.spawn())
+    fn = modal.Function.lookup("ml-in-production-practice", "run_classic_example")
+    fn_id = fn.spawn()
+    print(f"Run training object: {fn_id}")
+
+    
+if __name__ == '__main__':
+    main()
