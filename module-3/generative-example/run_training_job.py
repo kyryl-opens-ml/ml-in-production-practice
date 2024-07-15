@@ -3,7 +3,6 @@ import os
 import modal
 from modal import Image
 
-
 app = modal.App("ml-in-production-practice")
 env = {
     "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
@@ -17,10 +16,11 @@ custom_image = Image.from_registry(
 @app.function(image=custom_image, gpu="a10g", timeout=15 * 60)
 def run_generative_example():
     from pathlib import Path
+
     from generative_example.data import load_sql_data
+    from generative_example.predictor import run_evaluate_on_json
     from generative_example.train import train
     from generative_example.utils import load_from_registry, upload_to_registry
-    from generative_example.predictor import run_evaluate_on_json, run_inference_on_json
 
     load_sql_data(path_to_save=Path("/tmp/data"), subsample=0.1)
     train(config_path=Path("/app/conf/example-modal.json"))

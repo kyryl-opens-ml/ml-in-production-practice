@@ -1,26 +1,21 @@
-from random import randrange
+import logging
+from functools import partial
+from pathlib import Path
+
 import torch
-from datasets import load_dataset, Dataset, DatasetDict
-from peft import LoraConfig, prepare_model_for_kbit_training, TaskType, PeftModel
+from datasets import Dataset, DatasetDict
+from peft import LoraConfig, TaskType
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
-    BitsAndBytesConfig,
+    HfArgumentParser,
     TrainingArguments,
     set_seed,
-    pipeline,
-    HfArgumentParser,
 )
-from pathlib import Path
-import logging
 from trl import SFTTrainer
-from functools import partial
-from datasets import load_metric
-from transformers import EvalPrediction
 
 from generative_example.config import DataTrainingArguments, ModelArguments
 from generative_example.utils import setup_logger
-
 
 logger = logging.getLogger(__name__)
 

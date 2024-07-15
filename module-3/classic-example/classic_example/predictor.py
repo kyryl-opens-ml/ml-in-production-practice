@@ -1,11 +1,11 @@
 import logging
+from pathlib import Path
 
+import pandas as pd
 import torch
 from torch.nn.functional import softmax
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-from pathlib import Path
-import pandas as pd
 from tqdm import tqdm
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 logger = logging.getLogger()
 

@@ -4,9 +4,8 @@ from typing import Tuple
 import great_expectations as ge
 import pandas as pd
 import pytest
-from great_expectations.dataset.pandas_dataset import PandasDataset
-
 from classic_example.data import load_sst2_data
+from great_expectations.dataset.pandas_dataset import PandasDataset
 
 
 @pytest.fixture(scope="session")

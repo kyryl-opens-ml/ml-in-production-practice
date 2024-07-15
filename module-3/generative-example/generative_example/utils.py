@@ -1,14 +1,10 @@
 import logging
 import sys
 from pathlib import Path
-from typing import Dict
 
 import datasets
-import numpy as np
 import transformers
 import wandb
-from sklearn.metrics import f1_score, fbeta_score
-from transformers import EvalPrediction
 
 
 def setup_logger(logger):

@@ -1,6 +1,7 @@
-from typer.testing import CliRunner
 from pathlib import Path
+
 from classic_example.cli import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

@@ -1,7 +1,7 @@
 from pathlib import Path
-
-from datasets import load_dataset, DatasetDict
 from random import randrange
+
+from datasets import DatasetDict, load_dataset
 
 
 def _get_sql_data(random_state: int = 42, subsample: float = None) -> DatasetDict:

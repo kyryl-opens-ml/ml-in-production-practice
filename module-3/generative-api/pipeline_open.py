@@ -1,16 +1,12 @@
-from openai import OpenAI
-from random import randrange
+import json
+import re
+
+import evaluate
 import torch
-from datasets import load_dataset
+from datasets import Dataset
 from joblib import Memory
 from tqdm import tqdm
-import json
-from datasets import Dataset
-import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-import evaluate
-import numpy as np
-import re
 
 cache_directory = ".cache"
 memory = Memory(cache_directory)
@@ -47,7 +43,7 @@ def get_sql(query: str, context: str, pipe) -> str:
     return json.loads(match.group(0))["sql"]
 
 
-def pipeline(test_json: str):
+def run_pipeline(test_json: str):
     dataset = Dataset.from_json(test_json)
 
     torch.random.manual_seed(0)
@@ -84,4 +80,4 @@ def pipeline(test_json: str):
 
 
 if __name__ == "__main__":
-    pipeline()
+    run_pipeline()

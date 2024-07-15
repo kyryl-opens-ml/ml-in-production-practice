@@ -1,11 +1,10 @@
-from openai import OpenAI
-from random import randrange
-from joblib import Memory
-from tqdm import tqdm
 import json
-from datasets import Dataset
+
 import evaluate
-import numpy as np
+from datasets import Dataset
+from joblib import Memory
+from openai import OpenAI
+from tqdm import tqdm
 
 cache_directory = ".cache"
 memory = Memory(cache_directory)
@@ -38,7 +37,7 @@ def get_sql(query: str, context: str) -> str:
     return json.loads(chat_completion.choices[0].message.content)["sql"]
 
 
-def pipeline(test_json: str):
+def run_pipeline(test_json: str):
     dataset = Dataset.from_json(test_json)
 
     generated_sql = []
@@ -56,4 +55,4 @@ def pipeline(test_json: str):
 
 
 if __name__ == "__main__":
-    pipeline()
+    run_pipeline()

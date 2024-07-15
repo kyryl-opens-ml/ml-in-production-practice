@@ -1,9 +1,9 @@
 import typer
 
 from classic_example.data import load_sst2_data, load_sst2_data_file_input
+from classic_example.predictor import run_inference_on_dataframe
 from classic_example.train import train
 from classic_example.utils import load_from_registry, upload_to_registry
-from classic_example.predictor import run_inference_on_dataframe
 
 app = typer.Typer()
 app.command()(train)
