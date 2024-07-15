@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 from great_expectations.dataset.pandas_dataset import PandasDataset
 
-from classic_example.data import load_cola_data
+from classic_example.data import load_sst2_data
 
 
 @pytest.fixture(scope="session")
@@ -14,7 +14,7 @@ def data_path() -> Path:
     _data_path = Path("/tmp/data")
     _data_path.mkdir(exist_ok=True, parents=True)
 
-    load_cola_data(path_to_save=_data_path)
+    load_sst2_data(path_to_save=_data_path)
 
     return _data_path
 
