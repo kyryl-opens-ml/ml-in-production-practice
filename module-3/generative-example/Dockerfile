@@ -7,6 +7,7 @@ ENV LANG=C.UTF-8
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install flash-attention
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
