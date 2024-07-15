@@ -16,13 +16,13 @@
 
 Create kind cluster 
 
-```
-kind create cluster --name ml-in-production-course-week-4
+```bash
+kind create cluster --name ml-in-production
 ```
 
-Run k9s 
+Run k9s
 
-```
+```bash
 k9s -A
 ```
 
@@ -30,20 +30,17 @@ k9s -A
 
 ## Deploy airflow locally
 
-
-
-```
-export AIRFLOW_HOME=$PWD/airflow-home
+```bash
+export AIRFLOW_HOME=$PWD/airflow_pipelines
 ```
 
-```
-AIRFLOW_VERSION=2.7.3
+```bash
+AIRFLOW_VERSION=2.9.2
 PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
 CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
 pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
-pip install apache-airflow-providers-cncf-kubernetes==7.9.0
+pip install apache-airflow-providers-cncf-kubernetes==8.3.3
 ```
-
 
 1. Run standalone airflow
 
@@ -52,7 +49,7 @@ export AIRFLOW__CORE__LOAD_EXAMPLES=False
 airflow standalone
 ```
 
-2. Create storage 
+2. Create storage
 
 ```
 kubectl create -f airflow-volumes.yaml
