@@ -22,7 +22,7 @@ export WANDB_API_KEY=***********************
 make test
 ```
 
-reference: https://madewithml.com/courses/mlops/testing/
+reference: https://docs.confident-ai.com/docs/confident-ai-github-actions
 
 ## Reports
 

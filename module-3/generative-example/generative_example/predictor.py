@@ -22,7 +22,7 @@ class Predictor:
             model_load_path,
             low_cpu_mem_usage=True,
             return_dict=True,
-            torch_dtype=torch.bfloat16, #torch.float16,
+            torch_dtype=torch.bfloat16,
             trust_remote_code=True,
             device_map=device_map,
         )
