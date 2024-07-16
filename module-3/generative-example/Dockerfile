@@ -7,7 +7,7 @@ ENV LANG=C.UTF-8
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-RUN pip install flash-attention==flash-attn==2.6.0
+RUN pip install flash-attention==2.6.0
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
