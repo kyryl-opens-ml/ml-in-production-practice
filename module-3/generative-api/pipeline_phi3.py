@@ -63,7 +63,7 @@ def get_sql(query: str, context: str) -> str:
     matched_text = match.group(0)
     try:
         sql = json.loads(matched_text)["sql"]
-    except json.JSONDecodeError as ex:
+    except json.JSONDecodeError:
         print(f"Cannot parse {generated_text} output")
         sql = ""
     return sql

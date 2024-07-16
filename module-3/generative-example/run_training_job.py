@@ -11,7 +11,7 @@ env = {
 custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/generative-example:pr-11").env(env)
 
 
-@app.function(image=custom_image, gpu="a10g", timeout=6 * 60 * 60)
+@app.function(image=custom_image, gpu="a10g", timeout=10 * 60 * 60)
 def run_generative_example():
     from pathlib import Path
 
@@ -20,7 +20,7 @@ def run_generative_example():
     from generative_example.train import train
     from generative_example.utils import load_from_registry, upload_to_registry
 
-    load_sql_data(path_to_save=Path("/tmp/data"), subsample=0.01)
+    load_sql_data(path_to_save=Path("/tmp/data"))
     train(config_path=Path("/app/conf/example-modal.json"))
     upload_to_registry(model_name="modal_generative_example", model_path=Path("/tmp/phi-3-mini-lora-text2sql"))
     load_from_registry(model_name="modal_generative_example:latest", model_path=Path("/tmp/loaded-model"))
