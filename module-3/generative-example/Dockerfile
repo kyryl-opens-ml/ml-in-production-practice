@@ -7,7 +7,7 @@ ENV LANG=C.UTF-8
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-RUN pip install flash-attention==2.6.0
+RUN MAX_JOBS=4 pip install flash-attn==2.5.7 --no-build-isolation
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
