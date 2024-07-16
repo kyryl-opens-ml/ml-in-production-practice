@@ -24,7 +24,7 @@ def run_classic_example():
     train(config_path=Path("/app/conf/example.json"))
     upload_to_registry(model_name="modal-classic-example", model_path=Path("results"))
     load_from_registry(
-        model_name="modal-classic-example", model_path=Path("loaded-model")
+        model_name="modal-classic-example:latest", model_path=Path("loaded-model")
     )
     run_inference_on_dataframe(
         df_path=Path("/tmp/data/test.csv"),
