@@ -84,5 +84,6 @@ def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Pa
     gt_sql = df["answer"].values
     rouge = evaluate.load("rouge")
     results = rouge.compute(predictions=generated_sql, references=gt_sql)
+    print(f"Metrics {results}")
     with open(result_path, "w") as f:
         json.dump(results, f)

@@ -5,7 +5,7 @@ from datasets import Dataset
 from joblib import Memory
 from openai import OpenAI
 from tqdm import tqdm
-
+import typer
 cache_directory = ".cache"
 memory = Memory(cache_directory)
 persistent_cache = memory.cache
@@ -39,7 +39,6 @@ def get_sql(query: str, context: str) -> str:
 
 def run_pipeline(test_json: str):
     dataset = Dataset.from_json(test_json)
-
     generated_sql = []
     gt_sql = []
     for row in tqdm(dataset):
@@ -55,4 +54,4 @@ def run_pipeline(test_json: str):
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    typer.run(run_pipeline)

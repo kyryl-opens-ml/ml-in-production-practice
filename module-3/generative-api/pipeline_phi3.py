@@ -7,14 +7,35 @@ from datasets import Dataset
 from joblib import Memory
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import typer
 
 cache_directory = ".cache"
 memory = Memory(cache_directory)
 persistent_cache = memory.cache
 
+def create_pipeline(phi_model_name: str = "microsoft/Phi-3-mini-128k-instruct"):
+    torch.random.manual_seed(0)
+    model = AutoModelForCausalLM.from_pretrained(
+        phi_model_name,
+        device_map="cuda",
+        torch_dtype="auto",
+        trust_remote_code=True,
+    )
 
-# @persistent_cache
-def get_sql(query: str, context: str, pipe) -> str:
+    tokenizer = AutoTokenizer.from_pretrained(phi_model_name)
+
+    pipe = pipeline(
+        "text-generation",
+        model=model,
+        tokenizer=tokenizer,
+    )
+    return pipe
+
+print("Creating pipeline")
+pipe = create_pipeline()
+
+@persistent_cache
+def get_sql(query: str, context: str) -> str:
     prompt = f""""
     Write the corresponding SQL query based on user requests and database context:
 
@@ -37,38 +58,25 @@ def get_sql(query: str, context: str, pipe) -> str:
     }
 
     output = pipe(messages, **generation_args)
-    sql = output[0]["generated_text"]
-    match = re.search(r"\{(.*?)\}", sql, re.DOTALL)
-    match.group(0)
-    return json.loads(match.group(0))["sql"]
+    generated_text = output[0]["generated_text"]
+    match = re.search(r"\{(.*?)\}", generated_text, re.DOTALL)
+    matched_text = match.group(0)
+    try:
+        sql = json.loads(matched_text)["sql"]
+    except json.JSONDecodeError as ex:
+        print(f"Cannot parse {generated_text} output")
+        sql = ""
+    return sql
 
 
 def run_pipeline(test_json: str):
     dataset = Dataset.from_json(test_json)
 
-    torch.random.manual_seed(0)
-    model = AutoModelForCausalLM.from_pretrained(
-        "microsoft/Phi-3-mini-128k-instruct",
-        device_map="cuda",
-        torch_dtype="auto",
-        trust_remote_code=True,
-    )
-
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct")
-
-    pipe = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-    )
-
     generated_sql = []
     gt_sql = []
 
     for row in tqdm(dataset):
-        _generate_sql = get_sql(
-            query=row["question"], context=row["context"], pipe=pipe
-        )
+        _generate_sql = get_sql(query=row["question"], context=row["context"])
         _gt_sql = row["answer"]
 
         generated_sql.append(_generate_sql)
@@ -80,4 +88,4 @@ def run_pipeline(test_json: str):
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    typer.run(run_pipeline)

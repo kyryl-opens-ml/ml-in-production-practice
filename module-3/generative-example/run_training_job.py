@@ -8,9 +8,7 @@ env = {
     "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
     "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
 }
-custom_image = Image.from_registry(
-    "ghcr.io/kyryl-opens-ml/generative-example:pr-11"
-).env(env)
+custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/generative-example:pr-11").env(env)
 
 
 @app.function(image=custom_image, gpu="a10g", timeout=15 * 60)
@@ -24,18 +22,9 @@ def run_generative_example():
 
     load_sql_data(path_to_save=Path("/tmp/data"), subsample=0.1)
     train(config_path=Path("/app/conf/example-modal.json"))
-    upload_to_registry(
-        model_name="modal-generative-example",
-        model_path=Path("/tmp/phi-3-mini-lora-text2sql"),
-    )
-    load_from_registry(
-        model_name="modal-generative-example", model_path=Path("/tmp/loaded-model")
-    )
-    run_evaluate_on_json(
-        json_path=Path("/tmp/data/test.json"),
-        model_load_path=Path("/tmp/loaded-model"),
-        result_path=Path("/tmp/data/results.json"),
-    )
+    upload_to_registry(model_name="modal-generative-example", model_path=Path("/tmp/phi-3-mini-lora-text2sql"))
+    load_from_registry(model_name="modal-generative-example", model_path=Path("/tmp/loaded-model"))
+    run_evaluate_on_json(json_path=Path("/tmp/data/test.json"), model_load_path=Path("/tmp/loaded-model"), result_path=Path("/tmp/data/results.json"))
 
 
 def main():

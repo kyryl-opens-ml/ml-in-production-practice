@@ -52,6 +52,19 @@ https://huggingface.co/models?sort=downloads
 - https://github.com/microsoft/Phi-3CookBook
 - https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
 
+## LLM API
+
+Run API LLMs
+
+```bash
+python generative-api/pipeline_api.py ./data/test.json
+```
+
+Run open LLMs
+
+```bash
+python generative-api/pipeline_phi3.py ./data/test.json
+```
 
 ## LLM API testing
 
