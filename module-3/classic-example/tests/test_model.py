@@ -1,8 +1,6 @@
 from pathlib import Path
 
 import pytest
-from transformers import Trainer, TrainingArguments
-
 from classic_example.config import DataTrainingArguments, ModelArguments
 from classic_example.train import (
     get_models,
@@ -11,6 +9,7 @@ from classic_example.train import (
     read_dataset,
     train,
 )
+from transformers import Trainer, TrainingArguments
 
 
 @pytest.fixture()

@@ -1,8 +1,7 @@
 import numpy as np
 import pytest
-from transformers import EvalPrediction
-
 from classic_example.utils import compute_metrics
+from transformers import EvalPrediction
 
 
 @pytest.fixture()

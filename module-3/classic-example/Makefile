@@ -29,12 +29,12 @@ test_all:
 	pytest --cov=classic_example tests/
 
 train_example:
-	python classic_example/cli.py load-cola-data ./data
+	python classic_example/cli.py load-sst2-data ./data
 	python classic_example/cli.py train ./conf/example.json
 	python classic_example/cli.py upload-to-registry example_model /tmp/results
 
 train_fast_ci:
-	python classic_example/cli.py load-cola-data ./data
+	python classic_example/cli.py load-sst2-data ./data
 	python classic_example/cli.py train ./conf/fast.json
 	python classic_example/cli.py upload-to-registry fast-model /tmp/results
 	

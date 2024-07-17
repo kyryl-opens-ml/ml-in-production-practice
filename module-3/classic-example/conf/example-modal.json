@@ -1,10 +1,16 @@
 {
     "model_name_or_path": "google/mobilebert-uncased",
-    "train_file": "./data/train.csv",
-    "validation_file": "./data/val.csv",
-    "output_dir": "results",    
+
+    "train_file": "/tmp/data/train.csv",
+    "validation_file": "/tmp/data/val.csv",
+    "output_dir": "/tmp/results",    
     "max_seq_length": 128,
+
+
+
     "use_fast_tokenizer": true,
+
+
     "eval_strategy": "steps",
     "per_device_train_batch_size": 32,
     "per_device_eval_batch_size": 32,
