@@ -11,7 +11,7 @@ env = {
 custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/generative-example:pr-11").env(env)
 
 
-@app.function(image=custom_image, gpu="a10g", timeout=10 * 60 * 60)
+@app.function(image=custom_image, gpu="A100", timeout=10 * 60 * 60)
 def run_generative_example():
     from pathlib import Path
 
