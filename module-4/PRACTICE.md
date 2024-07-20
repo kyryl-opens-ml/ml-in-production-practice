@@ -5,8 +5,7 @@
 
 # H7: Kubeflow + AirFlow pipelines
 
-## Reading list: 
-
+## Reading list:
 
 - [Kubeflow pipelines Standalone Deployment](https://www.kubeflow.org/docs/components/pipelines/v1/installation/standalone-deployment/)
 - [Kubeflow Pipelines SDK API Reference](https://kubeflow-pipelines.readthedocs.io/en/)
@@ -15,7 +14,6 @@
 - [Why data scientists shouldn’t need to know Kubernetes](https://huyenchip.com/2021/09/13/data-science-infrastructure.html)
 - [Orchestration for Machine Learning](https://madewithml.com/courses/mlops/orchestration/)
 - [KubernetesPodOperator](https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/operators.html)
-
 
 
 ## Task:
@@ -31,10 +29,9 @@ For this task, you will need both a training and an inference pipeline. The trai
 - PR6: Write an Airflow inference pipeline.
 
 
-## Criteria: 
+## Criteria:
 
 - 6 PRs merged.
-
 
 
 # H8: Dagster
