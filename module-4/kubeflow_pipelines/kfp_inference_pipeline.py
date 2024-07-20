@@ -17,9 +17,9 @@ def load_data(test_data: Output[Dataset]):
     import shutil
     from pathlib import Path
 
-    from classic_example.data import load_cola_data
+    from classic_example.data import load_sst2_data
 
-    load_cola_data(Path("/app/data"))
+    load_sst2_data(Path("/app/data"))
 
     shutil.move(Path("/app/data") / "test.csv", test_data.path)
 
