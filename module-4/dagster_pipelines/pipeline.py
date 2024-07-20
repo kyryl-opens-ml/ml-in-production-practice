@@ -4,6 +4,8 @@ from pathlib import Path
 
 import torch
 from datasets import Dataset, DatasetDict
+from generative_example.config import DataTrainingArguments, ModelArguments
+from generative_example.utils import setup_logger
 from peft import LoraConfig, TaskType
 from transformers import (
     AutoModelForCausalLM,
@@ -13,9 +15,6 @@ from transformers import (
     set_seed,
 )
 from trl import SFTTrainer
-
-from generative_example.config import DataTrainingArguments, ModelArguments
-from generative_example.utils import setup_logger
 
 logger = logging.getLogger(__name__)
 
@@ -191,16 +190,15 @@ def load_from_registry(model_name: str, model_path: Path):
         artifact_dir = artifact.download(root=model_path)
         print(f"{artifact_dir}")
 
+
 import json
 import logging
 from pathlib import Path
 
 import evaluate
-import torch
-from datasets import Dataset
 from peft import AutoPeftModelForCausalLM
 from tqdm import tqdm
-from transformers import AutoTokenizer, pipeline
+from transformers import pipeline
 
 logger = logging.getLogger()
 
@@ -281,6 +279,7 @@ def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Pa
     with open(result_path, "w") as f:
         json.dump(results, f)
 
+
 from pathlib import Path
 from random import randrange
 
@@ -322,6 +321,7 @@ def load_sql_data_file_input(
 
     datasets["train"].to_json(path_to_train)
     datasets["test"].to_json(path_to_test)
+
 
 from dataclasses import dataclass
 
