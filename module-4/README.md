@@ -10,11 +10,11 @@
 
 # Reference implementation
 
-*** 
+***
 
 # Setup 
 
-Create kind cluster 
+Create kind cluster
 
 ```bash
 kind create cluster --name ml-in-production
@@ -28,11 +28,7 @@ k9s -A
 
 # Airflow
 
-## Deploy airflow locally
-
-```bash
-export AIRFLOW_HOME=$PWD/airflow_pipelines
-```
+Install
 
 ```bash
 AIRFLOW_VERSION=2.9.2
@@ -42,107 +38,93 @@ pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}
 pip install apache-airflow-providers-cncf-kubernetes==8.3.3
 ```
 
-1. Run standalone airflow
+Run standalone airflow
 
-```
+```bash
+export AIRFLOW_HOME=./airflow_pipelines
 export AIRFLOW__CORE__LOAD_EXAMPLES=False
+export WANDB_PROJECT=****************
+export WANDB_API_KEY=****************
 airflow standalone
 ```
 
-2. Create storage
+Create storage
 
+```bash
+kubectl create -f ./airflow_pipelines/volumes.yaml
 ```
-kubectl create -f airflow-volumes.yaml
+
+Open UI
+
+```bash
+open http://0.0.0.0:8080
 ```
 
-3. Read to run pipelines
+Trigger training job.
 
-- https://madewithml.com/courses/mlops/orchestration/
+```bash
+airflow dags trigger training_dag
+```
 
+Trigger 5 training jobs.
+
+```bash
+for i in {1..5}; do airflow dags trigger training_dag; sleep 1; done
+```
+
+Trigger inference job.
+
+```bash
+airflow dags trigger inference_dag
+```
+
+Trigger 5 inference jobs.
+
+```bash
+for i in {1..5}; do airflow dags trigger inference_dag; sleep 1; done
+```
 
 ### References:
 
-- https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/operators.html
-- https://www.astronomer.io/guides/kubepod-operator/
-- https://www.astronomer.io/guides/airflow-passing-data-between-tasks/
+- [AI + ML examples of DAGs](https://registry.astronomer.io/dags?categoryName=AI+%2B+Machine+Learning&limit=24&sorts=updatedAt%3Adesc)
+- [Pass data between tasks](https://www.astronomer.io/docs/learn/airflow-passing-data-between-tasks)
 
 
-# Kubeflow pipelines 
+# Kubeflow pipelines
 
-## Deploy kubeflow pipelines 
+Install
 
-Create directly
-
-```
-export PIPELINE_VERSION=2.0.3
+```bash
+export WANDB_PROJECT=****************
+export WANDB_API_KEY=****************
+export PIPELINE_VERSION=2.2.0
 kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
 kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
 kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION"
 ```
 
-Create yaml and applay with kubectl (better option)
-
-```
-export PIPELINE_VERSION=2.0.3
-kubectl kustomize "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION" > kfp-yml/res.yaml
-kubectl kustomize "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION" > kfp-yml/pipelines.yaml
-
-kubectl create -f kfp-yml/res.yaml
-kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
-kubectl create -f kfp-yml/pipelines.yaml
-```
-
 
 Access UI and minio
 
-
-```
+```bash
 kubectl port-forward --address=0.0.0.0 svc/minio-service 9000:9000 -n kubeflow
-kubectl port-forward --address=0.0.0.0 svc/ml-pipeline-ui 8888:80 -n kubeflow
+kubectl port-forward --address=0.0.0.0 svc/ml-pipeline-ui 3000:80 -n kubeflow
 ```
 
+Create training job.
 
-## Create pipelines
-
-Setup env variables 
-
-```
-export WANDB_PROJECT=****************
-export WANDB_API_KEY=****************
+```bash
+python ./kubeflow_pipelines/kfp_training_pipeline.py http://0.0.0.0:3000
 ```
 
+Create inference job.
 
-### Training & Inference V2 (2.0.3)
-
-```
-python kfp-training-pipeline_v2.py http://0.0.0.0:8080
-```
-
-```
-python kfp-inference-pipeline_v2.py http://0.0.0.0:8080
+```bash
+python  kubeflow_pipelines/kfp_inference_pipeline.py http://0.0.0.0:3000
 ```
 
-
-### Training & Inference V1 (1.8.9)
-
-
-```
-python kfp-training-pipeline_v1.py http://0.0.0.0:8080
-```
-
-```
-python kfp-inference-pipeline_v1.py http://0.0.0.0:8080
-```
 
 ### References
 
-- https://www.kubeflow.org/docs/components/pipelines/v2/data-types/artifacts/#new-pythonic-artifact-syntax
-
-
-
-# Dagster
-
-
-- https://github.com/dagster-io/dagster_llm_finetune
-- https://dagster.io/blog/finetuning-llms
-
+- [Create, use, pass, and track ML artifacts](https://www.kubeflow.org/docs/components/pipelines/v2/data-types/artifacts/#new-pythonic-artifact-syntax)
+- [Vertex AI](https://cloud.google.com/vertex-ai/docs/pipelines/introduction)

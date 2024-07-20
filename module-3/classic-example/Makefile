@@ -1,6 +1,10 @@
 build:
 	docker build -f Dockerfile -t classic-example:latest .
 
+push:
+	docker tag classic-example:latest ghcr.io/kyryl-opens-ml/classic-example:latest
+	docker push ghcr.io/kyryl-opens-ml/classic-example:latest
+
 run_dev: build
 	docker run -it -v ${PWD}:/main classic-example:latest /bin/bash
 

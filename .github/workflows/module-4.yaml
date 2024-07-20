@@ -8,7 +8,7 @@ env:
   IMAGE_MAIN_TAG: latest
 
 jobs:
-  push-image:
+  dagster-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
