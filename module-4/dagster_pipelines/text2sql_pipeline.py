@@ -279,8 +279,8 @@ def load_from_registry(model_name: str, model_path: Path):
         print(f"{artifact_dir}")
 
 
-def evaluate_model(df: pd.DataFrame, model_load_path: Path):
-    model = Predictor(model_load_path=model_load_path)
+def evaluate_model(df: pd.DataFrame, model_name: str):
+    model = Predictor.from_wandb(model_name=model_name)
 
     generated_sql = []
     for idx in tqdm(range(len(df))):
@@ -312,6 +312,8 @@ def trained_model(process_dataset):
 
 @asset(group_name="model", compute_kind="python")
 def model_metrics(trained_model, process_dataset):
+    model_path = f"/tmp/{trained_model}"
+    load_from_registry(model_name=trained_model, model_path=model_path)
     # local
     # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
 
@@ -328,6 +330,13 @@ defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, model_
 
 
 class Predictor:
+
+    @classmethod
+    def from_wandb(cls, model_name: str) -> 'Predictor':
+        model_path = f"/tmp/{model_name}"
+        load_from_registry(model_name=model_name, model_path=model_path)
+        return cls(model_load_path=model_path)
+
     def __init__(self, model_load_path: str):
         device_map = {"": 0}
         new_model = AutoPeftModelForCausalLM.from_pretrained(

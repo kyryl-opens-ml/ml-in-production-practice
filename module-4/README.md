@@ -133,10 +133,28 @@ python  kubeflow_pipelines/kfp_inference_pipeline.py http://0.0.0.0:3000
 # Dagster
 
 
+Setup
+
 ```bash
 mkdir ./dagster_pipelines/dagster-home
 export DAGSTER_HOME=$PWD/dagster_pipelines/dagster-home
 export WANDB_PROJECT=****************
 export WANDB_API_KEY=****************
+```
+
+Deploy modal functions
+
+```bash
+MODAL_FORCE_BUILD=1 modal deploy ./dagster_pipelines/text2sql_functions.py
+```
+
+Run Dagster
+
+```bash
 dagster dev -f dagster_pipelines/text2sql_pipeline.py -p 3000 -h 0.0.0.0
 ```
+
+### References:
+
+- [Introducing Asset Checks](https://dagster.io/blog/dagster-asset-checks)
+- [Anomaly Detection](https://dagster.io/glossary/anomaly-detection)

@@ -23,30 +23,8 @@ def training_job(dataset_chatml_pandas):
     return model_name, uri
 
 @app.function(image=custom_image, gpu="a10g", mounts=[mount], timeout=timeout)
-def evaluation_job(df, model_load_path):
+def evaluation_job(df, model_name):
     from text2sql_pipeline import evaluate_model
-    metrics = evaluate_model(df=df, model_load_path=model_load_path)
+    metrics = evaluate_model(df=df, model_name=model_name)
     return metrics
 
-
-@app.local_entrypoint()
-def main():
-
-    from text2sql_pipeline import _get_sql_data, AutoTokenizer, create_message_column, partial, format_dataset_chatml
-    subsample = 0.1
-    dataset = _get_sql_data(subsample=subsample)
-    model_id = "microsoft/Phi-3-mini-4k-instruct"
-
-    tokenizer_id = model_id
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
-    tokenizer.padding_side = "right"
-
-    dataset_chatml = dataset.map(create_message_column)
-    dataset_chatml = dataset_chatml.map(partial(format_dataset_chatml, tokenizer=tokenizer))
-    dataset_chatml_pandas = {'train': dataset_chatml['train'].to_pandas(), 'test': dataset_chatml['test'].to_pandas()}
-    
-    # run the function locally
-    print(training_job.remote(dataset_chatml_pandas=dataset_chatml_pandas))
-
-if __name__ == "__main__":
-    main()
