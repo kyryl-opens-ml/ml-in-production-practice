@@ -22,13 +22,13 @@ import transformers
 import wandb
 from pathlib import Path
 from random import randrange
-
+import pandas as pd
 from datasets import DatasetDict, load_dataset
 from dataclasses import dataclass
 import json
 import logging
 from pathlib import Path
-
+import modal
 import evaluate
 from peft import AutoPeftModelForCausalLM
 from tqdm import tqdm
@@ -174,7 +174,7 @@ def train_model(dataset_chatml):
         "per_device_eval_batch_size": 8,
         "gradient_accumulation_steps": 4,
         "learning_rate": 0.0001,
-        "num_train_epochs": 3,
+        "num_train_epochs": 0.01,
         "warmup_ratio": 0.1,
         "logging_first_step": True,
         "logging_steps": 500,
@@ -279,18 +279,49 @@ def load_from_registry(model_name: str, model_path: Path):
         print(f"{artifact_dir}")
 
 
+def evaluate_model(df: pd.Dataframe, model_load_path: Path):
+    model = Predictor(model_load_path=model_load_path)
+
+    generated_sql = []
+    for idx in tqdm(range(len(df))):
+        context = df.iloc[idx]["context"]
+        question = df.iloc[idx]["question"]
+
+        sql = model.predict(question=question, context=context)
+        generated_sql.append(sql)
+
+    gt_sql = df["answer"].values
+    rouge = evaluate.load("rouge")
+    metrics = rouge.compute(predictions=generated_sql, references=gt_sql)
+    return metrics 
+
+
 
 @asset(group_name="model", compute_kind="python")
 def trained_model(process_dataset):
-    fn = modal.Function.lookup("ml-in-production-practice", "run_generative_example")
-    pass
+    # local
+    # model_name, uri = train_model(dataset_chatml=process_dataset)
+
+    # modal
+    process_dataset_pandas = {'train': process_dataset['train'].to_pandas(), 'test': process_dataset['test'].to_pandas()}
+    model_training_job = modal.Function.lookup("rlfh-dagster-modal", "run_training_modal")
+    model_name, uri = model_training_job.remote(process_dataset_pandas=process_dataset_pandas)
+
+    return model_name
 
 
 @asset(group_name="model", compute_kind="python")
-def metrics(trained_model):
-    pass
+def model_metrics(trained_model, process_dataset):
+    # local
+    # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
 
-defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, metrics], asset_checks=[no_empty])
+    # modal
+    model_evaluate_job = modal.Function.lookup("rlfh-dagster-modal", "run_training_modal")
+    metrics = model_evaluate_job.remote(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
+    return metrics
+
+
+defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, model_metrics], asset_checks=[no_empty])
 
 
 
@@ -338,56 +369,6 @@ class Predictor:
         return sql
 
 
-def run_inference_on_json(json_path: Path, model_load_path: Path, result_path: Path):
-    df = Dataset.from_json(str(json_path)).to_pandas()
-    model = Predictor(model_load_path=model_load_path)
-
-    generated_sql = []
-    for idx in tqdm(range(len(df))):
-        context = df.iloc[idx]["context"]
-        question = df.iloc[idx]["question"]
-
-        sql = model.predict(question=question, context=context)
-        generated_sql.append(sql)
-    df["generated_sql"] = generated_sql
-    df.to_csv(result_path, index=False)
-
-
-# def run_evaluate_on_json(json_path: Path, model_load_path: Path, result_path: Path):
-#     df = Dataset.from_json(str(json_path)).to_pandas()
-#     model = Predictor(model_load_path=model_load_path)
-
-#     generated_sql = []
-#     for idx in tqdm(range(len(df))):
-#         context = df.iloc[idx]["context"]
-#         question = df.iloc[idx]["question"]
-
-#         sql = model.predict(question=question, context=context)
-#         generated_sql.append(sql)
-
-#     gt_sql = df["answer"].values
-#     rouge = evaluate.load("rouge")
-#     results = rouge.compute(predictions=generated_sql, references=gt_sql)
-#     print(f"Metrics {results}")
-#     with open(result_path, "w") as f:
-#         json.dump(results, f)
 
 
 
-
-
-
-
-
-# @dataclass
-# class DataTrainingArguments:
-#     train_file: str
-#     test_file: str
-
-
-# @dataclass
-# class ModelArguments:
-#     model_id: str
-#     lora_r: int
-#     lora_alpha: int
-#     lora_dropout: float
