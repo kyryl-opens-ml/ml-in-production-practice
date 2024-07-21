@@ -23,7 +23,7 @@ volume_mount = k8s.V1VolumeMount(
 with DAG(
     start_date=datetime(2021, 1, 1),
     catchup=False,
-    schedule_interval=None,
+    schedule_interval='0 9 * * *',  # 9 AM UTC,
     dag_id="inference_dag",
 ) as dag:
     clean_storage_before_start = KubernetesPodOperator(
@@ -34,6 +34,7 @@ with DAG(
         in_cluster=False,
         namespace="default",
         startup_timeout_seconds=600,
+        is_delete_operator_pod=False,
         image_pull_policy="Always",
         volumes=[volume],
         volume_mounts=[volume_mount],
@@ -47,6 +48,7 @@ with DAG(
         in_cluster=False,
         namespace="default",
         startup_timeout_seconds=600,
+        is_delete_operator_pod=False,
         image_pull_policy="Always",
         volumes=[volume],
         volume_mounts=[volume_mount],
@@ -65,6 +67,7 @@ with DAG(
         task_id="load_model",
         env_vars={"WANDB_PROJECT": WANDB_PROJECT, "WANDB_API_KEY": WANDB_API_KEY},
         in_cluster=False,
+        is_delete_operator_pod=False,
         namespace="default",
         volumes=[volume],
         volume_mounts=[volume_mount],
@@ -85,6 +88,7 @@ with DAG(
         in_cluster=False,
         namespace="default",
         startup_timeout_seconds=600,
+        is_delete_operator_pod=False,
         image_pull_policy="Always",
         volumes=[volume],
         volume_mounts=[volume_mount],
@@ -98,6 +102,7 @@ with DAG(
         in_cluster=False,
         namespace="default",
         startup_timeout_seconds=600,
+        is_delete_operator_pod=False,
         image_pull_policy="Always",
         volumes=[volume],
         volume_mounts=[volume_mount],

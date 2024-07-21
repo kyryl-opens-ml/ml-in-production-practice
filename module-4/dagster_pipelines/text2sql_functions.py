@@ -3,13 +3,12 @@ import os
 import modal
 from modal import Image
 
-
 app = modal.App("ml-in-production-practice-dagster-pipeline")
 env = {
     "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
     "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
 }
-custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/dagster-pipeline:pr-14").env(env)
+custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/dagster-pipeline:main").env(env)
 mount = modal.Mount.from_local_python_packages("dagster_pipelines", "dagster_pipelines")
 timeout=10 * 60 * 60
 

@@ -6,13 +6,13 @@
 
 [Practice task](./PRACTICE.md)
 
-*** 
+***
 
 # Reference implementation
 
 ***
 
-# Setup 
+# Setup
 
 Create kind cluster
 
@@ -41,7 +41,7 @@ pip install apache-airflow-providers-cncf-kubernetes==8.3.3
 Run standalone airflow
 
 ```bash
-export AIRFLOW_HOME=./airflow_pipelines
+export AIRFLOW_HOME=$PWD/airflow_pipelines
 export AIRFLOW__CORE__LOAD_EXAMPLES=False
 export WANDB_PROJECT=****************
 export WANDB_API_KEY=****************
