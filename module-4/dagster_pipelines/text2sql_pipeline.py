@@ -1,40 +1,40 @@
+import json
 import logging
+import sys
+from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
+from random import randint, randrange
 
+import datasets
+import evaluate
+import modal
+import pandas as pd
 import torch
-from datasets import Dataset, DatasetDict
-from peft import LoraConfig, TaskType
+import transformers
+from dagster import (
+    AssetCheckResult,
+    AssetExecutionContext,
+    Config,
+    Definitions,
+    MetadataValue,
+    asset,
+    asset_check,
+)
+from datasets import Dataset, DatasetDict, load_dataset
+from peft import AutoPeftModelForCausalLM, LoraConfig, TaskType
+from tqdm import tqdm
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     HfArgumentParser,
     TrainingArguments,
+    pipeline,
     set_seed,
 )
 from trl import SFTTrainer
-import logging
-import sys
-from pathlib import Path
 
-import datasets
-import transformers
 import wandb
-from pathlib import Path
-from random import randrange
-import pandas as pd
-from datasets import DatasetDict, load_dataset
-from dataclasses import dataclass
-import json
-import logging
-from pathlib import Path
-import modal
-import evaluate
-from peft import AutoPeftModelForCausalLM
-from tqdm import tqdm
-from transformers import pipeline
-from dagster import Config, asset, MetadataValue, AssetExecutionContext, asset_check, AssetCheckResult, Definitions
-from random import randint
 
 logger = logging.getLogger()
 
@@ -174,7 +174,7 @@ def train_model(dataset_chatml):
         "per_device_eval_batch_size": 8,
         "gradient_accumulation_steps": 4,
         "learning_rate": 0.0001,
-        "num_train_epochs": 0.01,
+        "num_train_epochs": 3,
         "warmup_ratio": 0.1,
         "logging_first_step": True,
         "logging_steps": 500,
@@ -304,6 +304,7 @@ def trained_model(process_dataset):
 
     # modal
     process_dataset_pandas = {'train': process_dataset['train'].to_pandas(), 'test': process_dataset['test'].to_pandas()}
+
     model_training_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "training_job")
     model_name, uri = model_training_job.remote(dataset_chatml_pandas=process_dataset_pandas)
 
@@ -312,8 +313,6 @@ def trained_model(process_dataset):
 
 @asset(group_name="model", compute_kind="modal")
 def model_metrics(context: AssetExecutionContext, trained_model, process_dataset):
-    model_path = f"/tmp/{trained_model}"
-    load_from_registry(model_name=trained_model, model_path=model_path)
     # local
     # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_name=trained_model)
 

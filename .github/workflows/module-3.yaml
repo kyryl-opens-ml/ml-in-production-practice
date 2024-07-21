@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'module-3/**'
 
 jobs:
   test:
