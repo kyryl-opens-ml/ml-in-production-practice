@@ -72,9 +72,9 @@ def load_sql_data(context: AssetExecutionContext):
     return dataset
 
 @asset_check(asset=load_sql_data)
-def no_empty():
-    train_no_no_empty = len(load_sql_data['train']) == 0
-    test_no_no_empty = len(load_sql_data['test']) == 0
+def no_empty(load_sql_data):
+    train_no_no_empty = len(load_sql_data['train']) != 0
+    test_no_no_empty = len(load_sql_data['test']) != 0
     return AssetCheckResult(passed=train_no_no_empty and test_no_no_empty)
 
 
@@ -279,7 +279,7 @@ def load_from_registry(model_name: str, model_path: Path):
         print(f"{artifact_dir}")
 
 
-def evaluate_model(df: pd.Dataframe, model_load_path: Path):
+def evaluate_model(df: pd.DataFrame, model_load_path: Path):
     model = Predictor(model_load_path=model_load_path)
 
     generated_sql = []
@@ -304,8 +304,8 @@ def trained_model(process_dataset):
 
     # modal
     process_dataset_pandas = {'train': process_dataset['train'].to_pandas(), 'test': process_dataset['test'].to_pandas()}
-    model_training_job = modal.Function.lookup("rlfh-dagster-modal", "run_training_modal")
-    model_name, uri = model_training_job.remote(process_dataset_pandas=process_dataset_pandas)
+    model_training_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "training_job")
+    model_name, uri = model_training_job.remote(dataset_chatml_pandas=process_dataset_pandas)
 
     return model_name
 
@@ -316,7 +316,7 @@ def model_metrics(trained_model, process_dataset):
     # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
 
     # modal
-    model_evaluate_job = modal.Function.lookup("rlfh-dagster-modal", "run_training_modal")
+    model_evaluate_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "evaluation_job")
     metrics = model_evaluate_job.remote(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
     return metrics
 

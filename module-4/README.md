@@ -136,5 +136,7 @@ python  kubeflow_pipelines/kfp_inference_pipeline.py http://0.0.0.0:3000
 ```bash
 mkdir ./dagster_pipelines/dagster-home
 export DAGSTER_HOME=$PWD/dagster_pipelines/dagster-home
+export WANDB_PROJECT=****************
+export WANDB_API_KEY=****************
 dagster dev -f dagster_pipelines/text2sql_pipeline.py -p 3000 -h 0.0.0.0
 ```
