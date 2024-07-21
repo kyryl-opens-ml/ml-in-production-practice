@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'module-4/**'
 
 jobs:
   dagster-image:
