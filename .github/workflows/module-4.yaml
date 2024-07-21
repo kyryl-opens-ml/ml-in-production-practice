@@ -1,11 +1,13 @@
 name: Module 4
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-env:
-  IMAGE_MAIN_NAME: nlp-sample
-  IMAGE_MAIN_TAG: latest
+  pull_request:
+    branches:
+      - main
 
 jobs:
   dagster-image:
