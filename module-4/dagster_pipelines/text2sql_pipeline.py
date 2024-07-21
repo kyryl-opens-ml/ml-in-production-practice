@@ -297,7 +297,7 @@ def evaluate_model(df: pd.DataFrame, model_name: str):
 
 
 
-@asset(group_name="model", compute_kind="python")
+@asset(group_name="model", compute_kind="modal")
 def trained_model(process_dataset):
     # local
     # model_name, uri = train_model(dataset_chatml=process_dataset)
@@ -310,20 +310,44 @@ def trained_model(process_dataset):
     return model_name
 
 
-@asset(group_name="model", compute_kind="python")
-def model_metrics(trained_model, process_dataset):
+@asset(group_name="model", compute_kind="modal")
+def model_metrics(context: AssetExecutionContext, trained_model, process_dataset):
     model_path = f"/tmp/{trained_model}"
     load_from_registry(model_name=trained_model, model_path=model_path)
     # local
-    # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
+    # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_name=trained_model)
 
     # modal
     model_evaluate_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "evaluation_job")
-    metrics = model_evaluate_job.remote(df=process_dataset['test'].to_pandas(), model_load_path=trained_model)
+    metrics = model_evaluate_job.remote(df=process_dataset['test'].to_pandas(), model_name=trained_model)
+
+
+    context.add_output_metadata(
+        {
+            "results": MetadataValue.json(metrics),
+        }
+    )
+
     return metrics
 
+@asset_check(asset=model_metrics)
+def rouge1_check(model_metrics):
+    return AssetCheckResult(passed=bool(model_metrics['rouge1'] > 0.8))
 
-defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, model_metrics], asset_checks=[no_empty])
+@asset_check(asset=model_metrics)
+def rouge2_check(model_metrics):
+    return AssetCheckResult(passed=bool(model_metrics['rouge2'] > 0.8))
+
+@asset_check(asset=model_metrics)
+def rougeL_check(model_metrics):
+    return AssetCheckResult(passed=bool(model_metrics['rougeL'] > 0.8))
+
+@asset_check(asset=model_metrics)
+def rougeLsum_check(model_metrics):
+    return AssetCheckResult(passed=bool(model_metrics['rougeLsum'] > 0.8))
+
+
+defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, model_metrics], asset_checks=[no_empty, rouge1_check, rouge2_check, rougeL_check, rougeLsum_check])
 
 
 

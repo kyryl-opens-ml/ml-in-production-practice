@@ -12,4 +12,4 @@ evaluate==0.4.2
 packaging==23.2
 ninja==1.11.1.1
 dagster==1.7.14
-dagster-pipes==1.7.14
+dagster-webserver==1.7.14
