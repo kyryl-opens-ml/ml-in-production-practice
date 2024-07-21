@@ -14,4 +14,5 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 ENV PYTHONPATH /app
 COPY . . 
 
-CMD [ "bash" ]
+
+CMD dagster dev -f text2sql_pipeline.py -p 3000 -h 0.0.0.0

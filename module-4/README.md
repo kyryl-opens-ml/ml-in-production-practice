@@ -128,3 +128,33 @@ python  kubeflow_pipelines/kfp_inference_pipeline.py http://0.0.0.0:3000
 
 - [Create, use, pass, and track ML artifacts](https://www.kubeflow.org/docs/components/pipelines/v2/data-types/artifacts/#new-pythonic-artifact-syntax)
 - [Vertex AI](https://cloud.google.com/vertex-ai/docs/pipelines/introduction)
+
+
+# Dagster
+
+
+Setup
+
+```bash
+mkdir ./dagster_pipelines/dagster-home
+export DAGSTER_HOME=$PWD/dagster_pipelines/dagster-home
+export WANDB_PROJECT=****************
+export WANDB_API_KEY=****************
+```
+
+Deploy modal functions
+
+```bash
+MODAL_FORCE_BUILD=1 modal deploy ./dagster_pipelines/text2sql_functions.py
+```
+
+Run Dagster
+
+```bash
+dagster dev -f dagster_pipelines/text2sql_pipeline.py -p 3000 -h 0.0.0.0
+```
+
+### References:
+
+- [Introducing Asset Checks](https://dagster.io/blog/dagster-asset-checks)
+- [Anomaly Detection](https://dagster.io/glossary/anomaly-detection)
