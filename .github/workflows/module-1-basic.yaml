@@ -9,8 +9,8 @@ on:
   pull_request:
     branches:
       - main
-    # paths:
-    #   - 'module-1/**'
+    paths:
+      - 'module-1/**'
       
 env:
   IMAGE_ML_APP: app-ml
@@ -34,6 +34,7 @@ jobs:
 
   app-ml-docker-but-with-cli:
     runs-on: ubuntu-latest
+    needs: ci-test-bash-code
     steps:
       - name: Checkout 
         uses: actions/checkout@v4
