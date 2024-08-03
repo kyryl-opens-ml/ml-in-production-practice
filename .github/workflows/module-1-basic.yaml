@@ -1,6 +1,5 @@
 name: Module 1 Basic
 
-
 on:
   push:
     branches:
@@ -9,8 +8,8 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'module-1/**'
+    # paths:
+    #   - 'module-1/**'
       
 env:
   IMAGE_ML_APP: app-ml
