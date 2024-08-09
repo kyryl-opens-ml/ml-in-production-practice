@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - test-version      
 
   pull_request:
     branches:
