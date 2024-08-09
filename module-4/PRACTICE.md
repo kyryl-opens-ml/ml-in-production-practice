@@ -40,7 +40,7 @@ For this task, you will need both a training and an inference pipeline. The trai
 
 - [Orchestrating Machine Learning Pipelines with Dagster](https://dagster.io/blog/dagster-ml-pipelines)
 - [ML pipelines for fine-tuning LLMs](https://dagster.io/blog/finetuning-llms)
-- [Awesome pen source workflow engines](https://github.com/meirwah/awesome-workflow-engines)
+- [Awesome open source workflow engines](https://github.com/meirwah/awesome-workflow-engines)
 - [A framework for real-life data science and ML](https://metaflow.org/)
 - [New in Metaflow: Train at scale with AI/ML frameworks](https://outerbounds.com/blog/distributed-training-with-metaflow/)
 - [House all your ML orchestration needs](https://flyte.org/machine-learning)
