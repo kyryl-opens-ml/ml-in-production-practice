@@ -10,8 +10,8 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'module-2/**'
+    # paths:
+    #   - 'module-2/**'
 
 jobs:
 
