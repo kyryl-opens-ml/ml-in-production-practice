@@ -34,9 +34,9 @@ You need to have a training pipeline for your model for this homework. You can t
 - PR1: Write code for training your model using the W&B experiment logger.
 - PR2: Write code for conducting hyperparameter searches with W&B.
 - PR3: Write code to create a model card for your model, which can be a simple markdown or utilize this [toolset](https://github.com/tensorflow/model-card-toolkit)
-- PR4: Write to replicate the [tutorial](https://www.mosaicml.com/blog/mosaicbert)
-- PR5: Write code for hyperparameter searches using [NNI](https://github.com/microsoft/nni)
-- PR6: Write code for distributed training with PyTorch, Accelerate, and Ray.
+- PR4(optional): Write to replicate the [tutorial](https://www.mosaicml.com/blog/mosaicbert)
+- PR5(optional): Write code for hyperparameter searches using [NNI](https://github.com/microsoft/nni)
+- PR6(optional): Write code for distributed training with PyTorch, Accelerate, and Ray.
 - Public link to your W&B project with experiments. 
 
 ## Criteria:
@@ -73,8 +73,8 @@ You need to have a training pipeline for your model for this homework. You can t
 - PR2: Write tests for [data](https://madewithml.com/courses/mlops/testing/#data), tests should be runnable from CI.
 - PR3: Write tests for [model](https://madewithml.com/courses/mlops/testing/#models), tests should be runnable from CI.
 - PR4: Write code to store your model in model management with W&B.
-- PR5: Write code to use [LIT](https://github.com/PAIR-code/lit) for your model, in the case of other domains (CV, audio, tabular) find and use a similar tool.
-- PR6: Write code to test LLM API (select any LLM - OpenAI, VertexAI, etc).
+- PR5(optional): Write code to use [LIT](https://github.com/PAIR-code/lit) for your model, in the case of other domains (CV, audio, tabular) find and use a similar tool.
+- PR6(optional): Write code to test LLM API (select any LLM - OpenAI, VertexAI, etc).
 
 ## Criteria:
 
