@@ -20,7 +20,7 @@
 - [MLPerf Inference Benchmark](https://arxiv.org/pdf/1911.02549.pdf)
 - [ModelMesh Serving](https://kserve.github.io/website/master/modelserving/mms/modelmesh/overview/#learn-more)
 - [Machine Learning Deployment: Shadow Mode](https://alexgude.com/blog/machine-learning-deployment-shadow-mode/)
-- [Dynamic Batching ](https://github.com/triton-inference-server/tutorials/tree/main/Conceptual_Guide/Part_2-improving_resource_utilization#what-is-dynamic-batching)
+- [Dynamic Batching](https://github.com/triton-inference-server/tutorials/tree/main/Conceptual_Guide/Part_2-improving_resource_utilization#what-is-dynamic-batching)
 - [Model Ensembles](https://github.com/triton-inference-server/tutorials/tree/main/Conceptual_Guide/Part_5-Model_Ensembles)
 - [HTTP/REST and GRPC Protocol](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/protocol/README.html)
 - [Pipelines](https://docs.seldon.io/projects/seldon-core/en/v2/contents/pipelines/index.html)
@@ -59,13 +59,10 @@
 - [Text Generation Inference Queue](https://github.com/huggingface/text-generation-inference/blob/main/router/src/queue.rs#L36)
 - [Pending Request Count (Queue Size) Per-Model Triton](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/metrics.html)
 - [Seldon and Kafka](https://docs.seldon.io/projects/seldon-core/en/v2/contents/architecture/index.html)
-
 - [MTIA v1: Meta’s first-generation AI inference accelerator](https://ai.meta.com/blog/meta-training-inference-accelerator-AI-MTIA/)
 - [Cloud TPU v5e Inference Converter introduction](https://cloud.google.com/tpu/docs/v5e-inference-converter)
 - [AWS Inferentia](https://aws.amazon.com/blogs/aws/category/artificial-intelligence/aws-inferentia/)
 - [All about AI Accelerators: GPU, TPU, Dataflow, Near-Memory, Optical, Neuromorphic & more](https://www.youtube.com/watch?v=VQoyypYTz2U)
-
-
 - [The Top 23 Model Compression Open Source Projects](https://awesomeopensource.com/projects/model-compression)
 - [FastFormers](https://github.com/microsoft/fastformers)
 - [distil-whisper](https://github.com/huggingface/distil-whisper?tab=readme-ov-file)

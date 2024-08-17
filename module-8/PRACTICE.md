@@ -10,8 +10,6 @@
 - [Machine Learning Tools Landscape v2 (+84 new tools)](https://huyenchip.com/2020/12/30/mlops-v2.html)
 - [MLOps Landscape in 2024: Top Tools and Platforms](https://neptune.ai/blog/mlops-tools-platforms-landscape)
 - [Azure: AI200 - Reference Architectures](https://github.com/microsoft/AI?tab=readme-ov-file)
-
-
 - [What is Amazon SageMaker?](https://docs.aws.amazon.com/sagemaker/latest/dg/whatis.html)
 - [Train machine learning models](https://docs.aws.amazon.com/sagemaker/latest/dg/train-model.html)
 - [Deploy models for inference](https://docs.aws.amazon.com/sagemaker/latest/dg/deploy-model.html)
@@ -22,9 +20,6 @@
 - [Monitor Amazon SageMaker with Amazon CloudWatch](https://docs.aws.amazon.com/sagemaker/latest/dg/monitoring-cloudwatch.html)
 - [Amazon Bedrock](https://aws.amazon.com/bedrock/)
 - [The Partnership: Amazon SageMaker and Hugging Face](https://huggingface.co/blog/the-partnership-amazon-sagemaker-and-hugging-face)
-
-
-
 - [Vertex AI Model Monitoring with Explainable AI](https://colab.research.google.com/github/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/model_monitoring/model_monitoring.ipynb#scrollTo=XV-vru2Pm1oX)
 - [Monitor feature skew and drift](https://cloud.google.com/vertex-ai/docs/model-monitoring/using-model-monitoring#analyzing-skew-drift)
 - [Giving Vertex AI, the New Unified ML Platform on Google Cloud, a Spin](https://towardsdatascience.com/giving-vertex-ai-the-new-unified-ml-platform-on-google-cloud-a-spin-35e0f3852f25)

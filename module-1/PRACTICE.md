@@ -19,6 +19,7 @@
 - [You Don't Need a Bigger Boat](https://github.com/jacopotagliabue/you-dont-need-a-bigger-boat)
 - [Why to Hire Machine Learning Engineers, Not Data Scientists](https://www.datarevenue.com/en-blog/hiring-machine-learning-engineers-instead-of-data-scientists)
 
+
 ## Task:
 
 Write a design doc [example](https://docs.google.com/document/d/14YBYKgk-uSfjfwpKFlp_omgUq5hwMVazy_M965s_1KA/edit#heading=h.7nki9mck5t64) with the MLOps template from the [MLOps Infrastructure Stack doc](https://ml-ops.org/content/state-of-mlops) and for the next points (you can use an example from your work or make it up).

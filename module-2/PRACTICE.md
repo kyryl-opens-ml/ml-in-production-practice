@@ -8,6 +8,7 @@
 
 - [Data engineer roadmap](https://github.com/datastacktv/data-engineer-roadmap)
 - [Minio using Kubernetes](https://github.com/kubernetes/examples/tree/master/staging/storage/minio)
+- [What Goes Around Comes Around... And Around...](https://db.cs.cmu.edu/papers/2024/whatgoesaround-sigmodrec2024.pdf)
 - [Small Big Data: using NumPy and Pandas when your data doesn't fit ](https://www.youtube.com/watch?v=8pFnrr0NnwY)
 - [How to Choose the Right Python Concurrency API](https://superfastpython.com/python-concurrency-choose-api/)
 - [Articles: Speed up your data science and scientific computing code](https://pythonspeed.com/datascience/#memory)
