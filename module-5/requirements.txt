@@ -5,7 +5,9 @@ uvicorn==0.21.1
 fastapi==0.109.2
 wandb==0.17.9
 kserve 
-torch
+torch==2.4.1
+nvidia_pytriton==0.5.10
+ipython
 # seldon-core==1.14.1
 # # kserve==0.10.1
 # # ray==2.0.0
