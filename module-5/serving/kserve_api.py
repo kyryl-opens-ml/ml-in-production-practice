@@ -1,3 +1,4 @@
+import json
 from serving.predictor import Predictor
 from typing import Dict
 from kserve import Model, ModelServer
@@ -13,7 +14,8 @@ class CustomModel(Model):
         self.ready = True
 
     def predict(self, payload: Dict, headers: Dict[str, str] = None) -> Dict:
-        instances = payload["instances"]
+        json_payload = json.loads(payload.decode('utf-8'))
+        instances = json_payload["instances"]
         predictions = self.predictor.predict(instances)
         return {"predictions": predictions.tolist()}
 

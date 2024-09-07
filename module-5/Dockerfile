@@ -28,29 +28,6 @@ FROM base AS app-pytriton
 CMD python serving/pytriton_serving.py
 
 
-# FROM base AS app-seldon
-
-# # Port for GRPC
-# EXPOSE 5000
-# # Port for REST
-# EXPOSE 9000
-
-# # Define environment variables
-# ENV MODEL_NAME SeldonAPI
-# ENV SERVICE_TYPE MODEL
-# # COPY /app/serving/seldon_api.py /app/SeldonAPI.py
-# COPY serving/seldon_api.py /app/SeldonAPI.py
-
-# RUN chown -R 8888 /app
-# RUN mkdir /.cache
-# RUN chmod 777 /.cache
-# RUN mkdir /.config
-# RUN chmod 777 /.config
-
-# CMD exec seldon-core-microservice $MODEL_NAME --service-type $SERVICE_TYPE
-
-
-# FROM base AS app-kserve
-# ENV WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
-# RUN pip install protobuf==3.20.*
-# ENTRYPOINT ["python", "serving/kserve_api.py"]
+FROM base AS app-kserve
+ENV WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
+ENTRYPOINT ["python", "serving/kserve_api.py"]
