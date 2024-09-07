@@ -7,11 +7,12 @@ from pytriton.decorators import batch
 from pytriton.model_config import ModelConfig, Tensor
 from pytriton.triton import Triton
 
+from serving.predictor import Predictor
 
 logger = logging.getLogger("server")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s: %(message)s")
 
-CLASSIFIER = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+predictor = Predictor.default_from_model_registry()
 
 # Labels pre-cached on server side
 LABELS = [
@@ -30,17 +31,13 @@ LABELS = [
 @batch
 def _infer_fn(sequence: np.ndarray):
     sequence = np.char.decode(sequence.astype("bytes"), "utf-8")
-    sequence = sequence.tolist()
+    sequence = sequence.tolist()[0]
 
     logger.info(f"sequence = {sequence}")
+    results = predictor.predict(text=sequence)
+    logger.info(f"results = {results}")
 
-    classification_result = CLASSIFIER(sequence, LABELS)
-    result_labels = []
-    for result in classification_result:
-        logger.debug(result)
-        most_probable_label = result["labels"][0]
-        result_labels.append([most_probable_label])
-
+    result_labels = ['travel' for _ in range(len(sequence))]
     return {"label": np.char.encode(result_labels, "utf-8")}
 
 
@@ -51,13 +48,9 @@ def main():
         triton.bind(
             model_name="BART",
             infer_func=_infer_fn,
-            inputs=[
-                Tensor(name="sequence", dtype=bytes, shape=(1,)),
-            ],
-            outputs=[
-                Tensor(name="label", dtype=bytes, shape=(1,)),
-            ],
-            config=ModelConfig(max_batch_size=4),
+            inputs=[Tensor(name="sequence", dtype=bytes, shape=(-1,)),],
+            outputs=[Tensor(name="label", dtype=bytes, shape=(1,)),],
+            config=ModelConfig(max_batch_size=1),
         )
         logger.info("Serving inference")
         triton.serve()

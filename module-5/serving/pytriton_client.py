@@ -2,13 +2,10 @@ import logging
 import numpy as np
 from pytriton.client import ModelClient
 
-
+# https://triton-inference-server.github.io/pytriton/latest/clients/
 def main():
     sequence = np.array([
         ["one day I will see the world"],
-        ["I would love to learn cook the Asian street food"],
-        ["Carnival in Rio de Janeiro"],
-        ["William Shakespeare was a great writer"],
     ])
     sequence = np.char.encode(sequence, "utf-8")
 
