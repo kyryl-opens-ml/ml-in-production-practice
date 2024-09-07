@@ -5,6 +5,7 @@ uvicorn==0.21.1
 fastapi==0.109.2
 wandb==0.17.9
 kserve 
+torch
 # seldon-core==1.14.1
 # # kserve==0.10.1
 # # ray==2.0.0
