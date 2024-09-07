@@ -77,7 +77,7 @@ kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8081:8080
 # Test 
 
 ```
-http POST http://0.0.0.0:8080/predict < samples.json
+curl -X POST -H "Content-Type: application/json" -d @data-samples/samples.json http://0.0.0.0:8080/predict
 ```
 
 ```
@@ -85,6 +85,7 @@ pytest -ss ./tests
 ```
 
 # Triton Inference Server 
+
 
 
 ```

@@ -20,9 +20,9 @@ FROM base AS app-streamlit
 CMD streamlit run --server.address 0.0.0.0 --server.port 8080 serving/ui_app.py
 
 
-# # Fast API docker image
-# FROM base AS app-fastapi
-# CMD uvicorn --host 0.0.0.0 --port 8080 --workers 4 serving.fast_api:app 
+# Fast API docker image
+FROM base AS app-fastapi
+CMD uvicorn --host 0.0.0.0 --port 8080 --workers 4 serving.fast_api:app 
 
 
 # FROM base AS app-seldon

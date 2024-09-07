@@ -34,7 +34,7 @@ class Predictor:
     def predict(self, text: List[str]):
         text_encoded = self.tokenizer.batch_encode_plus(list(text), return_tensors="pt", padding=True)
         bert_outputs = self.model(**text_encoded).logits
-        return softmax(bert_outputs).numpy()
+        return softmax(bert_outputs, dim=-1).numpy()
 
     @classmethod
     def default_from_model_registry(cls) -> "Predictor":

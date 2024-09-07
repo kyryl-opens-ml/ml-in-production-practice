@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-streamlit
-          image: kyrylprojector/app-streamlit:latest
+          image: ghcr.io/kyryl-opens-ml/app-streamlit:latest
           env:
           - name: WANDB_API_KEY
             valueFrom:
