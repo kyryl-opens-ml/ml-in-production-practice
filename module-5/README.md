@@ -2,29 +2,29 @@
 
 ![alt text](./../docs/serving.jpg)
 
-# Practice 
+# Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+***
 
 # Reference implementation
 
-*** 
+***
 
 
 
-# Setup 
+# Setup
 
-Create kind cluster 
+Create kind cluster
 
+```bash
+kind create cluster --name ml-in-production
 ```
-kind create cluster --name ml-in-production-course-week-5
-```
 
-Run k9s 
+Run k9s
 
-```
+```bash
 k9s -A
 ```
 
@@ -33,7 +33,7 @@ k9s -A
 
 
 ```
-export WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
+export WANDB_API_KEY='put your key'
 ```
 
 
@@ -84,7 +84,7 @@ http POST http://0.0.0.0:8080/predict < samples.json
 pytest -ss ./tests
 ```
 
-# Triton 
+# Triton Inference Server 
 
 
 ```
@@ -101,6 +101,10 @@ tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example
 - https://github.com/NVIDIA/DeepLearningExamples/blob/master/PyTorch/LanguageModeling/BERT/triton/README.md
 - https://github.com/triton-inference-server/fastertransformer_backend
 - https://github.com/triton-inference-server/fastertransformer_backend
+
+
+
+
 
 # LLMs
 

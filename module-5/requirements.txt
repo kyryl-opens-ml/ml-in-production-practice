@@ -1,12 +1,10 @@
-gunicorn==22.0.0
-streamlit==1.36.0
-uvicorn==0.24.0.post1
-fastapi==0.111.0
-transformers==4.42.3
-datasets==2.14.6
-typer==0.9.0
-wandb==0.16.1
-kserve  
+transformers==4.44.2
+gunicorn==23.0.0
+streamlit==1.38.0
+uvicorn==0.21.1
+fastapi==0.109.2
+wandb==0.17.9
+kserve 
 # seldon-core==1.14.1
 # # kserve==0.10.1
 # # ray==2.0.0
