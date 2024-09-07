@@ -87,6 +87,7 @@ pytest -ss ./tests
 # Triton Inference Server 
 
 
+## PyTriton
 
 ```
 docker run -v $PWD:/dev_data --shm-size=1g --ulimit memlock=-1 --net=host --ulimit stack=67108864 -ti nvcr.io/nvidia/tritonserver:23.11-vllm-python-py3 /bin/bash
@@ -97,11 +98,6 @@ export WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
 tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example/
 
 ```
-
-
-- https://github.com/NVIDIA/DeepLearningExamples/blob/master/PyTorch/LanguageModeling/BERT/triton/README.md
-- https://github.com/triton-inference-server/fastertransformer_backend
-- https://github.com/triton-inference-server/fastertransformer_backend
 
 
 
@@ -122,7 +118,7 @@ tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example
 Install 
 
 ```
-curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
+curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.13/hack/quick_install.sh" | bash
 ```
 
 Deploy iris

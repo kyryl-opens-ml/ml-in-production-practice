@@ -1,22 +1,23 @@
+import logging
 import numpy as np
 from pytriton.client import ModelClient
 
-client = ModelClient("localhost", "predictor_a")
-print(client.model_config)
+
+def main():
+    sequence = np.array([
+        ["one day I will see the world"],
+        ["I would love to learn cook the Asian street food"],
+        ["Carnival in Rio de Janeiro"],
+        ["William Shakespeare was a great writer"],
+    ])
+    sequence = np.char.encode(sequence, "utf-8")
+
+    with ModelClient("0.0.0.0", "BART") as client:
+        result_dict = client.infer_batch(sequence)
+        for output_name, output_data in result_dict.items():
+            output_data = np.array2string(output_data, threshold=np.inf, max_line_width=np.inf, separator=",").replace("\n", "")
+            print(f"{output_name}: {output_data}.")
 
 
-sequence = np.array([
-    ["one day I will see the world"],
-])
-sequence = np.char.encode(sequence, "utf-8")
-
-result_dict = client.infer_batch(text=sequence)
-
-data = np.array([1, 2, ], dtype=np.float32)
-print(client.infer_sample(text="test"))
-
-
-# kill -SIGINT 424
-# Response like a list for an amazing engineers. Don’t add comments or overlap. Keep it concise.
-
-
+if __name__ == "__main__":
+    main()

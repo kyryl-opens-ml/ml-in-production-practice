@@ -98,3 +98,12 @@ jobs:
           push: true
           target: app-fastapi
           tags: ghcr.io/kyryl-opens-ml/app-fastapi:latest
+
+
+      - name: Build and push app-pytriton
+        uses: docker/build-push-action@v6
+        with:
+          context: module-5/
+          push: true
+          target: app-pytriton
+          tags: ghcr.io/kyryl-opens-ml/app-pytriton:latest
