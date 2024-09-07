@@ -33,7 +33,7 @@ k9s -A
 
 
 ```
-export WANDB_API_KEY='put your key'
+export WANDB_API_KEY='your key here'
 ```
 
 
@@ -86,21 +86,9 @@ pytest -ss ./tests
 
 # Triton Inference Server 
 
-
-## PyTriton
-
 ```
-docker run -v $PWD:/dev_data --shm-size=1g --ulimit memlock=-1 --net=host --ulimit stack=67108864 -ti nvcr.io/nvidia/tritonserver:23.11-vllm-python-py3 /bin/bash
-
-pip install -r /dev_data/requirements.txt
-export WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
-
-tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example/
-
+make run_pytriton
 ```
-
-
-
 
 
 # LLMs
