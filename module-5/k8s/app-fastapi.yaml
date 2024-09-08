@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-fastapi
-          image: kyrylprojector/app-fastapi:latest
+          image: ghcr.io/kyryl-opens-ml/app-fastapi:latest
           env:
           - name: WANDB_API_KEY
             valueFrom:

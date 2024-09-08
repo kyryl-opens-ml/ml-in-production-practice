@@ -22,7 +22,6 @@ def single_pred():
 
 def batch_pred():
     uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
-    
     if uploaded_file:
         dataframe = pd.read_csv(uploaded_file)
         st.write("Input dataframe")
@@ -34,12 +33,9 @@ def batch_pred():
 
 def main():
     st.header("UI serving demo")
-
     tab1, tab2 = st.tabs(["Single prediction", "Batch prediction"])
-
     with tab1:
         single_pred()
-
     with tab2:
         batch_pred()
 

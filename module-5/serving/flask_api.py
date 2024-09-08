@@ -7,7 +7,7 @@ predictor = Predictor.default_from_model_registry()
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    payload = request.json['text']
+    payload = request.json["text"]
     result = predictor.predict(payload)
     return jsonify(result)
 

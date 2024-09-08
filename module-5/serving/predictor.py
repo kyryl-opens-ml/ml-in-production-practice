@@ -12,7 +12,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 logger = logging.getLogger()
 
-MODEL_ID = "truskovskiyk/course-27-10-2023-week-3/airflow-pipeline:latest"
+MODEL_ID = "truskovskiyk/ml-in-production-practice/airflow-pipeline:latest"
 MODEL_PATH = "/tmp/model"
 MODEL_LOCK = ".lock-file"
 
@@ -34,14 +34,13 @@ class Predictor:
     def predict(self, text: List[str]):
         text_encoded = self.tokenizer.batch_encode_plus(list(text), return_tensors="pt", padding=True)
         bert_outputs = self.model(**text_encoded).logits
-        return softmax(bert_outputs).numpy()
+        return softmax(bert_outputs, dim=-1).numpy()
 
     @classmethod
     def default_from_model_registry(cls) -> "Predictor":
         with FileLock(MODEL_LOCK):
-            if not (Path(MODEL_PATH) / "pytorch_model.bin").exists():
+            if not (Path(MODEL_PATH) / "model.safetensors").exists():
                 load_from_registry(model_name=MODEL_ID, model_path=MODEL_PATH)
-
         return cls(model_load_path=MODEL_PATH)
 
     def run_inference_on_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:

@@ -2,29 +2,29 @@
 
 ![alt text](./../docs/serving.jpg)
 
-# Practice 
+# Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+***
 
 # Reference implementation
 
-*** 
+***
 
 
 
-# Setup 
+# Setup
 
-Create kind cluster 
+Create kind cluster
 
+```bash
+kind create cluster --name ml-in-production
 ```
-kind create cluster --name ml-in-production-course-week-5
-```
 
-Run k9s 
+Run k9s
 
-```
+```bash
 k9s -A
 ```
 
@@ -33,7 +33,7 @@ k9s -A
 
 
 ```
-export WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
+export WANDB_API_KEY='your key here'
 ```
 
 
@@ -77,30 +77,19 @@ kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8081:8080
 # Test 
 
 ```
-http POST http://0.0.0.0:8080/predict < samples.json
+curl -X POST -H "Content-Type: application/json" -d @data-samples/samples.json http://0.0.0.0:8080/predict
 ```
 
 ```
 pytest -ss ./tests
 ```
 
-# Triton 
-
-
-```
-docker run -v $PWD:/dev_data --shm-size=1g --ulimit memlock=-1 --net=host --ulimit stack=67108864 -ti nvcr.io/nvidia/tritonserver:23.11-vllm-python-py3 /bin/bash
-
-pip install -r /dev_data/requirements.txt
-export WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
-
-tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example/
+# Triton Inference Server 
 
 ```
+make run_pytriton
+```
 
-
-- https://github.com/NVIDIA/DeepLearningExamples/blob/master/PyTorch/LanguageModeling/BERT/triton/README.md
-- https://github.com/triton-inference-server/fastertransformer_backend
-- https://github.com/triton-inference-server/fastertransformer_backend
 
 # LLMs
 
@@ -117,17 +106,17 @@ tritonserver --http-port 5000 --model-repository /dev_data/triton-python-example
 Install 
 
 ```
-curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.11/hack/quick_install.sh" | bash
+curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.13/hack/quick_install.sh" | bash
 ```
 
-Deploy iris
+## IRIS
 
 ```
 kubectl create -f k8s/kserve-iris.yaml
 kubectl get inferenceservices sklearn-iris
 ```
 
-Port forward iris
+Port forward
 
 ```
 kubectl get svc --namespace istio-system
@@ -137,26 +126,11 @@ kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8080:80
 Call API
 
 ```
-kubectl get inferenceservice sklearn-iris
-SERVICE_HOSTNAME=$(kubectl get inferenceservice sklearn-iris -o jsonpath='{.status.url}' | cut -d "/" -f 3)
-
-export SERVICE_HOSTNAME=sklearn-iris.default.example.com
-export INGRESS_HOST=localhost
-export INGRESS_PORT=8080
-
-curl -v -H "Host: ${SERVICE_HOSTNAME}" -H "Content-Type: application/json" "http://${INGRESS_HOST}:${INGRESS_PORT}/v1/models/sklearn-iris:predict" -d @./iris-input.json
+curl -v -H "Host: sklearn-iris.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/sklearn-iris:predict" -d @data-samples/iris-input.json
 ```
 
-Load test 
+## Custom
 
-
-```
-kubectl create -f https://raw.githubusercontent.com/kserve/kserve/release-0.11/docs/samples/v1beta1/sklearn/v1/perf.yaml
-```
-
-
-
-Custom model 
 
 - https://kserve.github.io/website/latest/modelserving/v1beta1/custom/custom_model/#build-custom-serving-image-with-buildpacks
 
@@ -165,7 +139,7 @@ docker build -f Dockerfile -t kyrylprojector/custom-model:latest --target app-ks
 docker push kyrylprojector/custom-model:latest
 
 docker run -e PORT=8080 -p 5000:8080 kyrylprojector/custom-model:latest
-curl localhost:5000/v1/models/custom-model:predict -d @./kserve-input.json
+curl localhost:5000/v1/models/custom-model:predict -d @data-samples/kserve-input.json
 
 
 kubectl create -f k8s/kserve-custom.yaml
