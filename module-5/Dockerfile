@@ -1,4 +1,3 @@
-# FROM huggingface/transformers-pytorch-gpu:4.35.2 as base
 FROM python:3.11 as base
 
 WORKDIR /app
@@ -29,5 +28,4 @@ CMD python serving/pytriton_serving.py
 
 
 FROM base AS app-kserve
-ENV WANDB_API_KEY=cb86168a2e8db7edb905da69307450f5e7867d66
 ENTRYPOINT ["python", "serving/kserve_api.py"]

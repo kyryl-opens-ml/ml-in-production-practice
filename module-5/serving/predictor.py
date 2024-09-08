@@ -41,7 +41,6 @@ class Predictor:
         with FileLock(MODEL_LOCK):
             if not (Path(MODEL_PATH) / "model.safetensors").exists():
                 load_from_registry(model_name=MODEL_ID, model_path=MODEL_PATH)
-
         return cls(model_load_path=MODEL_PATH)
 
     def run_inference_on_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:

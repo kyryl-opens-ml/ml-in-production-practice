@@ -26,15 +26,18 @@ def _infer_fn(text: np.ndarray):
 
 
 def main():
-
     with Triton() as triton:
-        logger.info("Loading BART model.")
+        logger.info("Loading models.")
         triton.bind(
             model_name="predictor_a",
             infer_func=_infer_fn,
-            inputs=[Tensor(name="text", dtype=bytes, shape=(-1,)),],
-            outputs=[Tensor(name="probs", dtype=np.float32, shape=(-1,)),],            
-            config=ModelConfig(max_batch_size=1),
+            inputs=[
+                Tensor(name="text", dtype=bytes, shape=(-1,)),
+            ],
+            outputs=[
+                Tensor(name="probs", dtype=np.float32, shape=(-1,)),
+            ],
+            config=ModelConfig(max_batch_size=4),
         )
         logger.info("Serving inference")
         triton.serve()
