@@ -33,7 +33,7 @@ jobs:
 
       - name: Print pods
         run: |
-          kubectl wait --for=condition=available --timeout=90s deployment/deployments-app-web
+          kubectl wait --for=condition=available --timeout=180s deployment/deployments-app-web
 
       - name: Print pods
         run: |
