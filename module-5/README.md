@@ -73,7 +73,6 @@ kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8081:8080
 ```
 
 
-
 # Test 
 
 ```
