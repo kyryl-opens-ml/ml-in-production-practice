@@ -15,8 +15,11 @@ class CustomModel(Model):
         self.ready = True
 
     def predict(self, payload: Dict, headers: Dict[str, str] = None) -> Dict:
-        json_payload = json.loads(payload.decode("utf-8"))
-        instances = json_payload["instances"]
+        print(payload)
+        print(type(payload))
+        # json_payload = json.loads(payload.decode("utf-8"))
+        # instances = json_payload["instances"]
+        instances = payload["instances"]
         predictions = self.predictor.predict(instances)
         return {"predictions": predictions.tolist()}
 

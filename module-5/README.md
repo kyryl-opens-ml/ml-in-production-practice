@@ -102,11 +102,37 @@ make run_pytriton
 
 # KServe 
 
-Install 
+Install KServe
 
 ```
 curl -s "https://raw.githubusercontent.com/kserve/kserve/release-0.13/hack/quick_install.sh" | bash
 ```
+
+Deploy custom model
+
+```
+kubectl create -f ./k8s/kserve-inferenceserver.yaml
+```
+
+Call API 
+
+```
+kubectl get inferenceservices custom-model
+kubectl get svc --namespace istio-system
+kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8080:80
+
+curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/custom-model:predict" -d @data-samples/iris-input.json
+
+```
+
+
+# Seldon V2 
+
+```
+git clone https://github.com/SeldonIO/seldon-core --branch=v2
+```
+
+
 
 ## IRIS
 

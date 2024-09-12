@@ -1,0 +1,15 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: custom-model
+spec:
+  predictor:
+    containers:
+      - name: kserve-container
+        image: ghcr.io/kyryl-opens-ml/app-kserve:latest
+        env:
+        - name: WANDB_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wandb
+              key: WANDB_API_KEY
