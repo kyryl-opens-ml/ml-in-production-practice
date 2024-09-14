@@ -1,6 +1,1 @@
-{
-  "instances": [
-    "good",
-    "bad"
-  ]
-}
+{"instances": ["good", "bad123"]}

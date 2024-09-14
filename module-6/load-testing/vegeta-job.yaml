@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vegeta-cfg
+data:
+  cfg: |
+    POST http://app-fastapi.default.svc.cluster.local:8080/predict
+    Content-Type: application/json
+    @/var/vegeta/payload
+  payload: |
+    {
+      "text": [
+        "A rollercoaster of emotions with stunning visuals and remarkable performances. A must-see!",
+        "Despite its high production values, the plot is predictable and lacks originality.",
+        "An epic space opera that pulls you in with its intricate plot and complex characters.",
+        "Too reliant on CGI, and the storyline feels disjointed and hard to follow.",
+        "An extraordinary cinematic experience that beautifully captures the human spirit.",
+        "The pacing is too slow, and it tends to feel more like a documentary than a feature film.",
+        "A superb adaptation with a gripping plot and fascinating characters. Truly unforgettable.",
+        "Though the scenery is beautiful, the characters feel flat and the storyline lacks depth.",
+        "A touching story of love and loss, paired with phenomenal acting. It will leave you teary-eyed.",
+        "The script is clichéd, and the chemistry between the lead actors feels forced."
+      ]
+    }
+---    
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: load-test-
+spec:
+  backoffLimit: 6
+  parallelism: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: vegeta
+        image: peterevans/vegeta:latest
+        imagePullPolicy: Always
+        command:
+        - sh
+        - -c
+        args:
+        - vegeta -cpus=2 attack -duration=1m -rate=100/1s -targets=/var/vegeta/cfg | vegeta report -type=text
+        volumeMounts:
+        - name: vegeta-cfg
+          mountPath: /var/vegeta
+      volumes:
+      - name: vegeta-cfg
+        configMap:
+          name: vegeta-cfg
+          defaultMode: 420    

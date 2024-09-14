@@ -59,4 +59,4 @@ jobs:
           context: module-5/
           push: true
           target: app-kserve
-          tags: ghcr.io/kyryl-opens-ml/app-kserve:latest          
+          tags: ghcr.io/kyryl-opens-ml/app-kserve:latest

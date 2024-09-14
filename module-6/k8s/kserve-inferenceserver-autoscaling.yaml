@@ -1,0 +1,18 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: custom-model-autoscaling
+spec:
+  predictor:
+    scaleTarget: 1
+    scaleMetric: concurrency  
+    containers:
+      - name: kserve-container
+        image: ghcr.io/kyryl-opens-ml/app-kserve:latest
+        imagePullPolicy: Always
+        env:
+        - name: WANDB_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wandb
+              key: WANDB_API_KEY
