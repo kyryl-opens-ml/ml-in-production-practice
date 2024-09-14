@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-triton
-          image: ghcr.io/kyryl-opens-ml/app-triton:latest
+          image: ghcr.io/kyryl-opens-ml/app-pytriton:latest
           env:
           - name: WANDB_API_KEY
             valueFrom:
