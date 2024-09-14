@@ -117,12 +117,7 @@ kubectl create -f ./k8s/kserve-inferenceserver.yaml
 Call API 
 
 ```
-kubectl get inferenceservices custom-model
-kubectl get svc --namespace istio-system
-kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8080:80
-
-curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/custom-model:predict" -d @data-samples/iris-input.json
-
+curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/custom-model:predict" -d @data-samples/kserve-input.json
 ```
 
 
@@ -131,50 +126,6 @@ curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: applicatio
 ```
 git clone https://github.com/SeldonIO/seldon-core --branch=v2
 ```
-
-
-
-## IRIS
-
-```
-kubectl create -f k8s/kserve-iris.yaml
-kubectl get inferenceservices sklearn-iris
-```
-
-Port forward
-
-```
-kubectl get svc --namespace istio-system
-kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8080:80
-```
-
-Call API
-
-```
-curl -v -H "Host: sklearn-iris.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/sklearn-iris:predict" -d @data-samples/iris-input.json
-```
-
-## Custom
-
-
-- https://kserve.github.io/website/latest/modelserving/v1beta1/custom/custom_model/#build-custom-serving-image-with-buildpacks
-
-```
-docker build -f Dockerfile -t kyrylprojector/custom-model:latest --target app-kserve .
-docker push kyrylprojector/custom-model:latest
-
-docker run -e PORT=8080 -p 5000:8080 kyrylprojector/custom-model:latest
-curl localhost:5000/v1/models/custom-model:predict -d @data-samples/kserve-input.json
-
-
-kubectl create -f k8s/kserve-custom.yaml
-kubectl get inferenceservice custom-model
-SERVICE_HOSTNAME=$(kubectl get inferenceservice custom-model -o jsonpath='{.status.url}' | cut -d "/" -f 3)
-export INGRESS_HOST=localhost
-export INGRESS_PORT=8080
-curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://${INGRESS_HOST}:${INGRESS_PORT}/v1/models/custom-model:predict" -d @./kserve-input.json
-```
-
 
 
 # Seldon V1
@@ -198,15 +149,6 @@ helm install seldon-core seldon-core-operator --version 1.15.1 --repo https://st
 kubectl port-forward  --address 0.0.0.0 -n ambassador svc/ambassador 7777:80
 ```
 
-## Simple example
-```
-kubectl create -f k8s/seldon-iris.yaml
-
-open http://IP:7777/seldon/default/iris-model/api/v1.0/doc/#/
-{ "data": { "ndarray": [[1,2,3,4]] } }
-
-curl -X POST "http://IP:7777/seldon/default/iris-model/api/v1.0/predictions" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"data\":{\"ndarray\":[[1,2,3,4]]}}"
-```
 
 ## Custom example
 ```
