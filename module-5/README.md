@@ -13,7 +13,6 @@
 ***
 
 
-
 # Setup
 
 Create kind cluster
@@ -50,7 +49,7 @@ Deploy k8s:
 
 ```
 kubectl create -f k8s/app-streamlit.yaml
-kubectl port-forward --address 0.0.0.0 svc/app-streamlit 8081:8080
+kubectl port-forward --address 0.0.0.0 svc/app-streamlit 8080:8080
 ```
 
 # Fast API
@@ -65,7 +64,7 @@ Deploy k8s:
 
 ```
 kubectl create -f k8s/app-fastapi.yaml
-kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8081:8080
+kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8080:8080
 ```
 
 
@@ -84,16 +83,6 @@ pytest -ss ./tests
 ```
 make run_pytriton
 ```
-
-
-# LLMs
-
-
-- https://github.com/vllm-project/vllm
-- https://github.com/huggingface/text-generation-inference
-- https://github.com/predibase/lorax
-- https://github.com/triton-inference-server/vllm_backend
-- https://github.com/ray-project/ray-llm
 
 
 # KServe 
@@ -115,3 +104,66 @@ Call API
 ```
 curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/custom-model:predict" -d @data-samples/kserve-input.json
 ```
+
+
+# Serving LLMs via vLLM
+
+
+Run server 
+
+```
+mkdir -p vllm-storage
+export VLLM_ALLOW_RUNTIME_LORA_UPDATING=True
+vllm serve microsoft/Phi-3-mini-4k-instruct --dtype auto --max-model-len 512 --enable-lora --gpu-memory-utilization 0.8 --download-dir ./vllm-storage
+```
+
+
+Run client 
+
+Get list of models:
+
+```
+python serving-llm/client.py list-of-models
+```
+
+
+Add custom adapter:
+
+```
+python serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
+python serving-llm/client.py load-adapter sql-default-model ./sql-default-model
+python serving-llm/client.py list-of-models
+```
+
+
+Test client:
+
+```
+python serving-llm/client.py test-client microsoft/Phi-3-mini-4k-instruct
+python serving-llm/client.py test-client sql-default-model
+```
+
+
+Deploy 
+
+Run K8S with GPUs
+
+```
+ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+minikube start --driver docker --container-runtime docker --gpus all
+```
+
+Create deployment 
+
+```
+kubectl create -f ./k8s/vllm-inference.yaml
+kubectl port-forward --address 0.0.0.0 svc/app-vllm 8000:8000
+kubectl logs <POD> -c model-loader
+kubectl logs <POD> -c app-vllm
+```
+
+
+## Updated design doc
+
+[Google doc](https://docs.google.com/document/d/1ZCnnsnHHiDkc3FgK2XBVur9W7nkDA7SKoPd1pGa-irQ/edit?usp=sharing)

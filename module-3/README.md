@@ -90,3 +90,8 @@ python generative-api/pipeline_phi3.py ./data/test.json
 
 - https://github.com/microsoft/nni
 - https://github.com/autogluon/autogluon
+
+
+## Updated design doc
+
+[Google doc](https://docs.google.com/document/d/1vkjE5QohSkxkcWCWahciqR43K4RjCjXMpixx3hoYjXo/edit?usp=sharing)

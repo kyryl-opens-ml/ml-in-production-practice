@@ -8,7 +8,7 @@ env = {
     "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
     "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
 }
-custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/generative-example:pr-11").env(env)
+custom_image = Image.from_registry("ghcr.io/kyryl-opens-ml/generative-example:main").env(env)
 
 
 @app.function(image=custom_image, gpu="A100", timeout=10 * 60 * 60)

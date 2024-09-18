@@ -4,7 +4,8 @@ streamlit==1.38.0
 uvicorn==0.21.1
 fastapi==0.109.2
 wandb==0.17.9
-kserve 
+kserve==0.13.1
 torch==2.4.1
 nvidia_pytriton==0.5.10
-ipython
+openai==1.46.0
+ipython==8.27.0

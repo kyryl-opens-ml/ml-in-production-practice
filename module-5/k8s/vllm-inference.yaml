@@ -1,0 +1,117 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vllm-storage-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: standard
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-vllm
+  template:
+    metadata:
+      labels:
+        app: app-vllm
+    spec:
+      containers:
+        - name: app-vllm
+          image: vllm/vllm-openai:latest
+          env:
+            - name: VLLM_ALLOW_RUNTIME_LORA_UPDATING
+              value: "True"
+          command: ["vllm"]
+          args:
+            - "serve"
+            - "microsoft/Phi-3-mini-4k-instruct"
+            - "--dtype"
+            - "auto"
+            - "--max-model-len"
+            - "512"
+            - "--enable-lora"
+            - "--gpu-memory-utilization"
+            - "0.8"
+            - "--download-dir"
+            - "/vllm-storage"
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+            requests:
+              nvidia.com/gpu: 1
+          volumeMounts:
+            - name: vllm-storage
+              mountPath: /vllm-storage
+
+        - name: model-loader
+          image: ghcr.io/kyryl-opens-ml/app-fastapi:latest
+          env:
+            - name: WANDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wandb
+                  key: WANDB_API_KEY
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Model Loader: Waiting for vllm server to be available on port 8000..."
+              while ! curl -s http://localhost:8000/health >/dev/null; do
+                echo "Model Loader: vllm server not available yet. Retrying in 5 seconds..."
+                sleep 5
+              done
+              echo "Model Loader: vllm server is now available. Starting model loading..."
+              
+              # Execute the required Python commands
+              python serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
+              if [ $? -ne 0 ]; then
+                echo "Model Loader: Failed to load model from registry."
+                exit 1
+              fi
+              
+              python serving-llm/client.py load-adapter sql-default-model ./sql-default-model
+              if [ $? -ne 0 ]; then
+                echo "Model Loader: Failed to load adapter."
+                exit 1
+              fi
+              
+              echo "Model Loader: Model loading completed successfully."
+          volumeMounts:
+            - name: vllm-storage
+              mountPath: /vllm-storage
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+
+      volumes:
+        - name: vllm-storage
+          persistentVolumeClaim:
+            claimName: vllm-storage-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-vllm
+  labels:
+    app: app-vllm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: app-vllm
