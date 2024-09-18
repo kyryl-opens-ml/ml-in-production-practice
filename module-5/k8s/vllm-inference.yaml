@@ -52,6 +52,50 @@ spec:
           volumeMounts:
             - name: vllm-storage
               mountPath: /vllm-storage
+
+        - name: model-loader
+          image: ghcr.io/kyryl-opens-ml/app-fastapi:latest
+          env:
+            - name: WANDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wandb
+                  key: WANDB_API_KEY
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Model Loader: Waiting for vllm server to be available on port 8000..."
+              while ! curl -s http://localhost:8000/health >/dev/null; do
+                echo "Model Loader: vllm server not available yet. Retrying in 5 seconds..."
+                sleep 5
+              done
+              echo "Model Loader: vllm server is now available. Starting model loading..."
+              
+              # Execute the required Python commands
+              python serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
+              if [ $? -ne 0 ]; then
+                echo "Model Loader: Failed to load model from registry."
+                exit 1
+              fi
+              
+              python serving-llm/client.py load-adapter sql-default-model ./sql-default-model
+              if [ $? -ne 0 ]; then
+                echo "Model Loader: Failed to load adapter."
+                exit 1
+              fi
+              
+              echo "Model Loader: Model loading completed successfully."
+          volumeMounts:
+            - name: vllm-storage
+              mountPath: /vllm-storage
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+
       volumes:
         - name: vllm-storage
           persistentVolumeClaim:

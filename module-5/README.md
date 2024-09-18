@@ -13,7 +13,6 @@
 ***
 
 
-
 # Setup
 
 Create kind cluster
@@ -50,7 +49,7 @@ Deploy k8s:
 
 ```
 kubectl create -f k8s/app-streamlit.yaml
-kubectl port-forward --address 0.0.0.0 svc/app-streamlit 8081:8080
+kubectl port-forward --address 0.0.0.0 svc/app-streamlit 8080:8080
 ```
 
 # Fast API
@@ -65,7 +64,7 @@ Deploy k8s:
 
 ```
 kubectl create -f k8s/app-fastapi.yaml
-kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8081:8080
+kubectl port-forward --address 0.0.0.0 svc/app-fastapi 8080:8080
 ```
 
 
@@ -160,6 +159,8 @@ Create deployment
 ```
 kubectl create -f ./k8s/vllm-inference.yaml
 kubectl port-forward --address 0.0.0.0 svc/app-vllm 8000:8000
+kubectl logs <POD> -c model-loader
+kubectl logs <POD> -c app-vllm
 ```
 
 
