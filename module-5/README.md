@@ -124,24 +124,24 @@ Run client
 Get list of models:
 
 ```
-python ml-in-production-practice/module-5/serving-llm/client.py list-of-models
+python serving-llm/client.py list-of-models
 ```
 
 
 Add custom adapter:
 
 ```
-python ml-in-production-practice/module-5/serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
-python ml-in-production-practice/module-5/serving-llm/client.py load-adapter sql-default-model ./sql-default-model
-python ml-in-production-practice/module-5/serving-llm/client.py list-of-models
+python serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
+python serving-llm/client.py load-adapter sql-default-model ./sql-default-model
+python serving-llm/client.py list-of-models
 ```
 
 
 Test client:
 
 ```
-python ml-in-production-practice/module-5/serving-llm/client.py test-client microsoft/Phi-3-mini-4k-instruct
-python ml-in-production-practice/module-5/serving-llm/client.py test-client sql-default-model
+python serving-llm/client.py test-client microsoft/Phi-3-mini-4k-instruct
+python serving-llm/client.py test-client sql-default-model
 ```
 
 
@@ -150,13 +150,16 @@ Deploy
 Run K8S with GPUs
 
 ```
+ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
 minikube start --driver docker --container-runtime docker --gpus all
 ```
 
 Create deployment 
 
 ```
-kubectl create -f 
+kubectl create -f ./k8s/vllm-inference.yaml
+kubectl port-forward --address 0.0.0.0 svc/app-vllm 8000:8000
 ```
 
 
