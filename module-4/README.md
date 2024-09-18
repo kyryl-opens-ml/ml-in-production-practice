@@ -158,3 +158,8 @@ dagster dev -f dagster_pipelines/text2sql_pipeline.py -p 3000 -h 0.0.0.0
 
 - [Introducing Asset Checks](https://dagster.io/blog/dagster-asset-checks)
 - [Anomaly Detection](https://dagster.io/glossary/anomaly-detection)
+
+
+## Updated design doc
+
+[Google doc](https://docs.google.com/document/d/1j9-RFCrLRQy54TsywHxvje56EuntAbUbSlw_POsWl5Q/edit?usp=sharing)

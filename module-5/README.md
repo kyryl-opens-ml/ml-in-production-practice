@@ -86,16 +86,6 @@ make run_pytriton
 ```
 
 
-# LLMs
-
-
-- https://github.com/vllm-project/vllm
-- https://github.com/huggingface/text-generation-inference
-- https://github.com/predibase/lorax
-- https://github.com/triton-inference-server/vllm_backend
-- https://github.com/ray-project/ray-llm
-
-
 # KServe 
 
 Install KServe
@@ -115,3 +105,24 @@ Call API
 ```
 curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/custom-model:predict" -d @data-samples/kserve-input.json
 ```
+
+
+# Serving LLMs via vLLM
+
+
+```
+export VLLM_ALLOW_RUNTIME_LORA_UPDATING=True
+vllm serve microsoft/Phi-3-mini-4k-instruct --dtype auto --max-model-len 512 --enable-lora --gpu-memory-utilization 0.8 
+
+
+
+
+vllm serve microsoft/Phi-3-mini-4k-instruct --enable-lora \
+    --lora-modules sql-lora=$HOME/.cache/huggingface/hub/models--yard1--llama-2-7b-sql-lora-test/snapshots/0dfa347e8877a4d4ed19ee56c140fa518470028c/
+
+    
+```
+
+## Updated design doc
+
+[Google doc](https://docs.google.com/document/d/1ZCnnsnHHiDkc3FgK2XBVur9W7nkDA7SKoPd1pGa-irQ/edit?usp=sharing)
