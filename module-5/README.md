@@ -110,18 +110,55 @@ curl -v -H "Host: custom-model.default.example.com" -H "Content-Type: applicatio
 # Serving LLMs via vLLM
 
 
+Run server 
+
 ```
+mkdir -p vllm-storage
 export VLLM_ALLOW_RUNTIME_LORA_UPDATING=True
-vllm serve microsoft/Phi-3-mini-4k-instruct --dtype auto --max-model-len 512 --enable-lora --gpu-memory-utilization 0.8 
-
-
-
-
-vllm serve microsoft/Phi-3-mini-4k-instruct --enable-lora \
-    --lora-modules sql-lora=$HOME/.cache/huggingface/hub/models--yard1--llama-2-7b-sql-lora-test/snapshots/0dfa347e8877a4d4ed19ee56c140fa518470028c/
-
-    
+vllm serve microsoft/Phi-3-mini-4k-instruct --dtype auto --max-model-len 512 --enable-lora --gpu-memory-utilization 0.8 --download-dir ./vllm-storage
 ```
+
+
+Run client 
+
+Get list of models:
+
+```
+python ml-in-production-practice/module-5/serving-llm/client.py list-of-models
+```
+
+
+Add custom adapter:
+
+```
+python ml-in-production-practice/module-5/serving-llm/client.py load-from-registry truskovskiyk/ml-in-production-practice/modal_generative_example:latest sql-default-model
+python ml-in-production-practice/module-5/serving-llm/client.py load-adapter sql-default-model ./sql-default-model
+python ml-in-production-practice/module-5/serving-llm/client.py list-of-models
+```
+
+
+Test client:
+
+```
+python ml-in-production-practice/module-5/serving-llm/client.py test-client microsoft/Phi-3-mini-4k-instruct
+python ml-in-production-practice/module-5/serving-llm/client.py test-client sql-default-model
+```
+
+
+Deploy 
+
+Run K8S with GPUs
+
+```
+minikube start --driver docker --container-runtime docker --gpus all
+```
+
+Create deployment 
+
+```
+kubectl create -f 
+```
+
 
 ## Updated design doc
 
