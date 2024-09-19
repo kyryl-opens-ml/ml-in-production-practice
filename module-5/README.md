@@ -99,6 +99,12 @@ Deploy custom model
 kubectl create -f ./k8s/kserve-inferenceserver.yaml
 ```
 
+Port forward via istio
+
+```
+kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8080:80
+```
+
 Call API 
 
 ```
@@ -149,7 +155,7 @@ Deploy
 Run K8S with GPUs
 
 ```
- curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
 sudo dpkg -i minikube_latest_amd64.deb
 minikube start --driver docker --container-runtime docker --gpus all
 ```
