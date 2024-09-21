@@ -21,14 +21,18 @@ jobs:
   ci-test-bash-code:
     runs-on: ubuntu-latest
     steps:
+      - name: Test ls before checkout 
+        run: |
+          ls -all .
+
       - name: Checkout 
         uses: actions/checkout@v4
 
       - name: Test echo
         run: |
-          echo 'test'
+          echo 'test  this is CI'
 
-      - name: Test ls
+      - name: Test ls after checkout 
         run: |
           ls -all .
 
