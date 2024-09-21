@@ -185,9 +185,9 @@ Kafka: https://kserve.github.io/website/master/modelserving/kafka/kafka/
 
 ### Quatization 
 
-Hardware: EC2 g5.4xlarge (1 GPU A10, 16 vCPU, 64 GB RAM, $1.624 hour) [docs](https://aws.amazon.com/ec2/instance-types/g5/)
-Concurrent users: 100
-Data: https://huggingface.co/datasets/gretelai/synthetic_text_to_sql
+- Hardware: EC2 g5.4xlarge (1 GPU A10, 16 vCPU, 64 GB RAM, $1.624 hour) [docs](https://aws.amazon.com/ec2/instance-types/g5/)
+- Concurrent users: 100
+- Data: https://huggingface.co/datasets/gretelai/synthetic_text_to_sql
 
 
 | Approach   |   Median Response Time |   95% |   98% |
