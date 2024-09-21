@@ -7,7 +7,6 @@ spec:
     containers:
       - name: kserve-container
         image: ghcr.io/kyryl-opens-ml/app-kserve:latest
-        imagePullPolicy: Always
         env:
         - name: WANDB_API_KEY
           valueFrom:

@@ -1,1 +1,5 @@
 node_modules
+smoothmq/
+tgi-quantization/raw_data/
+log.txt
+db.json

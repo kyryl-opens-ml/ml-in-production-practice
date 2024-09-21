@@ -139,38 +139,117 @@ seq 1 1000 | xargs -n1 -P10 -I {} curl -v -H "Host: custom-model-autoscaling.def
 # Async inferece 
 
 
-Simple example 
+#### Simple example 
 
 ```
 modal deploy ./queue/simple_queue.py
 python queue/simple_queue.py
 ```
 
+#### SQS example 
+
+Setup SQS
+
+```
+git clone https://github.com/poundifdef/smoothmq.git
+docker build -t sqs:latest ./smoothmq/
+docker run -p 3000:3000 -p 3001:3001 sqs:latest 
+```
+
+Run web
+```
+export AWS_ACCESS_KEY_ID=DEV_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=DEV_SECRET_ACCESS_KEY
+export AWS_DEFAULT_REGION=us-east-1
+
+python ./queue/sqs_queue.py run-api
+```
+
+Run worker
+
+```
+export AWS_ACCESS_KEY_ID=DEV_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=DEV_SECRET_ACCESS_KEY
+export AWS_DEFAULT_REGION=us-east-1
+
+python ./queue/sqs_queue.py run-worker
+```
+
 
 Seldon V2 Examples: https://docs.seldon.io/projects/seldon-core/en/v2/contents/architecture/index.html
-SQS: https://github.com/poundifdef/smoothmq 
 Kafka: https://kserve.github.io/website/master/modelserving/kafka/kafka/
 
 
 ## Model optimization
 
+
+### Quatization 
+
+Hardware: EC2 g5.4xlarge (1 GPU A10, 16 vCPU, 64 GB RAM, $1.624 hour) [docs](https://aws.amazon.com/ec2/instance-types/g5/)
+Concurrent users: 100
+Data: https://huggingface.co/datasets/gretelai/synthetic_text_to_sql
+
+
+| Approach   |   Median Response Time |   95% |   98% |
+|:-----------|-----------------------:|------:|------:|
+| default    |                   5600 |  6200 |  6300 |
+| eetq       |                   5000 |  5700 |  5900 |
+| fp8        |                   5000 |  5800 |  6000 |
+| 4-bit-nf4  |                   8500 |  9200 |  9400 |
+| 8-bit      |                  13000 | 14000 | 14000 |
+| 4-bit-fp4  |                   8600 |  9300 |  9400 |
+
+Add metrics & GPU unitization
+
+```bash
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/default.csv --html raw_data/default.html
+
+
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct --quantize eetq
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/eetq.csv --html raw_data/eetq.html
+
+
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct --quantize bitsandbytes 
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/8-bit.csv --html raw_data/8-bit.html
+
+
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct --quantize bitsandbytes-fp4
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/4-bit-fp4.csv --html raw_data/4-bit-fp4.html
+
+
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct --quantize bitsandbytes-nf4
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/4-bit-nf4.csv --html raw_data/4-bit-nf4.html
+
+
+docker run --gpus all --shm-size 1g -p 8005:80 -v $PWD/data:/data ghcr.io/huggingface/text-generation-inference:2.3.0 --model-id microsoft/Phi-3.5-mini-instruct --quantize fp8
+locust -f load_test.py -u 100 -r 10  --headless --run-time 5m --host=http://0.0.0.0:8005 --csv raw_data/fp8.csv --html raw_data/fp8.html
+```
+
+
+https://docs.vllm.ai/en/latest/quantization/supported_hardware.html
+https://huggingface.co/docs/text-generation-inference/en/conceptual/quantization
+https://www.adyen.com/knowledge-hub/llm-inference-at-scale-with-tgi
+
+
+### Accelerators
+
+https://modal.com/docs/examples/trtllm_llama
+
+
+### Distillation
+
+https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/distillation/eager
+
+### Pruning
+
+https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/eager
+
+
+
 - https://github.com/huggingface/transformers/tree/main/examples/research_projects/distillation
 - https://github.com/huggingface/distil-whisper/
-
 - https://github.com/intel/neural-compressor
 - https://github.com/neuralmagic/sparseml
+- https://github.com/microsoft/fastformers
 
-
-- https://github.com/huggingface/optimum-nvidia
-- https://github.com/huggingface/optimum-neuron
-- https://github.com/huggingface/optimum-intel
-- https://github.com/huggingface/optimum-habana
-- https://github.com/huggingface/optimum-amd
-
-- https://github.com/huggingface/text-generation-inference
-- https://github.com/huggingface/text-embeddings-inference
-
-- https://github.com/Dao-AILab/flash-attention
-- https://github.com/vllm-project/vllm
-- https://github.com/TimDettmers/bitsandbytes
-- https://github.com/huggingface/quanto
