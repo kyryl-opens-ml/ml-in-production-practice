@@ -19,7 +19,7 @@
 Create kind cluster 
 
 ```
-kind create cluster --name ml-in-production-course-week-7
+kind create cluster --name ml-in-production
 ```
 
 Run k9s 
