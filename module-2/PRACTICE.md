@@ -30,7 +30,7 @@
 - PR2: Develop a CRUD Python client for MinIO and accompany it with comprehensive tests.
 - PR3: Write code to benchmark various Pandas formats in terms of data saving/loading, focusing on load time and save time.
 - PR4: Create code to benchmark inference performance using single and multiple processes, and report the differences in time.
-- PR5: Develop code for converting your dataset into the StreamingDataset format.
+- PR5 (optional): Develop code for converting your dataset into the StreamingDataset format.
 - PR6: Write code for transforming your dataset into a vector format, and utilize VectorDB for ingestion and querying.
 - Google Doc: Update your proposal by adding a section on data storage and processing.
 
@@ -58,8 +58,8 @@
 - Google doc containing dataset labeling section: Estimate costs and time based on your experience labeling ~50 samples, provide instructions for future data labeling, and add a flow for data enrichment in production.
 - PR1: Commit your data with DVC into the GitHub repo.
 - PR2: Write code to deploy a labeling tool (e.g., Label Studio, Argilla), including README instructions.
-- PR3: Write code to generate a synthetic dataset with ChatGPT.
-- PR4: Write code to test your data after labeling (can use Cleanlab or Deepchecks).
+- PR3 (optional): Write code to generate a synthetic dataset with ChatGPT.
+- PR4 (optional): Write code to test your data after labeling (can use Cleanlab or Deepchecks).
 
 ## Criteria:
 

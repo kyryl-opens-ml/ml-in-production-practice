@@ -28,6 +28,56 @@ Run k9s
 k9s -A
 ```
 
+# LLM Observability
+
+https://docs.google.com/presentation/d/13ePQfvgSPioMmDN0OOQklvX7PQQ4RcEVCWm9ljum4aU/edit#slide=id.g2f7f3a46425_0_422
+
+
+## Apps
+
+Setup
+
+```
+export PYTHONPATH=llm-apps/AI-Scientist/
+export TRACELOOP_BASE_URL="http://localhost:4318"
+export OPENAI_API_KEY=sk-proj-****
+export LANGCHAIN_TRACING_V2=true
+export LANGCHAIN_API_KEY=lsv2_-****
+```
+
+Run SQL
+
+```
+python llm-apps/sql_app.py
+```
+
+Run AI-Scientist
+
+```
+python llm-apps/reviewer.py
+```
+
+## SigNoz 
+
+
+Install 
+
+```
+DEFAULT_STORAGE_CLASS=$(kubectl get storageclass -o=jsonpath='{.items[?(@.metadata.annotations.storageclass\.kubernetes\.io/is-default-class=="true")].metadata.name}')
+kubectl patch storageclass "$DEFAULT_STORAGE_CLASS" -p '{"allowVolumeExpansion": true}'
+
+helm repo add signoz https://charts.signoz.io
+helm repo list
+kubectl create ns platform
+helm --namespace platform install my-release signoz/signoz
+```
+
+Access:
+
+```
+kubectl --namespace platform port-forward svc/my-release-signoz-frontend 3301:3301
+kubectl --namespace platform port-forward svc/my-release-signoz-otel-collector 4318:4318
+```
 
 # Grafana 
 
@@ -128,25 +178,3 @@ seldon pipeline list
 
 - https://docs.seldon.io/projects/seldon-core/en/latest/analytics/outlier_detection.html
 - https://docs.seldon.io/projects/seldon-core/en/latest/analytics/drift_detection.html
-
-
-## LLM Observability
-
-- https://fullstackdeeplearning.com/llm-bootcamp/spring-2023/llmops/
-- https://www.gantry.io/
-- https://arize.com/
-- https://github.com/Arize-ai/phoenix
-- https://www.rungalileo.io/
-- https://www.vellum.ai/
-- https://smith.langchain.com
-- https://www.arthur.ai/
-- https://docs.wandb.ai/guides/weave/prod-mon
-- https://www.comet.com/site/
-- https://mlflow.org/
-- https://getnomos.com/
-- https://www.modo.ai/
-- https://www.nebuly.com/
-- https://github.com/traceloop/openllmetry
-- https://github.com/evidentlyai/ml_observability_course
-
-
