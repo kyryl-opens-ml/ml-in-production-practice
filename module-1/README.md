@@ -107,7 +107,7 @@ Check code in this file
 
 [CI example](./../.github/workflows/module-1.yaml)
 
-## Provides
+## Providers
 
 - [circleci](https://circleci.com/)
 - [GitHub Actions](https://docs.github.com/en/actions)
@@ -187,7 +187,7 @@ To access use port-forwarding
 kubectl port-forward svc/deployments-app-web 8080:8080
 ```
 
-## Provides 
+## Providers 
 
 - [EKS](https://aws.amazon.com/eks/)
 - [GKE](https://cloud.google.com/kubernetes-engine)
