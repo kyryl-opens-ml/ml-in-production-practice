@@ -17,3 +17,5 @@ for model in $(aws sagemaker list-models --query "Models[*].ModelName" --output 
     aws sagemaker delete-model --model-name $model
     echo "Deleted model: $model"
 done
+
+aws s3 rm s3://sagemaker-us-east-1-469651751916 --recursive
