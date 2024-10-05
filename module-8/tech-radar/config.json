@@ -1,0 +1,128 @@
+{
+    "date": "2024.10",
+    "entries": [
+      {
+        "quadrant": 2,
+        "ring": 0,
+        "label": "Modal",
+        "link": "https://kyrylai.com/2024/07/29/exploring-gpu-jobs-serverless-solutions-for-efficient-ml-experiments-part-1-2/",
+        "active": true,
+        "moved": 0
+      },
+      {
+        "quadrant": 2,
+        "ring": 0,
+        "label": "SageMaker Processing",
+        "link": "https://kyrylai.com/2024/07/29/exploring-gpu-jobs-serverless-solutions-for-efficient-ml-experiments-part-1-2/",
+        "active": true,
+        "moved": 0
+      },
+      {
+        "quadrant": 2,
+        "ring": 3,
+        "label": "SageMaker Training",
+        "link": "https://kyrylai.com/2024/07/29/exploring-gpu-jobs-serverless-solutions-for-efficient-ml-experiments-part-1-2/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 2,
+        "ring": 3,
+        "label": "VertexAI Training",
+        "link": "https://kyrylai.com/2024/07/29/exploring-gpu-jobs-serverless-solutions-for-efficient-ml-experiments-part-1-2/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 0,
+        "label": "S3",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 0,
+        "label": "PostgreSQL",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+      {
+        "quadrant": 3,
+        "ring": 1,
+        "label": "Argilla",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 0,
+        "label": "Supabase",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 2,
+        "label": "Qdrant",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 2,
+        "label": "Weaviate",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 3,
+        "ring": 1,
+        "label": "LanceDB",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 1,
+        "ring": 0,
+        "label": "Triton",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 1,
+        "ring": 3,
+        "label": "Seldon",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      },
+
+      {
+        "quadrant": 0,
+        "ring": 0,
+        "label": "W&D",
+        "link": "https://kyrylai.com/2024/09/09/remove-complexity-from-your-rag-applications/",
+        "active": true,
+        "moved": 0
+      }
+
+    ]
+  }
