@@ -113,7 +113,7 @@ kubectl autoscale deployment app-fastapi --cpu-percent=50 --min=1 --max=10
 Create from yaml
 
 ```
-kubectl create -f ./k8s/fastapi-hpa.yaml
+kubectl create -f ./k8s/app-fastapi-hpa.yaml
 ```
 
 
@@ -190,7 +190,7 @@ Kafka: https://kserve.github.io/website/master/modelserving/kafka/kafka/
 - Data: https://huggingface.co/datasets/gretelai/synthetic_text_to_sql
 
 
-| Approach   |   Median Response Time |   95% |   98% |
+| Approach   |   Median Response Time |   95% |   98% | F1
 |:-----------|-----------------------:|------:|------:|
 | default    |                   5600 |  6200 |  6300 |
 | eetq       |                   5000 |  5700 |  5900 |
