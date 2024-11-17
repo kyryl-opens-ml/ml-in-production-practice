@@ -68,15 +68,14 @@ kubectl patch storageclass "$DEFAULT_STORAGE_CLASS" -p '{"allowVolumeExpansion":
 
 helm repo add signoz https://charts.signoz.io
 helm repo list
-kubectl create ns platform
-helm --namespace platform install my-release signoz/signoz
+helm install my-release signoz/signoz
 ```
 
 Access:
 
 ```
-kubectl --namespace platform port-forward svc/my-release-signoz-frontend 3301:3301
-kubectl --namespace platform port-forward svc/my-release-signoz-otel-collector 4318:4318
+kubectl port-forward svc/my-release-signoz-frontend 3301:3301
+kubectl port-forward svc/my-release-signoz-otel-collector 4318:4318
 ```
 
 # Grafana 

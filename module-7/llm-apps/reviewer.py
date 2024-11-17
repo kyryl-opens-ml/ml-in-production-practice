@@ -36,18 +36,18 @@ def run_pipeline():
 
     paper_pdf_path = "llm-apps/2408.06292v2_no_appendix.pdf"
 
-    # console.print("1. Agentops", style="bold green")
-    # agentops.init()
-    # client_agentops = openai.Client()
-    # result = review_paper(paper_pdf_path=paper_pdf_path, client=client_agentops)
-    # agentops.end_session()
+    console.print("1. Agentops", style="bold green")
+    agentops.init()
+    client_agentops = openai.Client()
+    result = review_paper(paper_pdf_path=paper_pdf_path, client=client_agentops)
+    agentops.end_all_sessions()
 
-    # console.print("2. LangSmith", style="bold green")
-    # client_lang_smith = wrap_openai(openai.Client())
-    # result = review_paper(paper_pdf_path=paper_pdf_path, client=client_lang_smith)
+    console.print("2. LangSmith", style="bold green")
+    client_lang_smith = wrap_openai(openai.Client(base_url='gemini'))
+    result = review_paper(paper_pdf_path=paper_pdf_path, client=client_lang_smith)
 
     console.print("3. OpenllMetry", style="bold green")
-    Traceloop.init(app_name="ai-scientist-v2")    
+    Traceloop.init(app_name="ai-scientist")    
     client_traceloop = openai.Client()
     review_paper_traceloop = workflow(name="paper-review")(review_paper)
     result = review_paper_traceloop(paper_pdf_path=paper_pdf_path, client=client_traceloop)

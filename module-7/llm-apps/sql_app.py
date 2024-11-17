@@ -20,7 +20,7 @@ from traceloop.sdk.decorators import workflow
 console = Console()
 
 
-def get_random_datapint() -> Tuple[str, str]:
+def get_random_datapoint() -> Tuple[str, str]:
     dataset = load_dataset("gretelai/synthetic_text_to_sql", split='train')
     dataset_size = len(dataset)
 
@@ -58,20 +58,20 @@ def get_sql(query: str, context: str, client: OpenAI) -> str:
 
 def run_pipeline():
 
-    sql_context, sql_prompt = get_random_datapint()
+    sql_context, sql_prompt = get_random_datapoint()
 
-    # console.print("1. Agentops", style="bold green")
-    # agentops.init()
-    # client_agentops = openai.Client()
-    # result = get_sql(query=sql_prompt, context=sql_context, client=client_agentops)
-    # agentops.end_all_sessions()
+    console.print("1. Agentops", style="bold green")
+    agentops.init()
+    client_agentops = openai.Client()
+    result = get_sql(query=sql_prompt, context=sql_context, client=client_agentops)
+    agentops.end_all_sessions()
 
-    # console.print("2. LangSmith", style="bold green")
-    # client_lang_smith = wrap_openai(openai.Client())
-    # result = get_sql(query=sql_prompt, context=sql_context, client=client_lang_smith)
+    console.print("2. LangSmith", style="bold green")
+    client_lang_smith = wrap_openai(openai.Client())
+    result = get_sql(query=sql_prompt, context=sql_context, client=client_lang_smith)
 
     console.print("3. OpenllMetry", style="bold green")
-    Traceloop.init(app_name="text2sql-v2")    
+    Traceloop.init(app_name="text2sql")    
 
     client_traceloop = openai.Client()
     get_sql_traceloop = workflow(name="get_sql")(get_sql)
