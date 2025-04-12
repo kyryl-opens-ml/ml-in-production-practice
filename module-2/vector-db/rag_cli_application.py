@@ -1,13 +1,12 @@
-import typer
 import random
+
+import lancedb
+import typer
 from datasets import load_dataset
 from sentence_transformers import SentenceTransformer
-import lance
-import numpy as np
-import json
-import lancedb
 
 app = typer.Typer()
+MODEL_NAME = "paraphrase-MiniLM-L3-v2"
 
 
 @app.command()
@@ -15,7 +14,7 @@ def create_new_vector_db(
     table_name: str = "my-rag-app", number_of_documents: int = 1000, uri=".lancedb"
 ):
     dataset = load_dataset("b-mc2/sql-create-context")
-    model = SentenceTransformer("paraphrase-MiniLM-L3-v2")
+    model = SentenceTransformer(MODEL_NAME)
 
     docs = random.sample(list(dataset["train"]), k=number_of_documents)
 
@@ -50,7 +49,7 @@ def query_existing_vector_db(
     top_n: int = 1,
     uri=".lancedb",
 ):
-    model = SentenceTransformer("paraphrase-MiniLM-L3-v2")
+    model = SentenceTransformer(MODEL_NAME)
     query_embedding = model.encode(query)
 
     db = lancedb.connect(uri)

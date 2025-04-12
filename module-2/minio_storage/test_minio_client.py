@@ -1,8 +1,8 @@
-import pytest
 import uuid
 from pathlib import Path
-from minio_client import MinioClientNative
-from minio_client import MinioClientS3
+
+import pytest
+from minio_client import MinioClientNative, MinioClientS3
 
 
 @pytest.fixture()

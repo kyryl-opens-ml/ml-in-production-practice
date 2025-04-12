@@ -1,14 +1,14 @@
-import numpy as np
-from sklearn.dummy import DummyClassifier
 import concurrent.futures
-from typing import Tuple
 import time
-from tqdm import tqdm
 from concurrent.futures import wait
-import time
-import typer
+from typing import Tuple
+
+import numpy as np
 import ray
+import typer
 from dask.distributed import Client
+from sklearn.dummy import DummyClassifier
+from tqdm import tqdm
 
 
 def train_model(x_train: np.ndarray, y_train: np.ndarray) -> DummyClassifier:
@@ -155,7 +155,7 @@ def run_pool(inference_size: int = 100_000_000, max_workers: int = 16):
 
 
 def run_ray(inference_size: int = 100_000_000, max_workers: int = 16):
-    ray.init(include_dashboard=True, dashboard_host='127.0.0.1', dashboard_port=5000)
+    ray.init(include_dashboard=True, dashboard_host="127.0.0.1", dashboard_port=5000)
 
     x_train, y_train, x_test = get_data(inference_size=inference_size)
     model = train_model(x_train, y_train)
@@ -163,6 +163,7 @@ def run_ray(inference_size: int = 100_000_000, max_workers: int = 16):
     s = time.monotonic()
     res = run_inference_ray_main(model=model, x_test=x_test, max_workers=max_workers)
     print(f"Inference with Ray {time.monotonic() - s} result: {res.shape}")
+
 
 def run_dask(inference_size: int = 100_000_000, max_workers: int = 16):
     client = Client()

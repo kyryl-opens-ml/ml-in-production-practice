@@ -215,5 +215,5 @@ open https://railway.app/
 uv add modal
 modal token new
 uv run modal run -d ./modal-examples/modal_hello_world.py
-uv run modal run -d ./modal-examples/modal_hello_world_training.py
+uv run modal run -d ./modal-examples/modal_hello_world_training.py::function_calling_finetune
 ```

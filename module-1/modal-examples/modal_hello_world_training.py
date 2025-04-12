@@ -24,8 +24,8 @@ with image.imports():
 
 DATASET_NAME = "Jofthomas/hermes-function-calling-thinking-V1"
 USERNAME = "truskovskiyk"
-MODEL_NAME = "google/gemma-3-1b-it"
-OUTPUT_DIR = "gemma-3-1b-it-function-calling"
+MODEL_NAME = "google/gemma-3-4b-it"
+OUTPUT_DIR = "gemma-3-4b-it-function-calling"
 
 @app.function(
     image=image,

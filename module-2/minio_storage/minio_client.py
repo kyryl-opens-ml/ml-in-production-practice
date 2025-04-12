@@ -1,7 +1,8 @@
-from pathlib import Path
-from minio import Minio
-import s3fs
 import os
+from pathlib import Path
+
+import s3fs
+from minio import Minio
 
 ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
 SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
