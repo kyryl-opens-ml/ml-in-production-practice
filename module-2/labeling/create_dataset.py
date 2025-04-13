@@ -5,22 +5,22 @@ import argilla as rg
 client = rg.Argilla(api_url="http://0.0.0.0:6900", api_key="argilla.apikey")
 WORKSPACE_NAME = "admin"
 
-def create_workspace():
-    workspaces = client.workspaces
-    if WORKSPACE_NAME not in workspaces:
-        workspace = rg.Workspace(name=WORKSPACE_NAME, client=client)
-        workspace.create()
+# def create_workspace():
+#     workspaces = client.workspaces
+#     if WORKSPACE_NAME not in workspaces:
+#         workspace = rg.Workspace(name=WORKSPACE_NAME, client=client)
+#         workspace.create()
 
 
 
 def create_text2sql_dataset():
-    create_workspace()
+    # create_workspace()
     
     guidelines = """
     Please examine the given SQL question and context. Write the correct SQL query that accurately answers the question based on the context provided. Ensure the query follows SQL syntax and logic correctly.
     """
 
-    dataset_name = "text2sql"
+    dataset_name = "text2sql-123"
 
     settings = rg.Settings(
         guidelines=guidelines,

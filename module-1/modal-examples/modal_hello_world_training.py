@@ -29,6 +29,7 @@ OUTPUT_DIR = "gemma-3-4b-it-function-calling"
 
 @app.function(
     image=image,
+    cloud="aws",
     gpu="H200",
     timeout=86400,
     secrets=[modal.Secret.from_name("training-config")]

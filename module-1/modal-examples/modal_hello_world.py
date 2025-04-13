@@ -1,5 +1,4 @@
 import sys
-
 import modal
 
 app = modal.App("ml-in-production-module-1")
@@ -15,8 +14,6 @@ def f(i):
 
 @app.local_entrypoint()
 def main():
-    # run the function locally
-    print(f.local(1000))
 
     # run the function remotely on Modal
     print(f.remote(1000))

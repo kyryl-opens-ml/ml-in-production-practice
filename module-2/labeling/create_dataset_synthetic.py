@@ -11,11 +11,11 @@ import argilla as rg
 client = rg.Argilla(api_url="http://0.0.0.0:6900", api_key="argilla.apikey")
 WORKSPACE_NAME = "admin"
 
-def create_workspace():
-    workspaces = client.workspaces
-    if WORKSPACE_NAME not in workspaces:
-        workspace = rg.Workspace(name=WORKSPACE_NAME, client=client)
-        workspace.create()
+# def create_workspace():
+#     workspaces = client.workspaces
+#     if WORKSPACE_NAME not in workspaces:
+#         workspace = rg.Workspace(name=WORKSPACE_NAME, client=client)
+#         workspace.create()
 
 
 
@@ -87,7 +87,7 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
 	- Run sqlite3 chinook.db.
     """
 
-    dataset_name = "text2sql-chinook-synthetic"
+    dataset_name = "text2sql-chinook-synthetic-123"
     settings = rg.Settings(
         guidelines=guidelines,
         fields=[
@@ -108,8 +108,8 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
             ),
         ],
         questions=[
-            rg.TextQuestion(
-                name="sql",
+            rg.BooleanQuestion(
+                name="valid",
                 title="Please write SQL for this query",
                 description="Please write SQL for this query",
                 required=True,
