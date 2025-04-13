@@ -1,0 +1,21 @@
+[project]
+name = "module-2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "argilla>=2.8.0",
+    "datasets>=3.5.0",
+    "duckdb>=1.2.2",
+    "ipython>=9.1.0",
+    "lancedb>=0.21.2",
+    "mcp[cli]>=1.6.0",
+    "modal>=0.73.166",
+    "openai>=1.72.0",
+    "openai-agents>=0.0.9",
+    "retry>=0.9.2",
+    "ruff>=0.11.5",
+    "sentence-transformers>=4.0.2",
+    "typer>=0.15.2",
+]

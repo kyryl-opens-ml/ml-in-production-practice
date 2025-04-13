@@ -1,11 +1,10 @@
-import numpy as np
-from PIL import Image
-from streaming import MDSWriter
-import typer
-from torch.utils.data import DataLoader
-from streaming import StreamingDataset
-
 from pathlib import Path
+
+import numpy as np
+import typer
+from PIL import Image
+from streaming import MDSWriter, StreamingDataset
+from torch.utils.data import DataLoader
 
 
 def create_data(path_to_save: Path = Path("mds-dataset"), size: int = 100_000):

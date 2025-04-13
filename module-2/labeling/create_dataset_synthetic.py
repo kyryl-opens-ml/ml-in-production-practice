@@ -1,15 +1,23 @@
-import argilla as rg
-from datasets import load_dataset
-import sqlite3
 import json
+import sqlite3
 from typing import Dict
+
+from openai import OpenAI
 from retry import retry
 from tqdm import tqdm
 
-client = rg.Argilla(api_url="http://0.0.0.0:6900", api_key="admin.apikey")
+import argilla as rg
+
+client = rg.Argilla(api_url="http://0.0.0.0:6900", api_key="argilla.apikey")
+WORKSPACE_NAME = "admin"
+
+# def create_workspace():
+#     workspaces = client.workspaces
+#     if WORKSPACE_NAME not in workspaces:
+#         workspace = rg.Workspace(name=WORKSPACE_NAME, client=client)
+#         workspace.create()
 
 
-from openai import OpenAI
 
 
 def get_sqllite_schema(db_name: str) -> str:
@@ -61,7 +69,7 @@ def generate_synthetic_example(db_schema: str) -> Dict[str, str]:
 
 def create_text2sql_dataset_synthetic(num_samples: int = 10):
     db_schema = get_sqllite_schema("examples/chinook.db")
-    
+
     samples = []
     for _ in tqdm(range(num_samples)):
         sample = generate_synthetic_example(db_schema=db_schema)
@@ -79,7 +87,7 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
 	- Run sqlite3 chinook.db.
     """
 
-    dataset_name = "text2sql-chinook-synthetic"
+    dataset_name = "text2sql-chinook-synthetic-123"
     settings = rg.Settings(
         guidelines=guidelines,
         fields=[
@@ -100,8 +108,8 @@ def create_text2sql_dataset_synthetic(num_samples: int = 10):
             ),
         ],
         questions=[
-            rg.TextQuestion(
-                name="sql",
+            rg.BooleanQuestion(
+                name="valid",
                 title="Please write SQL for this query",
                 description="Please write SQL for this query",
                 required=True,

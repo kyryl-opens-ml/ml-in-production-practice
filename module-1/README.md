@@ -212,7 +212,8 @@ open https://railway.app/
 - [The serverless platform for AI/ML/data teams](https://modal.com/) - nice too to deploy ML heavy app.
 
 ```bash
-pip install modal --upgrade
+uv add modal
 modal token new
-modal run modal_hello_world.py
+uv run modal run -d ./modal-examples/modal_hello_world.py
+uv run modal run -d ./modal-examples/modal_hello_world_training.py::function_calling_finetune
 ```

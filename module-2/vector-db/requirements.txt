@@ -1,5 +1,0 @@
-typer==0.9.0
-datasets==2.15.0
-sentence-transformers==2.2.2
-lance==1.2.1
-lancedb==0.6.4

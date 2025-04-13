@@ -17,7 +17,7 @@
 ## Install libraries
 
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Docker setup
@@ -229,13 +229,19 @@ Alternatives on: [K8S](https://github.com/argilla-io/argilla/tree/develop/exampl
 Create simple dataset:
 
 ```bash
-python ./labeling/create_dataset.py
+uv run ./labeling/create_dataset.py
 ```
 
 Create synthetic dataset:
 
 ```bash
-python ./labeling/create_dataset_synthetic.py
+uv run ./labeling/create_dataset_synthetic.py
+```
+
+## MCP with DuckDB
+
+```
+
 ```
 
 ## Updated design doc
