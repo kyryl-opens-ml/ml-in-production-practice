@@ -16,4 +16,6 @@ def test_health_check():
 def test_predict():
     response = client.post("/predict", json={"text": ["this is test"]})
     assert response.status_code == 200
-    assert len(response.json()["probs"][0]) == 2
+    probs = response.json()["probs"][0]
+    assert len(probs) == 2
+    assert sum(probs) == pytest.approx(1.0)
