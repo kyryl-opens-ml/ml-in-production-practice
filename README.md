@@ -9,20 +9,6 @@ This repository contains practical exercises and reference implementations for t
 1. Clone the repo and create a Python **3.10+** virtual environment.
 2. Each module is a self-contained example with its own dependencies. Check the module's `README.md` or `PRACTICE.md` for installation instructions.
 3. Format the code with `ruff format` and run `ruff check` to verify style.
-4. Execute `pytest` from the repository root.
-
-Example:
-
-```bash
-git clone https://github.com/<user>/ml-in-production-practice.git
-cd ml-in-production-practice
-python -m venv .venv
-source .venv/bin/activate
-# install dependencies for a module
-uv pip install -r module-3/classic-example/requirements.txt
-ruff format && ruff check
-pytest
-```
 
 ## Project structure
 
