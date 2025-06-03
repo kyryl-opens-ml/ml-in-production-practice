@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 async def main():
     conversation_history = []
 
@@ -15,7 +16,6 @@ async def main():
             "url": "http://0.0.0.0:8000/sse",
         },
     ) as server:
-        
         tools = await server.list_tools()
         print(f"Available tools: {[x.name for x in tools]}")
 

@@ -24,7 +24,6 @@ with DAG(
     schedule_interval=None,
     dag_id="training_dag",
 ) as dag:
-    
     clean_storage_before_start = KubernetesPodOperator(
         name="clean_storage_before_start",
         image=DOCKER_IMAGE,

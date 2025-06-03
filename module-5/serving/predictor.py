@@ -32,7 +32,9 @@ class Predictor:
 
     @torch.no_grad()
     def predict(self, text: List[str]):
-        text_encoded = self.tokenizer.batch_encode_plus(list(text), return_tensors="pt", padding=True)
+        text_encoded = self.tokenizer.batch_encode_plus(
+            list(text), return_tensors="pt", padding=True
+        )
         bert_outputs = self.model(**text_encoded).logits
         return softmax(bert_outputs, dim=-1).numpy()
 

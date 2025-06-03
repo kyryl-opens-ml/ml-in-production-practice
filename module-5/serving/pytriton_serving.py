@@ -9,7 +9,9 @@ from pytriton.triton import Triton
 from serving.predictor import Predictor
 
 logger = logging.getLogger("server")
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s: %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s: %(message)s"
+)
 
 predictor = Predictor.default_from_model_registry()
 

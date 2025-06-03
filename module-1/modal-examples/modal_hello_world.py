@@ -3,6 +3,7 @@ import modal
 
 app = modal.App("ml-in-production-module-1")
 
+
 @app.function()
 def f(i):
     if i % 2 == 0:
@@ -12,9 +13,9 @@ def f(i):
 
     return i * i
 
+
 @app.local_entrypoint()
 def main():
-
     # run the function remotely on Modal
     print(f.remote(1000))
 

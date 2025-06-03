@@ -6,6 +6,7 @@ from joblib import Memory
 from openai import OpenAI
 from tqdm import tqdm
 import typer
+
 cache_directory = ".cache"
 memory = Memory(cache_directory)
 persistent_cache = memory.cache
