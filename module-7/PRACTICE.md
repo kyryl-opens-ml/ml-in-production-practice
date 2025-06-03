@@ -1,6 +1,14 @@
-# Practice 
+# Practice
 
-*** 
+Integrate monitoring tools and add drift detection to your pipelines.
+
+### Key tasks
+
+- Instrument your app with SigNoz.
+- Create a Grafana dashboard.
+- Add simple drift detection logic.
+
+***
 
 
 # H13: Monitoring and observability

@@ -1,6 +1,15 @@
-# Practice 
+# Practice
 
-*** 
+Build end-to-end training and inference pipelines using Kubeflow,
+Airflow and Dagster.
+
+### Key tasks
+
+- Deploy Kubeflow pipelines and write training/inference DAGs.
+- Deploy Airflow with KubernetesPodOperator.
+- Implement the same logic in Dagster.
+
+***
 
 
 # H7: Kubeflow + AirFlow pipelines

@@ -1,16 +1,21 @@
 # Module 5
 
-![alt text](./../docs/serving.jpg)
+![Model serving](./../docs/serving.jpg)
 
-# Practice
+## Overview
+
+This module walks through deploying APIs and UIs for your models and
+integrating inference servers like Triton and vLLM.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-***
+---
 
-# Reference implementation
+## Reference implementation
 
-***
+---
 
 
 # Setup

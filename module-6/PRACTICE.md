@@ -1,6 +1,15 @@
-# Practice 
+# Practice
 
-*** 
+Benchmark and scale your model server, then explore optimization
+techniques such as quantization.
+
+### Key tasks
+
+- Implement dynamic batching and ensembles.
+- Benchmark REST and gRPC performance.
+- Apply quantization or pruning.
+
+***
 
 # H11: Advanced features & benchmarking
 

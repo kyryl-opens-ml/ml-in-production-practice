@@ -1,16 +1,21 @@
 # Module 4
 
-![alt text](./../docs/pipelines.jpg)
+![Pipelines](./../docs/pipelines.jpg)
 
-# Practice 
+## Overview
+
+This module demonstrates pipeline orchestration using Airflow,
+Kubeflow and Dagster.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-***
+---
 
-# Reference implementation
+## Reference implementation
 
-***
+---
 
 # Setup
 

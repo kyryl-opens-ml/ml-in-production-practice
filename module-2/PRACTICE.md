@@ -1,5 +1,15 @@
 # Practice
 
+In this module you'll experiment with storage options, implement a MinIO
+client, and benchmark data ingestion and inference performance.
+
+### Key tasks
+
+- Deploy MinIO locally with Docker and Kubernetes.
+- Build a CRUD Python client with tests.
+- Benchmark Pandas storage formats.
+- Measure inference speed using multiple workers.
+
 ***
 
 # H3: Data storage & processing

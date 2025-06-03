@@ -1,16 +1,21 @@
 # Module 6
 
-![alt text](./../docs/serving.jpg)
+![Scaling and optimization](./../docs/serving.jpg)
 
-# Practice 
+## Overview
+
+This module covers benchmarking, autoscaling and model optimization
+techniques such as quantization.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+---
 
-# Reference implementation
+## Reference implementation
 
-*** 
+---
 
 
 

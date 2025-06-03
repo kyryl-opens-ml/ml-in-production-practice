@@ -1,5 +1,15 @@
 # Practice
 
+Create web UIs and APIs for your model and compare different inference servers.
+
+### Key tasks
+
+- Build Streamlit and Gradio interfaces with tests.
+- Implement a FastAPI server.
+- Deploy the API and UI to Kubernetes.
+- Experiment with Seldon, KServe and Triton.
+
+
 ***
 
 # H9: API serving

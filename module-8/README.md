@@ -1,16 +1,21 @@
 # Module 8
 
-![alt text](./../docs/monitoring.jpg)
+![Cloud platforms](./../docs/monitoring.jpg)
 
-# Practice 
+## Overview
+
+Explore buy vs build decisions and deploy multi-model endpoints on AWS
+SageMaker and GCP Vertex AI.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+---
 
-# Reference implementation
+## Reference implementation
 
-*** 
+---
 
 ## Buy vs Build 
 
