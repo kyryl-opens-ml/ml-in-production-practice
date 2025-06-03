@@ -1,16 +1,23 @@
+
 # Module 1
 
-![alt text](./../docs/into.jpg)
+![Container introduction](./../docs/into.jpg)
 
-# Practice 
+## Overview
+
+This module introduces containerization and basic Kubernetes usage.
+You'll learn how to build Docker images, push them to a registry and
+deploy simple workloads on a local Kubernetes cluster.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-***
+---
 
-# Reference implementation
+## Reference implementation
 
-***
+---
 
 # H1: Initial Design Draft
 

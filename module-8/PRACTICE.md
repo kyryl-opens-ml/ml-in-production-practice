@@ -1,6 +1,15 @@
-# Practice 
+# Practice
 
-*** 
+Compare managed ML platforms and implement a multi-model setup on
+SageMaker and Vertex AI.
+
+### Key tasks
+
+- Deploy multiple models on AWS SageMaker.
+- Deploy multiple models on GCP Vertex AI.
+- Summarize pros and cons of each platform.
+
+***
 
 # H15: ML platforms
 

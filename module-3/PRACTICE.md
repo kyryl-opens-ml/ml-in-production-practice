@@ -1,5 +1,15 @@
 # Practice
 
+This module guides you through setting up experiment tracking,
+hyperparameter search and model documentation.
+
+### Key tasks
+
+- Train a model using W&B logging.
+- Run hyperparameter search.
+- Generate a model card.
+- Add tests for your data and model.
+
 ***
 
 # H5: Training & Experiments

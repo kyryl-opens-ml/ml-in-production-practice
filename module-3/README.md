@@ -1,16 +1,21 @@
 # Module 3
 
-![alt text](./../docs/experiments.jpg)
+![Experiment tracking](./../docs/experiments.jpg)
 
-# Practice
+## Overview
+
+Here we focus on training workflows, experiment tracking and configuration
+management.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-***
+---
 
-# Reference implementation
+## Reference implementation
 
-***
+---
 
 ## Project stucture
 

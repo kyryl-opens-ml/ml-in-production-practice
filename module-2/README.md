@@ -1,16 +1,21 @@
 # Module 2
 
-![alt text](./../docs/data.jpg)
+![Data management](./../docs/data.jpg)
 
-# Practice
+## Overview
+
+This module covers data storage and processing. You'll deploy MinIO locally,
+benchmark data formats and explore streaming datasets and vector databases.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-***
+---
 
-# Reference implementation
+## Reference implementation
 
-***
+---
 
 # Minio
 

@@ -1,5 +1,16 @@
 # Practice
 
+This module focuses on drafting your ML system design and containerizing a
+simple application. You'll also create CI/CD pipelines and basic Kubernetes
+manifests.
+
+### Key tasks
+
+- Draft a design document using the MLOps template.
+- Build and push a Docker image.
+- Set up GitHub Actions for CI/CD.
+- Deploy your image to a local Kubernetes cluster.
+
 ***
 
 # H1: Initial Design Draft

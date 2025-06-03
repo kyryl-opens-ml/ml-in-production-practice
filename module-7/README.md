@@ -1,16 +1,21 @@
 # Module 7
 
-![alt text](./../docs/monitoring.jpg)
+![Monitoring](./../docs/monitoring.jpg)
 
-# Practice 
+## Overview
+
+This module sets up observability for ML applications using SigNoz,
+Grafana and Seldon analytics.
+
+## Practice
 
 [Practice task](./PRACTICE.md)
 
-*** 
+---
 
-# Reference implementation
+## Reference implementation
 
-*** 
+---
 
 
 
