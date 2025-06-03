@@ -2,7 +2,9 @@ import asyncio
 
 from agents import Agent, ModelSettings, Runner
 from agents.mcp import MCPServerSse
+from dotenv import load_dotenv
 
+load_dotenv()
 
 async def main():
     conversation_history = []
@@ -13,6 +15,7 @@ async def main():
             "url": "http://0.0.0.0:8000/sse",
         },
     ) as server:
+        
         tools = await server.list_tools()
         print(f"Available tools: {[x.name for x in tools]}")
 
@@ -27,7 +30,7 @@ async def main():
             instructions="""You are a helpful assistant for interacting with a DuckDB database via MCP tools.
 You can execute SQL queries and retrieve database schema information.
 1. Use the 'get_tables' tool to see available tables.
-2. Use the 'execute_sql' tool to run SQL queries (e.g., SELECT, SHOW, DESCRIBE).
+2. Use the 'execute_sql' tool to run SQL querie.
 3. Present query results clearly.
 4. Ask for clarification if a query is ambiguous.""",
             mcp_servers=[server],
