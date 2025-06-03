@@ -92,7 +92,7 @@ def inference_pipeline():
         name="WANDB_API_KEY", value=WANDB_API_KEY
     )
 
-    run_inference_task = run_inference(
+    run_inference(
         config=load_model_task.outputs["config"],
         model=load_model_task.outputs["model"],
         tokenizer=load_model_task.outputs["tokenizer"],

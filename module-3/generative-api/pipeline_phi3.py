@@ -13,6 +13,7 @@ cache_directory = ".cache"
 memory = Memory(cache_directory)
 persistent_cache = memory.cache
 
+
 def create_pipeline(phi_model_name: str = "microsoft/Phi-3-mini-128k-instruct"):
     torch.random.manual_seed(0)
     model = AutoModelForCausalLM.from_pretrained(
@@ -31,8 +32,10 @@ def create_pipeline(phi_model_name: str = "microsoft/Phi-3-mini-128k-instruct"):
     )
     return pipe
 
+
 print("Creating pipeline")
 pipe = create_pipeline()
+
 
 @persistent_cache
 def get_sql(query: str, context: str) -> str:

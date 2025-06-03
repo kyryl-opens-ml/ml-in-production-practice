@@ -12,10 +12,9 @@ WORKSPACE_NAME = "admin"
 #         workspace.create()
 
 
-
 def create_text2sql_dataset():
     # create_workspace()
-    
+
     guidelines = """
     Please examine the given SQL question and context. Write the correct SQL query that accurately answers the question based on the context provided. Ensure the query follows SQL syntax and logic correctly.
     """

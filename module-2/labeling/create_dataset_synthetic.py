@@ -18,8 +18,6 @@ WORKSPACE_NAME = "admin"
 #         workspace.create()
 
 
-
-
 def get_sqllite_schema(db_name: str) -> str:
     with sqlite3.connect(db_name) as conn:
         cursor = conn.cursor()

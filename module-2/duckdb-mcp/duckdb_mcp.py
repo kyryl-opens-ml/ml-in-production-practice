@@ -3,7 +3,8 @@ import json
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("DuckDB")
-conn = duckdb.connect(':memory:')
+conn = duckdb.connect(":memory:")
+
 
 @mcp.tool()
 def execute_sql(sql: str) -> str:
@@ -14,6 +15,7 @@ def execute_sql(sql: str) -> str:
     except Exception as e:
         return f"Error executing SQL: {str(e)}"
 
+
 @mcp.tool()
 def get_tables() -> str:
     """Retrieves the list of tables in the DuckDB database."""
@@ -22,7 +24,8 @@ def get_tables() -> str:
         return json.dumps(tables)
     except Exception as e:
         return f"Error retrieving tables: {str(e)}"
-                
+
+
 # Example: Create a sample table for testing
 conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER, name VARCHAR);")
 conn.execute("INSERT INTO users VALUES (1, 'Alice'), (2, 'Bob');")

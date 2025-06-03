@@ -23,7 +23,7 @@ volume_mount = k8s.V1VolumeMount(
 with DAG(
     start_date=datetime(2021, 1, 1),
     catchup=False,
-    schedule_interval='0 9 * * *',  # 9 AM UTC,
+    schedule_interval="0 9 * * *",  # 9 AM UTC,
     dag_id="inference_dag",
 ) as dag:
     clean_storage_before_start = KubernetesPodOperator(

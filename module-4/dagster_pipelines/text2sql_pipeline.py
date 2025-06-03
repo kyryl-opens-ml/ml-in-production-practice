@@ -1,4 +1,3 @@
-import json
 import logging
 import sys
 from dataclasses import dataclass
@@ -15,13 +14,12 @@ import transformers
 from dagster import (
     AssetCheckResult,
     AssetExecutionContext,
-    Config,
     Definitions,
     MetadataValue,
     asset,
     asset_check,
 )
-from datasets import Dataset, DatasetDict, load_dataset
+from datasets import DatasetDict, load_dataset
 from peft import AutoPeftModelForCausalLM, LoraConfig, TaskType
 from tqdm import tqdm
 from transformers import (
@@ -39,7 +37,6 @@ import wandb
 logger = logging.getLogger()
 
 
-
 def _get_sql_data(random_state: int = 42, subsample: float = None) -> DatasetDict:
     dataset_name = "b-mc2/sql-create-context"
     dataset = load_dataset(dataset_name, split="train")
@@ -55,6 +52,7 @@ def _get_sql_data(random_state: int = 42, subsample: float = None) -> DatasetDic
     datasets = dataset.train_test_split(test_size=0.05, seed=random_state)
     return datasets
 
+
 @asset(group_name="data", compute_kind="python")
 def load_sql_data(context: AssetExecutionContext):
     subsample = 0.1
@@ -62,19 +60,24 @@ def load_sql_data(context: AssetExecutionContext):
 
     context.add_output_metadata(
         {
-            "len_train": MetadataValue.int(len(dataset['train'])),
-            "len_test": MetadataValue.int(len(dataset['test'])),
-            "sample_train": MetadataValue.json(dataset['train'][randint(0, len(dataset['train']))]),
-            "sample_test": MetadataValue.json(dataset['test'][randint(0, len(dataset['test']))]),
+            "len_train": MetadataValue.int(len(dataset["train"])),
+            "len_test": MetadataValue.int(len(dataset["test"])),
+            "sample_train": MetadataValue.json(
+                dataset["train"][randint(0, len(dataset["train"]))]
+            ),
+            "sample_test": MetadataValue.json(
+                dataset["test"][randint(0, len(dataset["test"]))]
+            ),
         }
     )
 
     return dataset
 
+
 @asset_check(asset=load_sql_data)
 def no_empty(load_sql_data):
-    train_no_no_empty = len(load_sql_data['train']) != 0
-    test_no_no_empty = len(load_sql_data['test']) != 0
+    train_no_no_empty = len(load_sql_data["train"]) != 0
+    test_no_no_empty = len(load_sql_data["test"]) != 0
     return AssetCheckResult(passed=train_no_no_empty and test_no_no_empty)
 
 
@@ -94,6 +97,7 @@ def format_dataset_chatml(row, tokenizer):
         )
     }
 
+
 @asset(group_name="data", compute_kind="python")
 def process_dataset(context: AssetExecutionContext, load_sql_data) -> DatasetDict:
     model_id = "microsoft/Phi-3-mini-4k-instruct"
@@ -104,14 +108,20 @@ def process_dataset(context: AssetExecutionContext, load_sql_data) -> DatasetDic
     tokenizer.padding_side = "right"
 
     dataset_chatml = dataset.map(create_message_column)
-    dataset_chatml = dataset_chatml.map(partial(format_dataset_chatml, tokenizer=tokenizer))
+    dataset_chatml = dataset_chatml.map(
+        partial(format_dataset_chatml, tokenizer=tokenizer)
+    )
 
     context.add_output_metadata(
         {
-            "len_train": MetadataValue.int(len(dataset_chatml['train'])),
-            "len_test": MetadataValue.int(len(dataset_chatml['test'])),
-            "sample_train": MetadataValue.json(dataset_chatml['train'][randint(0, len(dataset_chatml['train']))]),
-            "sample_test": MetadataValue.json(dataset_chatml['test'][randint(0, len(dataset_chatml['test']))]),
+            "len_train": MetadataValue.int(len(dataset_chatml["train"])),
+            "len_test": MetadataValue.int(len(dataset_chatml["test"])),
+            "sample_train": MetadataValue.json(
+                dataset_chatml["train"][randint(0, len(dataset_chatml["train"]))]
+            ),
+            "sample_test": MetadataValue.json(
+                dataset_chatml["test"][randint(0, len(dataset_chatml["test"]))]
+            ),
         }
     )
 
@@ -147,7 +157,6 @@ def get_model(model_id: str, device_map):
     return tokenizer, model
 
 
-
 @dataclass
 class ModelArguments:
     model_id: str
@@ -159,13 +168,11 @@ class ModelArguments:
 
 def train_model(dataset_chatml):
     config = {
-
         "model_id": "microsoft/Phi-3-mini-4k-instruct",
         "lora_r": 16,
         "lora_alpha": 16,
         "lora_dropout": 0.05,
         "model_name": "dagster-model",
-
         "output_dir": "/tmp/phi-3-mini-lora-text2sql",
         "eval_strategy": "steps",
         "do_eval": True,
@@ -183,14 +190,12 @@ def train_model(dataset_chatml):
         "bf16": True,
         "fp16": False,
         "eval_steps": 500,
-        "report_to": [
-            "wandb"
-        ],
+        "report_to": ["wandb"],
         "lr_scheduler_type": "linear",
-        "log_level" : "debug",
+        "log_level": "debug",
         "evaluation_strategy": "steps",
-        "eval_on_start": True
-        }
+        "eval_on_start": True,
+    }
     setup_logger(logger)
 
     parser = HfArgumentParser((ModelArguments, TrainingArguments))
@@ -237,7 +242,9 @@ def train_model(dataset_chatml):
     trainer.save_model()
     trainer.create_model_card()
 
-    uri = upload_to_registry(model_name=model_args.model_name, model_path=Path(training_args.output_dir))
+    uri = upload_to_registry(
+        model_name=model_args.model_name, model_path=Path(training_args.output_dir)
+    )
     return f"{model_args.model_name}:latest", uri
 
 
@@ -293,8 +300,7 @@ def evaluate_model(df: pd.DataFrame, model_name: str):
     gt_sql = df["answer"].values
     rouge = evaluate.load("rouge")
     metrics = rouge.compute(predictions=generated_sql, references=gt_sql)
-    return metrics 
-
+    return metrics
 
 
 @asset(group_name="model", compute_kind="modal")
@@ -303,10 +309,17 @@ def trained_model(process_dataset):
     # model_name, uri = train_model(dataset_chatml=process_dataset)
 
     # modal
-    process_dataset_pandas = {'train': process_dataset['train'].to_pandas(), 'test': process_dataset['test'].to_pandas()}
+    process_dataset_pandas = {
+        "train": process_dataset["train"].to_pandas(),
+        "test": process_dataset["test"].to_pandas(),
+    }
 
-    model_training_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "training_job")
-    model_name, uri = model_training_job.remote(dataset_chatml_pandas=process_dataset_pandas)
+    model_training_job = modal.Function.lookup(
+        "ml-in-production-practice-dagster-pipeline", "training_job"
+    )
+    model_name, uri = model_training_job.remote(
+        dataset_chatml_pandas=process_dataset_pandas
+    )
 
     return model_name
 
@@ -317,9 +330,12 @@ def model_metrics(context: AssetExecutionContext, trained_model, process_dataset
     # metrics = evaluate_model(df=process_dataset['test'].to_pandas(), model_name=trained_model)
 
     # modal
-    model_evaluate_job = modal.Function.lookup("ml-in-production-practice-dagster-pipeline", "evaluation_job")
-    metrics = model_evaluate_job.remote(df=process_dataset['test'].to_pandas(), model_name=trained_model)
-
+    model_evaluate_job = modal.Function.lookup(
+        "ml-in-production-practice-dagster-pipeline", "evaluation_job"
+    )
+    metrics = model_evaluate_job.remote(
+        df=process_dataset["test"].to_pandas(), model_name=trained_model
+    )
 
     context.add_output_metadata(
         {
@@ -329,33 +345,36 @@ def model_metrics(context: AssetExecutionContext, trained_model, process_dataset
 
     return metrics
 
+
 @asset_check(asset=model_metrics)
 def rouge1_check(model_metrics):
-    return AssetCheckResult(passed=bool(model_metrics['rouge1'] > 0.8))
+    return AssetCheckResult(passed=bool(model_metrics["rouge1"] > 0.8))
+
 
 @asset_check(asset=model_metrics)
 def rouge2_check(model_metrics):
-    return AssetCheckResult(passed=bool(model_metrics['rouge2'] > 0.8))
+    return AssetCheckResult(passed=bool(model_metrics["rouge2"] > 0.8))
+
 
 @asset_check(asset=model_metrics)
 def rougeL_check(model_metrics):
-    return AssetCheckResult(passed=bool(model_metrics['rougeL'] > 0.8))
+    return AssetCheckResult(passed=bool(model_metrics["rougeL"] > 0.8))
+
 
 @asset_check(asset=model_metrics)
 def rougeLsum_check(model_metrics):
-    return AssetCheckResult(passed=bool(model_metrics['rougeLsum'] > 0.8))
+    return AssetCheckResult(passed=bool(model_metrics["rougeLsum"] > 0.8))
 
 
-defs = Definitions(assets=[load_sql_data, process_dataset, trained_model, model_metrics], asset_checks=[no_empty, rouge1_check, rouge2_check, rougeL_check, rougeLsum_check])
-
-
-
+defs = Definitions(
+    assets=[load_sql_data, process_dataset, trained_model, model_metrics],
+    asset_checks=[no_empty, rouge1_check, rouge2_check, rougeL_check, rougeLsum_check],
+)
 
 
 class Predictor:
-
     @classmethod
-    def from_wandb(cls, model_name: str) -> 'Predictor':
+    def from_wandb(cls, model_name: str) -> "Predictor":
         model_path = f"/tmp/{model_name}"
         load_from_registry(model_name=model_name, model_path=model_path)
         return cls(model_load_path=model_path)
@@ -399,8 +418,3 @@ class Predictor:
         )
         sql = outputs[0]["generated_text"][len(prompt) :].strip()
         return sql
-
-
-
-
-

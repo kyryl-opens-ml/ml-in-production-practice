@@ -1,10 +1,9 @@
 import logging
 
 from aiohttp import web
+from serving.predictor import Predictor
 
 logger = logging.getLogger()
-
-from serving.predictor import Predictor
 
 
 async def handle_predict(request: web.Request) -> web.Response:

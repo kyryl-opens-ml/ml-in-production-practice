@@ -1,18 +1,13 @@
 import json
 
-import evaluate
-from datasets import Dataset
 from openai import OpenAI
 import openai
-from tqdm import tqdm
 import typer
 from typing import Tuple
 from datasets import load_dataset
-import random 
-import functools
+import random
 import agentops
 from rich.console import Console
-from langsmith import traceable
 from langsmith.wrappers import wrap_openai
 from traceloop.sdk import Traceloop
 from traceloop.sdk.decorators import workflow
@@ -21,18 +16,18 @@ console = Console()
 
 
 def get_random_datapoint() -> Tuple[str, str]:
-    dataset = load_dataset("gretelai/synthetic_text_to_sql", split='train')
+    dataset = load_dataset("gretelai/synthetic_text_to_sql", split="train")
     dataset_size = len(dataset)
 
     index = random.randint(0, dataset_size - 1)
     sample = dataset[index]
 
-    sql_context = sample['sql_context']
-    sql_prompt = sample['sql_prompt']
+    sql_context = sample["sql_context"]
+    sql_prompt = sample["sql_prompt"]
     return sql_context, sql_prompt
 
+
 def get_sql(query: str, context: str, client: OpenAI) -> str:
-    
     prompt = f""""
     Write the corresponding SQL query based on user requests and database context:
 
@@ -57,7 +52,6 @@ def get_sql(query: str, context: str, client: OpenAI) -> str:
 
 
 def run_pipeline():
-
     sql_context, sql_prompt = get_random_datapoint()
 
     console.print("1. Agentops", style="bold green")
@@ -71,12 +65,16 @@ def run_pipeline():
     result = get_sql(query=sql_prompt, context=sql_context, client=client_lang_smith)
 
     console.print("3. OpenllMetry", style="bold green")
-    Traceloop.init(app_name="text2sql")    
+    Traceloop.init(app_name="text2sql")
 
     client_traceloop = openai.Client()
     get_sql_traceloop = workflow(name="get_sql")(get_sql)
-    result = get_sql_traceloop(query=sql_prompt, context=sql_context, client=client_traceloop)
+    result = get_sql_traceloop(
+        query=sql_prompt, context=sql_context, client=client_traceloop
+    )
 
     print(f"result = {result}")
+
+
 if __name__ == "__main__":
     typer.run(run_pipeline)
