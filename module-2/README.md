@@ -161,65 +161,6 @@ python vector-db/rag_cli_application.py query-existing-vector-db  --query 'compl
 Storage [diagram](https://lancedb.github.io/lancedb/concepts/storage/)
 
 
-# DVC
-
-Init DVC
-
-```bash
-dvc init --subdir
-git status
-git commit -m "Initialize DVC"
-```
-
-Add data
-
-```bash
-mkdir data
-touch ./data/big-data.csv
-```
-
-Add to dvc
-
-```bash
-dvc add ./data/big-data.csv
-git add data/.gitignore data/big-data.csv.dvc
-git commit -m "Add raw data"
-```
-
-Add remote
-
-You can use Minio via AWS CLI
-
-```bash
-export AWS_ACCESS_KEY_ID=minioadmin
-export AWS_SECRET_ACCESS_KEY=minioadmin
-export AWS_ENDPOINT_URL=http://127.0.0.1:9000
-```
-
-
-```bash
-aws s3api create-bucket --bucket ml-data
-
-dvc remote add -d minio s3://ml-data
-dvc remote modify minio endpointurl $AWS_ENDPOINT_URL
-```
-
-Save code to git
-
-```bash
-git add .dvc/config
-git commit -m "Configure remote storage"
-git push 
-```
-
-Save data to storage
-
-```bash
-dvc push
-```
-
-- <https://dvc.org/doc/start/data-management>
-- <https://github.com/iterative/dataset-registry>
 
 ## Labeling with Argilla
 

@@ -66,7 +66,6 @@ client, and benchmark data ingestion and inference performance.
 ## Task:
 
 - Google doc containing dataset labeling section: Estimate costs and time based on your experience labeling ~50 samples, provide instructions for future data labeling, and add a flow for data enrichment in production.
-- PR1: Commit your data with DVC into the GitHub repo.
 - PR2: Write code to deploy a labeling tool (e.g., Label Studio, Argilla), including README instructions.
 - PR3 (optional): Write code to generate a synthetic dataset with ChatGPT.
 - PR4 (optional): Write code to test your data after labeling (can use Cleanlab or Deepchecks).
