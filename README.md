@@ -28,6 +28,11 @@ This repository contains practical exercises and reference implementations for t
 Each module is self‑contained with its own `README.md`, assignments and reference code. You can dive into any module independently or work through them sequentially.
 
 
+## DeepWiki Summaries
+
+Concise overviews of each module are available on [DeepWiki](https://deepwiki.com/kyryl-opens-ml/ml-in-production-practice). This community-maintained wiki highlights key takeaways and links back to the source materials in this repository.
+
+
 ## Versioning
 
 A protected `2024-version` branch preserves the 2024 and early 2025 edition of this course. The main branch contains the most up‑to‑date materials.
@@ -38,4 +43,3 @@ A protected `2024-version` branch preserves the 2024 and early 2025 edition of t
 - Join the [course Discord](https://discord.gg/5NF2NAsGEM) to ask questions.
 - Visit the [blog](https://kyrylai.com/blog/) for additional articles.
 - See the [course page](https://edu.kyrylai.com/courses/ml-in-production) for curriculum details.
-- Browse concise module summaries on [DeepWiki](https://deepwiki.com/kyryl-opens-ml/ml-in-production-practice).
