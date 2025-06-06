@@ -38,3 +38,4 @@ A protected `2024-version` branch preserves the 2024 and early 2025 edition of t
 - Join the [course Discord](https://discord.gg/5NF2NAsGEM) to ask questions.
 - Visit the [blog](https://kyrylai.com/blog/) for additional articles.
 - See the [course page](https://edu.kyrylai.com/courses/ml-in-production) for curriculum details.
+- Browse concise module summaries on [DeepWiki](https://deepwiki.com/kyryl-opens-ml/ml-in-production-practice).
