@@ -57,4 +57,4 @@ jobs:
 
       - name: Run function
         run: |
-          modal run ./module-1/modal_hello_world.py
+          modal run ./module-1/modal-examples/modal_hello_world.py
